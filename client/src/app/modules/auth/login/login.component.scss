@@ -1,0 +1,32 @@
+@import "src/assets/sass/settings";
+
+.container {
+  max-width: 550px;
+  @include center();
+
+  .isLoggedIn {
+    .google-container {
+      @include flex(center, center);
+
+      div {
+        @include flex(center, center);
+      }
+
+      button {
+        border: 1px solid gray;
+        font-weight: 600;
+        padding: .8rem 1.7rem;
+
+        &:hover {
+          background-color: #e9ecef;
+        }
+
+        img {
+          width: 20px;
+          margin-bottom:3px;
+          margin-right:5px;
+        }
+      }
+    }
+  }
+}

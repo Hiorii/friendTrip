@@ -1,0 +1,17 @@
+<div class="container">
+  <h2 class="text-center mb-5">Welcome</h2>
+  <div class="isLoggedIn" *ngIf="isLoggedin === false">
+    <div class="row google-container">
+      <div>
+        <button class="btn" type="button" (click)="loginWithGoogle()">
+          <img alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+          Login with Google
+        </button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isLoggedin === true">
+    <button type="button" (click)="logOut()" class="btn btn-primary">Log Out</button>
+  </div>
+</div>
+
