@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GoogleLoginProvider, SocialAuthService, SocialUser} from "angularx-social-login";
 import {AuthService} from "../../../core/services/auth.service";
 import {UsersModel} from "../../../core/interfaces/users.model";
+import {LocalStorageService} from "../../../core/services/local-storage.service";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-login',
@@ -16,8 +18,10 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
+    private location: Location,
     private socialAuthService: SocialAuthService,
     private authService: AuthService,
+    private localStorageService: LocalStorageService,
   ) {}
 
   ngOnInit() {
@@ -39,17 +43,27 @@ export class LoginComponent implements OnInit {
           isActive: true,
         }
 
-        this.authService.authWithGoogle(userData)
-          .subscribe((data) => console.log(data))
-      }
+        this.localStorageService.setItem('user', {
+          name: user.firstName,
+          email: user.email,
+          photo: user.photoUrl,
+        })
 
-      console.log(this.socialUser)
+        this.authService.authWithGoogle(userData)
+          .subscribe((data) => {
+            this.location.replaceState("/")
+          })
+      }
     });
   }
+
   loginWithGoogle(): void {
     this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
+
   logOut(): void {
+    this.localStorageService.removeItem('user');
     this.socialAuthService.signOut();
+    this.location.replaceState("/login")
   }
 }

@@ -1,8 +1,35 @@
 @import "src/assets/sass/settings";
 
+.login-bg {
+  height: 100vh;
+  background-image: url("../../../../assets/img/login/bg.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  filter:blur(.5rem);
+  opacity: 0.4;
+}
+
 .container {
-  max-width: 550px;
+  max-height: 35rem;
+  filter: blur(0);
+  padding: 0;
   @include center();
+
+  hr {
+    margin: 2rem 0;
+  }
+
+  h2,p {
+    text-align: left !important;
+    margin: 1rem 1rem;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 0!important;
+  }
 
   .isLoggedIn {
     .google-container {
@@ -16,6 +43,9 @@
         border: 1px solid gray;
         font-weight: 600;
         padding: .8rem 1.7rem;
+        background-color: $primary-white;
+        width: 100vw;
+        margin: 1rem;
 
         &:hover {
           background-color: #e9ecef;

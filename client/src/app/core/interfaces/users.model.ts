@@ -4,6 +4,7 @@ export interface UsersModel {
   surname?: string;
   email: string;
   password?: string;
+  photo?: string;
   creationDate: Date;
   isActive: boolean;
 }

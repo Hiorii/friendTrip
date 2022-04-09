@@ -1,0 +1,28 @@
+@import "src/assets/sass/settings";
+
+section {
+  background-color: $primary-white;
+  position: absolute;
+  top: 0;
+  right: 0;
+  @include flex(space-around, center);
+  height: 4rem;
+  width: 100vw;
+  padding: 0 1rem;
+  padding-top: .3rem;
+
+  .user {
+    img {
+      width: 2.5rem;
+      height: 2.5rem;
+      border-radius: 50%;
+    }
+  }
+
+  .chat {
+    i {
+      font-size: 1.8rem;
+      color: $main-btn;
+    }
+  }
+}

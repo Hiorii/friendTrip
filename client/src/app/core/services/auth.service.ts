@@ -10,6 +10,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
+  getUserData(userData: UsersModel) {
+
+  }
+
   authWithGoogle(userData: Partial<UsersModel>) {
     return this.http.post(
       `${this.url}/auth/google/callback`,

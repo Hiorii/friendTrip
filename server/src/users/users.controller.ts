@@ -16,10 +16,10 @@ export class UsersController {
     return this.userService.getUser(id);
   }
 
-  @Post()
-  async addNewUser(@Body() newUserData: UsersType) {
-    const newUser = await this.userService.addNewUser(newUserData);
-
-    return newUser;
-  }
+  // @Post()
+  // async addNewUser(@Body() newUserData: UsersType) {
+  //   const newUser = await this.userService.addNewUser(newUserData);
+  //
+  //   return newUser;
+  // }
 }

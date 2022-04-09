@@ -1,0 +1,15 @@
+<section>
+  <div class="user">
+    <img src="{{ currentUser.photo }}" alt="">
+  </div>
+  <form [formGroup]="searchForm">
+    <div class="input-group">
+      <div class="form-outline">
+        <input type="search" id="search" class="form-control" placeholder="Search..." formControlName="search" />
+      </div>
+    </div>
+  </form>
+  <div class="chat">
+    <i class='fa fa-comments'></i>
+  </div>
+</section>
