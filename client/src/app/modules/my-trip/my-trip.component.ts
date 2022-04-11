@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {FormBuilder, NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-my-trip',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyTripComponent implements OnInit {
 
-  constructor() { }
+  originPoint: string
+  destinationPoint: string
 
-  ngOnInit(): void {
+
+
+
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit() {
+
   }
 
 }

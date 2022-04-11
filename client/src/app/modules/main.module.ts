@@ -12,11 +12,12 @@ import {HighlightsModule} from "./highlights/highlights.module";
 import {JournalModule} from "./journal/journal.module";
 import {MyTripModule} from "./my-trip/my-trip.module";
 import {ToDoModule} from "./to-do/to-do.module";
+import {SharedModule} from "../shared/shared.module";
 
 @NgModule({
   declarations: [MainComponent],
   exports: [
-    MainComponent
+    MainComponent,
   ],
   imports: [
     CommonModule,
