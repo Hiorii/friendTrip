@@ -1,0 +1,28 @@
+@import "./src/assets/sass/settings";
+
+section {
+  .startPlan {
+    @include flex(space-around,center);
+    flex-direction: column;
+
+    .number {
+      @include flex(center,center);
+      border: 2px solid $main-font;
+      border-radius: 50%;
+      height: 3rem;
+      width: 3rem;
+      background-image: $background-color;
+
+      p {
+        color: $main-font;
+        font-weight: 600;
+        font-size: 1.5rem;
+      }
+    }
+
+    p {
+      font-size: 1.3rem;
+      color: $main-font;
+    }
+  }
+}
