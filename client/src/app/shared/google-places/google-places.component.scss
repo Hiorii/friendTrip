@@ -3,10 +3,12 @@
 .container {
   padding: 0 1rem;
   margin-top: 1rem;
+  width: 100%;
 
   .inputs-container {
     @include flex(center, center);
     flex-direction: column;
+    width: 100%;
 
     .form-group {
       width: 100%;
@@ -21,7 +23,7 @@
 
       i {
         font-size: 2rem;
-        color: $primary-white;
+        color: #37AEE2;
       }
     }
   }

@@ -1,0 +1,48 @@
+<div class="startPlanCounter">
+    <span
+      class="number"
+      [class.active]="isTravelInfoNumber"
+      (click)="handleChangePage(1)"
+    >
+      <p>1</p>
+    </span>
+  <div
+    class="arrow"
+    [class.active]="isTravelInfoNumber"
+  >
+    <i class="fa fa-arrow-circle-right"></i>
+  </div>
+  <span
+    class="number"
+    [class.active]="isTravelPointDataNumber"
+    (click)="handleChangePage(2)"
+  >
+      <p>2</p>
+    </span>
+  <div
+    class="arrow"
+    [class.active]="isTravelPointDataNumber"
+  >
+    <i class="fa fa-arrow-circle-right"></i>
+  </div>
+  <span
+    class="number"
+    [class.active]="isAddUserNumber"
+    (click)="handleChangePage(3)"
+  >
+      <p>3</p>
+    </span>
+  <div
+    class="arrow"
+    [class.active]="isAddUserNumber"
+  >
+    <i class="fa fa-arrow-circle-right"></i>
+  </div>
+  <span
+    class="number"
+    [class.active]="isTravelSummarize"
+    (click)="handleChangePage(4)"
+  >
+      <p>4</p>
+    </span>
+</div>

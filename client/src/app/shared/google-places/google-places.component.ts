@@ -1,4 +1,4 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {TravelPointModel} from "../../core/interfaces/travelPoint.model";
 import {TravelDataService} from "../../core/services/travel-data.service";
 
@@ -38,10 +38,8 @@ export class GooglePlacesComponent implements OnInit {
 
   confirmTravelPoints() {
     this.travelDataService.handleTravelPointData({
-      data: {
-        startPoint: this.startPoint,
-        destinationPoint: this.destinationPoint
-      }
+      startPoint: this.startPoint,
+      destinationPoint: this.destinationPoint
     })
   }
 }

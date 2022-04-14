@@ -18,3 +18,5 @@ export interface UsersType {
   creationDate: Date;
   isActive: boolean;
 }
+
+const User = mongoose.model('User', UsersSchema);

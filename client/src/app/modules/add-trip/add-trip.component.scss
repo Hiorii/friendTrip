@@ -1,28 +1,37 @@
 @import "./src/assets/sass/settings";
 
 section {
-  .startPlan {
-    @include flex(space-around,center);
-    flex-direction: column;
+  margin-top: 0;
+  @include flex(center, center);
+  flex-direction: column;
 
-    .number {
+  .startPlan {
+    .travelInfo {
+
+    }
+
+    .travelPoints {
       @include flex(center,center);
-      border: 2px solid $main-font;
-      border-radius: 50%;
-      height: 3rem;
-      width: 3rem;
-      background-image: $background-color;
+      flex-direction: column;
 
       p {
+        font-size: 1.3rem;
         color: $main-font;
-        font-weight: 600;
-        font-size: 1.5rem;
+      }
+
+      .googlePlaces {
+        width: 100%;
       }
     }
 
-    p {
-      font-size: 1.3rem;
-      color: $main-font;
+    .addFriends {
+      margin-top: 2rem;
+      width: 100%;
     }
+  }
+
+  .travelNavigation {
+    position: absolute;
+    bottom: 5rem;
   }
 }
