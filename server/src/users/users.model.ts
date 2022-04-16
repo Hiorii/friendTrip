@@ -5,6 +5,7 @@ export const UsersSchema = new mongoose.Schema({
   surname: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String },
+  photo: { type: String },
   creationDate: { type: Date, required: true },
   isActive: { type: Boolean, required: true },
 });
@@ -15,6 +16,7 @@ export interface UsersType {
   surname?: string;
   email: string;
   password?: string;
+  photo?: string;
   creationDate: Date;
   isActive: boolean;
 }

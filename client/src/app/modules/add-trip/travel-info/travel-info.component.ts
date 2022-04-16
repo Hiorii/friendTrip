@@ -23,7 +23,12 @@ export class TravelInfoComponent implements OnInit {
   }
 
   handleNextPage() {
-    this.travelDataService.handleTravelInfoData('sad')
+    const travelInfo = {
+      travelName: this.travelInfoForm.get('travelName').value,
+      travelPlannedTotalCost: this.travelInfoForm.get('travelPlannedTotalCost').value,
+      travelPhoto: this.travelInfoForm.get('travelPhoto').value,
+    }
+    this.travelDataService.handleTravelInfoData(travelInfo)
   }
 
   fileBrowseHandler(file: any) {

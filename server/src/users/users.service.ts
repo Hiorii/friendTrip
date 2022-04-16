@@ -27,6 +27,7 @@ export class UsersService {
         surname: userData.surname,
         email: userData.email,
         password: userData.password,
+        photo: userData.photo,
         creationDate: userData.creationDate,
         isActive: userData.isActive,
       });

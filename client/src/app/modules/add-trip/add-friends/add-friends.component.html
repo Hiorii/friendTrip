@@ -1,7 +1,19 @@
-<div class="form-outline">
-  <input type="search" class="form-control" placeholder="Add friends" aria-label="Search" />
+<div class="add-friend-container">
+  <ng-template #rt let-r="result" let-t="term">
+    <div class="userContainer">
+      <img [src]="r['photo']" class="me-1">
+      <ngb-highlight class="userName" [result]="r.name + ' ' + r.surname" [term]="t"></ngb-highlight>
+    </div>
+  </ng-template>
+
+  <div class="mb-3 row nameInput">
+    <div class="col">
+      <input id="typeahead-template" type="text" placeholder="Add friends" class="form-control col" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
+             [inputFormatter]="formatter" />
+    </div>
+  </div>
+  <app-button
+    [title]="'Next'"
+    (handleOnClick)="handleNextPage()"
+  ></app-button>
 </div>
-<app-button
-  [title]="'Next'"
-  (handleOnClick)="handleNextPage()"
-></app-button>

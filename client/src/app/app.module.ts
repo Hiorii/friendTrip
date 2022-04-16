@@ -5,6 +5,7 @@ import {CoreModule} from "./core/core.module";
 import {MainModule} from "./modules/main.module";
 import {AppRoutingModule} from "./app-routing.module";
 import {SharedModule} from "./shared/shared.module";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import {SharedModule} from "./shared/shared.module";
     AppRoutingModule,
     CoreModule,
     MainModule,
-    SharedModule
+    SharedModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

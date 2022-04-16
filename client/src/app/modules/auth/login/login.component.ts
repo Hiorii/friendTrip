@@ -39,6 +39,7 @@ export class LoginComponent implements OnInit {
           name: user.firstName,
           surname: user.lastName,
           email: user.email,
+          photo: user.photoUrl,
           creationDate: new Date(),
           isActive: true,
         }
