@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {TravelDataService} from "../../core/services/travel-data.service";
-import {TravelPointDataModel} from "../../core/interfaces/travel-point-data.model";
+import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
 import {AddTripNavigationModel} from "../../core/enums/add-trip-navigation.model";
+import {TripInfoDataModel} from "../../core/interfaces/trip-info-data.model";
+import {UsersModel} from "../../core/interfaces/users.model";
 
 @Component({
   selector: 'app-add-trip',
@@ -9,12 +11,13 @@ import {AddTripNavigationModel} from "../../core/enums/add-trip-navigation.model
   styleUrls: ['./add-trip.component.scss']
 })
 export class AddTripComponent implements OnInit {
-  isTravelInfo =  true
+  isTravelInfo =  false
   isTravelPointData = false
-  isAddUser = false
+  isAddUser = true
   isTravelSummarize = false
-  travelInfoData: any
-  travelPointData: TravelPointDataModel
+  travelInfoData: TripInfoDataModel
+  travelPointData: TripPointDataModel
+  travelUsersData: UsersModel[]
 
   constructor(private travelDataService: TravelDataService) { }
 
@@ -29,6 +32,10 @@ export class AddTripComponent implements OnInit {
       this.travelPointData = data
       this.isTravelPointData = false
       this.isAddUser = true
+    })
+
+    this.travelDataService.travelUsers.subscribe(data => {
+      this.travelUsersData = data
     })
   }
 

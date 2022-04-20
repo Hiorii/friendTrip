@@ -1,21 +1,28 @@
 import {Injectable, Output} from '@angular/core';
 import {Subject} from "rxjs";
-import {TravelPointDataModel} from "../interfaces/travel-point-data.model";
+import {TripPointDataModel} from "../interfaces/trip-point-data.model";
+import {TripInfoDataModel} from "../interfaces/trip-info-data.model";
+import {UsersModel} from "../interfaces/users.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class TravelDataService {
-  travelInfoData = new Subject()
-  travelPointData = new Subject<TravelPointDataModel>()
+  travelInfoData = new Subject<TripInfoDataModel>()
+  travelPointData = new Subject<TripPointDataModel>()
+  travelUsers = new Subject<UsersModel[]>()
 
   constructor() { }
 
-  handleTravelPointData(data: TravelPointDataModel) {
+  handleTravelPointData(data: TripPointDataModel) {
     this.travelPointData.next(data)
   }
 
-  handleTravelInfoData(data: any) {
-    this.travelInfoData.next(data)
+  handleTravelInfoData(travelInfoData: TripInfoDataModel) {
+    this.travelInfoData.next(travelInfoData)
+  }
+
+  handleTravelUsersData(travelUsersData: any) {
+    this.travelUsers.next(travelUsersData)
   }
 }

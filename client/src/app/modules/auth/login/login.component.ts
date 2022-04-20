@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {GoogleLoginProvider, SocialAuthService, SocialUser} from "angularx-social-login";
-import {AuthService} from "../../../core/services/auth.service";
+import {AuthService} from "../../../core/services/api/auth.service";
 import {UsersModel} from "../../../core/interfaces/users.model";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {Location} from "@angular/common";

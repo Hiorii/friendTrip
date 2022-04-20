@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {TravelDataService} from "../../../core/services/travel-data.service";
+import {FormBuilder} from "@angular/forms";
 
 @Component({
   selector: 'app-add-friends',
@@ -7,14 +8,28 @@ import {TravelDataService} from "../../../core/services/travel-data.service";
   styleUrls: ['./add-friends.component.scss']
 })
 export class AddFriendsComponent implements OnInit {
+  tripUserForm = this.fb.group({
+    user: ['']
+  })
 
-  constructor(private travelDataService: TravelDataService) { }
+  constructor(
+    private travelDataService: TravelDataService,
+    private fb: FormBuilder
+    ) { }
 
   ngOnInit(): void {
   }
 
   handleNextPage() {
-    this.travelDataService.handleTravelInfoData('sad')
-  }
+    const travelUser = {
+      name: 'string',
+      surname: 'string',
+      email: 'string',
+      creationDate: new Date(),
+      isActive: true,
+    }
 
+
+    this.travelDataService.handleTravelUsersData(travelUser)
+  }
 }

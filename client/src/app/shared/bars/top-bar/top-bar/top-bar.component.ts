@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthService} from "../../../../core/services/auth.service";
+import {AuthService} from "../../../../core/services/api/auth.service";
 import {LocalStorageService} from "../../../../core/services/local-storage.service";
 import {UsersModel} from "../../../../core/interfaces/users.model";
 import {FormBuilder, FormGroup} from "@angular/forms";

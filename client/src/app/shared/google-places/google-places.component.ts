@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {TravelPointModel} from "../../core/interfaces/travelPoint.model";
+import {TripPointsModel} from "../../core/interfaces/trip-points.model";
 import {TravelDataService} from "../../core/services/travel-data.service";
+import {FormBuilder, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-google-places',
@@ -8,18 +9,26 @@ import {TravelDataService} from "../../core/services/travel-data.service";
   styleUrls: ['./google-places.component.scss']
 })
 export class GooglePlacesComponent implements OnInit {
-  startPoint: TravelPointModel = {
+  tripPlacesForm = this.fb.group({
+    startPoint: ['', [Validators.required]],
+    destinationPoint: ['', [Validators.required]]
+  })
+
+  startPoint: TripPointsModel = {
     address: '',
     latitude: '',
     longitude: ''
   }
-  destinationPoint: TravelPointModel = {
+  destinationPoint: TripPointsModel = {
     address: '',
     latitude: '',
     longitude: ''
   }
 
-  constructor(private travelDataService: TravelDataService) { }
+  constructor(
+    private travelDataService: TravelDataService,
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
   }
@@ -37,9 +46,11 @@ export class GooglePlacesComponent implements OnInit {
   }
 
   confirmTravelPoints() {
-    this.travelDataService.handleTravelPointData({
+    const travelDataPoints = {
       startPoint: this.startPoint,
       destinationPoint: this.destinationPoint
-    })
+    }
+
+    this.travelDataService.handleTravelPointData(travelDataPoints)
   }
 }

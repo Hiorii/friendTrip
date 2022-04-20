@@ -1,5 +1,13 @@
 <div class="form-outline">
-  <input type="search" class="form-control" placeholder="Add friends" aria-label="Search" />
+  <form [formGroup]="tripUserForm">
+    <input
+      type="search"
+      class="form-control"
+      placeholder="Add friends"
+      aria-label="Search"
+      formControlName="user"
+    />
+  </form>
 </div>
 <app-button
   [title]="'Next'"

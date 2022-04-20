@@ -1,6 +1,7 @@
 import {Component, OnInit, Output} from '@angular/core';
 import {TravelDataService} from "../../../core/services/travel-data.service";
 import {FormBuilder, Validators} from "@angular/forms";
+import {TripInfoDataModel} from "../../../core/interfaces/trip-info-data.model";
 
 @Component({
   selector: 'app-travel-info',
@@ -9,8 +10,8 @@ import {FormBuilder, Validators} from "@angular/forms";
 })
 export class TravelInfoComponent implements OnInit {
   travelInfoForm = this.fb.group({
-    travelName: ['', Validators.required],
-    travelPlannedTotalCost: [''],
+    travelName: ['', [Validators.required, Validators.minLength(3)]],
+    travelPlannedTotalCost: ['', [Validators.pattern("^[0-9]*$")]],
     travelPhoto: [''],
   })
 
@@ -23,7 +24,13 @@ export class TravelInfoComponent implements OnInit {
   }
 
   handleNextPage() {
-    this.travelDataService.handleTravelInfoData('sad')
+    const travelInfoData: TripInfoDataModel = {
+      travelName: this.travelInfoForm.get('travelName').value,
+      travelPlannedTotalCost: this.travelInfoForm.get('travelPlannedTotalCost').value,
+      travelPhoto: this.travelInfoForm.get('travelPhoto').value,
+    }
+
+    this.travelDataService.handleTravelInfoData(travelInfoData)
   }
 
   fileBrowseHandler(file: any) {

@@ -1,27 +1,32 @@
 <div class="container">
-  <div class="inputs-container">
-    <div class="form-group col-md-6">
-      <input
-        ngx-google-places-autocomplete
-        class="form-control"
-        placeholder="Start point"
-        (onAddressChange)="handleStartAddressChange($event)"
-      />
+  <form [formGroup]="tripPlacesForm">
+    <div class="inputs-container">
+      <div class="form-group col-md-6">
+        <input
+          ngx-google-places-autocomplete
+          class="form-control"
+          placeholder="Start point"
+          formControlName="startPoint"
+          (onAddressChange)="handleStartAddressChange($event)"
+        />
+      </div>
+      <div class="arrow">
+        <i class="fa fa-arrow-circle-down"></i>
+      </div>
+      <div class="form-group col-md-6">
+        <input
+          ngx-google-places-autocomplete
+          class="form-control"
+          placeholder="Destination point"
+          formControlName="destinationPoint"
+          (onAddressChange)="handleDestinationAddressChange($event)"
+        />
+      </div>
+      <app-button
+        [disabled]="!tripPlacesForm.valid"
+        [title]="'Confirm'"
+        (handleOnClick)="confirmTravelPoints()"
+      ></app-button>
     </div>
-    <div class="arrow">
-      <i class="fa fa-arrow-circle-down"></i>
-    </div>
-    <div class="form-group col-md-6">
-      <input
-        ngx-google-places-autocomplete
-        class="form-control"
-        placeholder="Destination point"
-        (onAddressChange)="handleDestinationAddressChange($event)"
-      />
-    </div>
-    <app-button
-      [title]="'Confirm'"
-      (handleOnClick)="confirmTravelPoints()"
-    ></app-button>
-  </div>
+  </form>
 </div>
