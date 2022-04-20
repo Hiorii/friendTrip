@@ -11,9 +11,9 @@ import {UsersModel} from "../../core/interfaces/users.model";
   styleUrls: ['./add-trip.component.scss']
 })
 export class AddTripComponent implements OnInit {
-  isTravelInfo =  false
+  isTravelInfo =  true
   isTravelPointData = false
-  isAddUser = true
+  isAddUser = false
   isTravelSummarize = false
   travelInfoData: TripInfoDataModel
   travelPointData: TripPointDataModel
@@ -36,6 +36,8 @@ export class AddTripComponent implements OnInit {
 
     this.travelDataService.travelUsers.subscribe(data => {
       this.travelUsersData = data
+      this.isAddUser = false
+      this.isTravelSummarize = true
     })
   }
 

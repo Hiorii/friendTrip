@@ -6,7 +6,7 @@ import {TripModel} from "../../interfaces/trip.model";
   providedIn: 'root'
 })
 export class TripApiService {
-  url = 'http://localhost:3000/trips'
+  url = 'http://localhost:3000/api/trips'
 
   constructor(private http: HttpClient) { }
 

@@ -30,7 +30,11 @@
     >
       <p>Travel Summarize:</p>
       <div class="travelSummarize">
-        <app-travel-summarize></app-travel-summarize>
+        <app-travel-summarize
+          [tripInfoData]="travelInfoData"
+          [tripPointData]="travelPointData"
+          [tripUsersData]="travelUsersData"
+        ></app-travel-summarize>
       </div>
     </div>
   </div>

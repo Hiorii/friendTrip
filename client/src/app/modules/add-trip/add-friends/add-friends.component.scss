@@ -1,3 +1,5 @@
+@import "src/assets/sass/settings";
+
 .add-friend-container {
   .userContainer {
     margin: .7rem 0;
@@ -17,6 +19,23 @@
   .nameInput {
     input {
       width: 90vw;
+    }
+  }
+
+  .travelUserContainer {
+    @include flex(flex-start, center);
+    margin: 2rem;
+
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    p {
+      margin-bottom: 0;
+      margin-left: 1rem;
+      font-weight: 600;
     }
   }
 }

@@ -1,18 +1,9 @@
-<<<<<<< HEAD
-<div class="form-outline">
-  <form [formGroup]="tripUserForm">
-    <input
-      type="search"
-      class="form-control"
-      placeholder="Add friends"
-      aria-label="Search"
-      formControlName="user"
-    />
-  </form>
-=======
 <div class="add-friend-container">
   <ng-template #rt let-r="result" let-t="term">
-    <div class="userContainer">
+    <div
+      class="userContainer"
+      (click)="addUserToTrip(r)"
+    >
       <img [src]="r['photo']" class="me-1">
       <ngb-highlight class="userName" [result]="r.name + ' ' + r.surname" [term]="t"></ngb-highlight>
     </div>
@@ -20,13 +11,33 @@
 
   <div class="mb-3 row nameInput">
     <div class="col">
-      <input id="typeahead-template" type="text" placeholder="Add friends" class="form-control col" [(ngModel)]="model" [ngbTypeahead]="search" [resultTemplate]="rt"
-             [inputFormatter]="formatter" />
+      <form [formGroup]="tripUserForm">
+        <input
+          id="typeahead-template"
+          type="text"
+          placeholder="Add friends"
+          class="form-control col"
+          formControlName="user"
+          [(ngModel)]="model"
+          [ngbTypeahead]="search"
+          [resultTemplate]="rt"
+          [inputFormatter]="formatter"
+        />
+      </form>
     </div>
   </div>
+  <ng-container *ngIf="travelUser.length">
+    <div
+      class="travelUserContainer"
+      *ngFor="let user of travelUser"
+    >
+      <img [src]="user.photo" class="me-1">
+      <p>{{ user.name }} {{ user.surname }}</p>
+    </div>
+  </ng-container>
+
   <app-button
     [title]="'Next'"
     (handleOnClick)="handleNextPage()"
   ></app-button>
->>>>>>> 70f97389b797708af64ab454d5651d544c9e11f8
 </div>
