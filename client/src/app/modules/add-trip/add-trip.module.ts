@@ -8,7 +8,8 @@ import { TravelInfoComponent } from './travel-info/travel-info.component';
 import {SharedModule} from "../../shared/shared.module";
 import { NavigationComponent } from './navigation/navigation.component';
 import { TravelSummarizeComponent } from './travel-summarize/travel-summarize.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   imports: [
@@ -16,7 +17,9 @@ import {ReactiveFormsModule} from "@angular/forms";
     AddTripRoutingModule,
     GooglePlacesModule,
     SharedModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormsModule,
+    NgbTypeaheadModule
   ],
   declarations: [AddTripComponent, AddFriendsComponent, TravelInfoComponent, NavigationComponent, TravelSummarizeComponent],
   exports: [

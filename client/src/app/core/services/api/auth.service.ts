@@ -10,8 +10,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  getUserData(userData: UsersModel) {
-
+  getAllUsersList() {
+    return this.http.get<UsersModel[]>(`${this.url}/users`)
   }
 
   authWithGoogle(userData: Partial<UsersModel>) {
