@@ -34,19 +34,12 @@ export class AddFriendsComponent implements OnInit {
   }
 
   handleNextPage() {
-    // const travelUser = {
-    //   name: 'string',
-    //   surname: 'string',
-    //   email: 'string',
-    //   creationDate: new Date(),
-    //   isActive: true,
-    // }
-
     this.travelDataService.handleTravelUsersData(this.travelUser)
   }
 
   addUserToTrip(currentUser: UsersModel) {
     this.travelUser.push(currentUser)
+    this.tripUserForm.get('user').patchValue('')
     this.tripUserForm.reset()
   }
 
@@ -57,5 +50,5 @@ export class AddFriendsComponent implements OnInit {
         : this.allUsersList.filter(v => v.name.toLowerCase().indexOf(term.toLowerCase()) > -1 || v.surname.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
     )
 
-  formatter = (x: {name: string}) => x.name;
+  formatter = (x: {name: string}) => '';
 }

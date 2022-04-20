@@ -6,6 +6,8 @@ import {UsersModel} from "../../../core/interfaces/users.model";
 import {TripInfoDataModel} from "../../../core/interfaces/trip-info-data.model";
 import {TripPointDataModel} from "../../../core/interfaces/trip-point-data.model";
 import {TripApiService} from "../../../core/services/api/trip-api.service";
+import {Store} from "@ngrx/store";
+import {setTripDataAction} from "../../../core/store/trips/trips.actions";
 
 @Component({
   selector: 'app-travel-summarize',
@@ -19,7 +21,10 @@ export class TravelSummarizeComponent implements OnInit {
 
   tripData: TripModel
 
-  constructor(private tripApiService: TripApiService) { }
+  constructor(
+    private tripApiService: TripApiService,
+    private store: Store
+  ) { }
 
   ngOnInit(): void {
     const tripData = {
@@ -32,8 +37,9 @@ export class TravelSummarizeComponent implements OnInit {
   }
 
   createTrip() {
-    this.tripApiService.addNewTrip(this.tripData).subscribe(newTripData => {
-      console.log(newTripData)
-    })
+    this.tripApiService.addNewTrip(this.tripData)
+      .subscribe((newTripData: any) => {
+        this.store.dispatch(setTripDataAction({trip: newTripData}))
+      })
   }
 }

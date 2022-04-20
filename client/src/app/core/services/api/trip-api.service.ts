@@ -10,6 +10,10 @@ export class TripApiService {
 
   constructor(private http: HttpClient) { }
 
+  getAllTrips() {
+    return this.http.get<TripModel[]>(this.url)
+  }
+
   addNewTrip(tripData: TripModel) {
     return this.http.post(this.url, tripData)
   }
