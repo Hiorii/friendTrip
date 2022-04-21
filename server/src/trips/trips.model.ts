@@ -1,9 +1,14 @@
 import * as mongoose from 'mongoose';
 import { TravelPointsModel } from './travel-points/travel-points.model';
 import { UsersType } from '../users/users.model';
+import { TravelInfoModel } from './travel-info/travel-info.model';
 
 export const TripsSchema = new mongoose.Schema({
-  title: { type: String, required: true },
+  travelInfoData: {
+    travelName: { type: String, required: true },
+    travelPlannedTotalCost: { type: Number },
+    travelPhoto: { type: String },
+  },
   travelPoints: {
     startPoint: {
       address: { type: String, required: true },
@@ -16,11 +21,7 @@ export const TripsSchema = new mongoose.Schema({
       longitude: { type: String, required: true },
     },
   },
-  tripUsers: [
-    {
-      userId: { type: String, required: true, ref: 'User' },
-    },
-  ],
+  tripUsers: [],
   // pointsToVisit: [{}],
   // totalCost: {},
   // status: { modelfor active, finished }
@@ -28,12 +29,12 @@ export const TripsSchema = new mongoose.Schema({
 });
 
 export interface TripsType {
-  title: string;
+  travelInfoData: TravelInfoModel;
   travelPoints: {
     startPoint: TravelPointsModel;
     destinationPoint: TravelPointsModel;
   };
-  tripUsers: UsersType[];
+  tripUsers?: UsersType[];
 }
 
 const Trip = mongoose.model('Trip', TripsSchema);

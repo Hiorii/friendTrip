@@ -8,6 +8,8 @@ export const UsersSchema = new mongoose.Schema({
   photo: { type: String },
   creationDate: { type: Date, required: true },
   isActive: { type: Boolean, required: true },
+  _token: { type: String },
+  _tokenExpirationData: { type: Date },
 });
 
 export interface UsersType {
@@ -17,8 +19,10 @@ export interface UsersType {
   email: string;
   password?: string;
   photo?: string;
-  creationDate: Date;
-  isActive: boolean;
+  creationDate?: Date;
+  isActive?: boolean;
+  _token?: string;
+  _tokenExpirationData?: Date;
 }
 
 const User = mongoose.model('User', UsersSchema);

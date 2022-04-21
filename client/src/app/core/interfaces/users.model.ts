@@ -7,4 +7,6 @@ export interface UsersModel {
   photo?: string;
   creationDate: Date;
   isActive: boolean;
+  _token?: string;
+  _tokenExpirationData?: Date;
 }

@@ -17,4 +17,30 @@ export class AuthService {
       };
     }
   }
+
+  async register(newUserData) {
+    await this.userService.addNewUser(newUserData);
+
+    return {
+      message: 'User Info from Register',
+      user: newUserData,
+    };
+  }
+
+  async login(newUserData, response) {
+    await this.userService.userLogin(newUserData, response);
+
+    return {
+      message: 'User Info from Register',
+      user: newUserData,
+    };
+  }
+
+  async getAuthUser(request) {
+    await this.userService.user(request);
+  }
+
+  async logout(response) {
+    await this.userService.userLogout(response);
+  }
 }

@@ -5,14 +5,17 @@ import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "a
 import { LoginComponent } from './login/login.component';
 import {AuthRoutingModule} from "./auth-routing.module";
 import {CommonModule} from "@angular/common";
+import {SharedModule} from "../../shared/shared.module";
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
-  declarations: [AuthComponent, LoginComponent],
+  declarations: [AuthComponent, LoginComponent, SignupComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
     SocialLoginModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    SharedModule
   ],
   exports: [
     AuthComponent

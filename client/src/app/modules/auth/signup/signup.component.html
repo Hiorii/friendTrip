@@ -11,7 +11,13 @@
     <div class="separator">or</div>
     <div class="row">
       <div class="col-xs-12 col-md-6 col-md-offset-3">
-        <form [formGroup]="loginForm">
+        <form [formGroup]="signupForm">
+          <div class="form-group">
+            <input formControlName="name" type="text" class="form-control" placeholder="Name">
+          </div>
+          <div class="form-group">
+            <input formControlName="surname" type="text" class="form-control" placeholder="Surname">
+          </div>
           <div class="form-group">
             <input formControlName="email" type="email" class="form-control" placeholder="E-mail">
           </div>
@@ -19,8 +25,8 @@
             <input formControlName="password" type="password" class="form-control" placeholder="Password">
           </div>
           <app-button
-            title="Sign In"
-            (handleOnClick)="loginUser()"
+            title="Sign Up"
+            (handleOnClick)="registerUser()"
           ></app-button>
         </form>
       </div>

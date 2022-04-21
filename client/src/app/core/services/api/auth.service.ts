@@ -14,6 +14,24 @@ export class AuthService {
     return this.http.get<UsersModel[]>(`${this.url}/users`)
   }
 
+  getUser() {
+    return this.http.get<UsersModel[]>(`${this.url}/auth/user`)
+  }
+
+  registerUser(userData: Partial<UsersModel>) {
+    return this.http.post(
+      `${this.url}/auth/register`,
+      userData
+    )
+  }
+
+  loginUser(userData: Partial<UsersModel>) {
+    return this.http.post(
+      `${this.url}/auth/login`,
+      userData
+    )
+  }
+
   authWithGoogle(userData: Partial<UsersModel>) {
     return this.http.post(
       `${this.url}/auth/google/callback`,

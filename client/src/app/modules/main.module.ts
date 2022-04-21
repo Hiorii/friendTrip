@@ -13,6 +13,7 @@ import {JournalModule} from "./journal/journal.module";
 import {MyTripModule} from "./my-trip/my-trip.module";
 import {ToDoModule} from "./to-do/to-do.module";
 import {SharedModule} from "../shared/shared.module";
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [MainComponent],
@@ -26,7 +27,8 @@ import {SharedModule} from "../shared/shared.module";
     HighlightsModule,
     JournalModule,
     MyTripModule,
-    ToDoModule
+    ToDoModule,
+    RouterModule
   ]
 })
 export class MainModule { }

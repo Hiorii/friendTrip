@@ -1,5 +1,7 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { TripsService } from './trips.service';
+import { UsersType } from '../users/users.model';
+import { TripsType } from './trips.model';
 
 @Controller('trips')
 export class TripsController {
@@ -15,10 +17,10 @@ export class TripsController {
     return this.tripService.getTrip(id);
   }
 
-  // @Post()
-  // async addNewUser(@Body() newUserData: UsersType) {
-  //   const newUser = await this.userService.addNewUser(newUserData);
-  //
-  //   return newUser;
-  // }
+  @Post()
+  async addNewTrip(@Body() newTripData: TripsType) {
+    const newTrip = await this.tripService.addNewTrip(newTripData);
+
+    return newTrip;
+  }
 }

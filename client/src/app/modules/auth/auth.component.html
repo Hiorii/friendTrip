@@ -1,1 +1,42 @@
-<router-outlet></router-outlet>
+<div class="login-bg"></div>
+<div class="container">
+  <div class="title-container">
+    <h2>Login to your FriendTrip account </h2>
+    <p class="text-center mb-5">and start the journey!</p>
+  </div>
+  <hr>
+  <div
+    *ngIf="isSignedUp"
+    class="sign-container"
+  >
+    <app-login
+      (handleLoginWithGoogle)="loginWithGoogle()"
+      (handleLogin)="loginUser($event)"
+    ></app-login>
+  </div>
+  <div
+    *ngIf="!isSignedUp"
+    class="sign-container"
+  >
+    <app-signup
+      (handleLoginWithGoogle)="loginWithGoogle()"
+      (handleRegister)="registerUser($event)"
+    ></app-signup>
+  </div>
+  <div>
+    <div class="col-xs-12">
+      <button
+        *ngIf="isSignedUp"
+        class="btn-switch-mode"
+        (click)="switchMode()"
+      >Don't have an account? Sign up!</button>
+      <button
+        *ngIf="!isSignedUp"
+        class="btn-switch-mode"
+        (click)="switchMode()"
+      >Already have an account? Sign in!</button>
+    </div>
+  </div>
+</div>
+
+

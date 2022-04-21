@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TripsType } from './trips.model';
+import { TravelPointsModel } from './travel-points/travel-points.model';
+import { UsersType } from '../users/users.model';
 
 @Injectable()
 export class TripsService {
@@ -17,25 +19,18 @@ export class TripsService {
     return this.tripsModule.findOne({ id });
   }
 
-  // async addNewUser(userData: TripsType): Promise<TripsType> {
-  //   const { email } = userData;
-  //   const existingUser = await this.tripsModule.findOne({ email });
-  //
-  //   if (!existingUser) {
-  //     const newUser = new this.tripsModule({
-  //       name: userData.name,
-  //       surname: userData.surname,
-  //       email: userData.email,
-  //       password: userData.password,
-  //       creationDate: userData.creationDate,
-  //       isActive: userData.isActive,
-  //     });
-  //
-  //     await newUser.save();
-  //
-  //     return newUser;
-  //   } else {
-  //     return existingUser;
-  //   }
-  // }
+  async addNewTrip(tripData: TripsType): Promise<TripsType> {
+    const newTrip = new this.tripsModule({
+      travelInfoData: tripData.travelInfoData,
+      travelPoints: {
+        startPoint: tripData.travelPoints.startPoint,
+        destinationPoint: tripData.travelPoints.destinationPoint,
+      },
+      tripUsers: tripData.tripUsers,
+    });
+
+    await newTrip.save();
+
+    return newTrip;
+  }
 }
