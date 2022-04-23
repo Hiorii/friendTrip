@@ -4,7 +4,8 @@
       class="userContainer"
       (click)="addUserToTrip(r)"
     >
-      <img [src]="r['photo']" class="me-1">
+      <img *ngIf="r['photo']" [src]="r['photo']" class="me-1">
+      <img *ngIf="!r['photo']" [src]="'/assets/img/users/user_icon.png'" class="me-1">
       <ngb-highlight class="userName" [result]="r.name + ' ' + r.surname" [term]="t"></ngb-highlight>
     </div>
   </ng-template>
@@ -31,7 +32,8 @@
       class="travelUserContainer"
       *ngFor="let user of travelUser"
     >
-      <img [src]="user.photo" class="me-1">
+      <img *ngIf="user.photo" [src]="user.photo" class="me-1">
+      <img *ngIf="!user.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
       <p>{{ user.name }} {{ user.surname }}</p>
     </div>
   </ng-container>

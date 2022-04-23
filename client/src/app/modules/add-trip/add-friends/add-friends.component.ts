@@ -5,6 +5,7 @@ import {UsersModel} from "../../../core/interfaces/users.model";
 import {AuthService} from "../../../core/services/api/auth.service";
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
+import {LocalStorageService} from "../../../core/services/local-storage.service";
 
 
 @Component({
@@ -25,12 +26,12 @@ export class AddFriendsComponent implements OnInit {
   constructor(
     private travelDataService: TravelDataService,
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
-    this.authService.getAllUsersList()
-      .subscribe(usersData => this.allUsersList = usersData)
+    this.setAllUserList()
   }
 
   handleNextPage() {
@@ -38,6 +39,9 @@ export class AddFriendsComponent implements OnInit {
   }
 
   addUserToTrip(currentUser: UsersModel) {
+    const updatedAllUserList = this.allUsersList.filter(user => user.email !== currentUser.email)
+    this.allUsersList = updatedAllUserList
+
     this.travelUser.push(currentUser)
     this.tripUserForm.get('user').patchValue('')
     this.tripUserForm.reset()
@@ -51,4 +55,17 @@ export class AddFriendsComponent implements OnInit {
     )
 
   formatter = (x: {name: string}) => '';
+
+  private setAllUserList() {
+    this.authService.getAllUsersList()
+      .subscribe(usersData => {
+        const currentUser = this.localStorageService.getItem('user')
+
+        this.allUsersList = usersData
+
+        const updatedAllUserList = this.allUsersList.filter(users => users.email !== currentUser.email)
+
+        this.allUsersList = updatedAllUserList
+      })
+  }
 }
