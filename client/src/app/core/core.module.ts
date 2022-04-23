@@ -7,6 +7,9 @@ import {TripApiService} from "./services/api/trip-api.service";
 import {StoreModule} from "@ngrx/store";
 import {metaReducers, reducers} from "./store";
 import {StoreDevtoolsModule} from "@ngrx/store-devtools";
+import {EffectsModule} from "@ngrx/effects";
+import {TripsEffects} from "./store/trips/trips.effects";
+import {UsersEffects} from "./store/users/users.effects";
 
 @NgModule({
   declarations: [],
@@ -20,6 +23,10 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
         strictActionImmutability: true,
       },
     }),
+    EffectsModule.forRoot([
+      TripsEffects,
+      UsersEffects
+    ]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     })

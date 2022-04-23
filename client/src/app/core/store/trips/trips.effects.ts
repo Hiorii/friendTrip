@@ -7,7 +7,6 @@ import {map} from "rxjs/operators";
 
 @Injectable()
 export class TripsEffects {
-
   getTrips$ = createEffect(() => this.actions$
     .pipe(
       ofType(actions.getTripsDataAction),

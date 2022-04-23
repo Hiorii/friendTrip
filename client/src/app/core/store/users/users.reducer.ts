@@ -1,5 +1,6 @@
 import {createReducer, on} from "@ngrx/store";
 import {UsersModel} from "../../interfaces/users.model";
+import {actions} from "../users";
 
 export interface State {
   allUsersList: UsersModel[],
@@ -32,4 +33,10 @@ const initialState: State = {
 
 export const reducer = createReducer(
   initialState,
+  on(actions.setAllUsersList, (state: State, { users }) => ({
+    ...state,
+    allUsersList: users,
+  })),
 )
+
+export const getAllUsersList = (state: State) => state.allUsersList

@@ -8,6 +8,7 @@ import {debounceTime, map} from 'rxjs/operators';
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {Store} from "@ngrx/store";
 import {addTripsUserAction} from "../../../core/store/trips/trips.actions";
+import {selectPlansList} from "../../../core/store/users";
 
 
 @Component({
@@ -61,15 +62,16 @@ export class AddFriendsComponent implements OnInit {
   formatter = (x: {name: string}) => '';
 
   private setAllUserList() {
-    this.authService.getAllUsersList()
-      .subscribe(usersData => {
-        const currentUser = this.localStorageService.getItem('user')
-
-        this.allUsersList = usersData
-
-        const updatedAllUserList = this.allUsersList.filter(users => users.email !== currentUser.email)
-
-        this.allUsersList = updatedAllUserList
-      })
+    this.store.select(selectPlansList).subscribe(allUsersList => console.log(allUsersList))
+    // this.authService.getAllUsersList()
+    //   .subscribe(usersData => {
+    //     const currentUser = this.localStorageService.getItem('user')
+    //
+    //     this.allUsersList = usersData
+    //
+    //     const updatedAllUserList = this.allUsersList.filter(users => users.email !== currentUser.email)
+    //
+    //     this.allUsersList = updatedAllUserList
+    //   })
   }
 }
