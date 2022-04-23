@@ -66,4 +66,11 @@ export const reducer = createReducer(
     ...state,
     tripsList: [...trips],
   })),
+  on(actions.addTripsUserAction, (state: State, { users }) => ({
+    ...state,
+    tripsList: {
+      ...state.tripsList,
+      tripUser: users,
+    }
+  }))
 )

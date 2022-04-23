@@ -6,6 +6,8 @@ import {AuthService} from "../../../core/services/api/auth.service";
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {LocalStorageService} from "../../../core/services/local-storage.service";
+import {Store} from "@ngrx/store";
+import {addTripsUserAction} from "../../../core/store/trips/trips.actions";
 
 
 @Component({
@@ -27,7 +29,8 @@ export class AddFriendsComponent implements OnInit {
     private travelDataService: TravelDataService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private localStorageService: LocalStorageService
+    private localStorageService: LocalStorageService,
+    private store: Store
   ) { }
 
   ngOnInit(): void {
@@ -43,6 +46,7 @@ export class AddFriendsComponent implements OnInit {
     this.allUsersList = updatedAllUserList
 
     this.travelUser.push(currentUser)
+    this.store.dispatch(addTripsUserAction({ users: this.travelUser }))
     this.tripUserForm.get('user').patchValue('')
     this.tripUserForm.reset()
   }
