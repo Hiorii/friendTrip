@@ -5,6 +5,7 @@ import {Location} from "@angular/common";
 import {AuthService} from "../../core/services/api/auth.service";
 import {LocalStorageService} from "../../core/services/local-storage.service";
 import {UsersModel} from "../../core/interfaces/users.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-auth',
@@ -22,6 +23,7 @@ export class AuthComponent implements OnInit {
     private socialAuthService: SocialAuthService,
     private authService: AuthService,
     private localStorageService: LocalStorageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -49,7 +51,10 @@ export class AuthComponent implements OnInit {
 
         this.authService.authWithGoogle(userData)
           .subscribe((data) => {
-            this.location.replaceState("/")
+            this.router.navigate(['/'])
+              .then(() => {
+                window.location.reload();
+              });
           })
       }
     });
@@ -69,10 +74,11 @@ export class AuthComponent implements OnInit {
   loginUser(userData: Partial<UsersModel>) {
     this.authService.loginUser(userData)
       .subscribe((data) => {
-        console.log(data)
-        //this.location.replaceState("/")
+        this.router.navigate(['/'])
+          .then(() => {
+            window.location.reload();
+          });
       })
-    //this.authService.getUser().subscribe(data => console.log(data))
   }
 
   loginWithGoogle(): void {

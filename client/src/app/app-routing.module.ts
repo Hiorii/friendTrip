@@ -2,17 +2,15 @@ import {NgModule} from "@angular/core";
 import {RouterModule, Routes} from "@angular/router";
 import {AuthComponent} from "./modules/auth/auth.component";
 import {AppComponent} from "./app.component";
+import {AuthGuard} from "./modules/auth/auth.guard";
+import {MainComponent} from "./modules/main.component";
 
 const routes: Routes = [
   {
     path: '',
-    children: [
-      {
-        path: '',
-        redirectTo: '/',
-        pathMatch: 'full',
-      },
-    ]
+    component: MainComponent,
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
   },
 ]
 

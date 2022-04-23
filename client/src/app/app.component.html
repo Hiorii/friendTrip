@@ -1,3 +1,3 @@
-<app-top-bar></app-top-bar>
+<app-top-bar *ngIf="isLoggedIn"></app-top-bar>
 <app-main></app-main>
-<app-bottom-bar></app-bottom-bar>
+<app-bottom-bar *ngIf="isLoggedIn"></app-bottom-bar>
