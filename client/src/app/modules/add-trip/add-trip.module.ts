@@ -10,6 +10,7 @@ import { NavigationComponent } from './navigation/navigation.component';
 import { TravelSummarizeComponent } from './travel-summarize/travel-summarize.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
+import {GoogleMapModule} from "../../shared/google-map/google-map.module";
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import {NgbTypeaheadModule} from "@ng-bootstrap/ng-bootstrap";
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
-    NgbTypeaheadModule
+    NgbTypeaheadModule,
+    GoogleMapModule
   ],
   declarations: [AddTripComponent, AddFriendsComponent, TravelInfoComponent, NavigationComponent, TravelSummarizeComponent],
   exports: [

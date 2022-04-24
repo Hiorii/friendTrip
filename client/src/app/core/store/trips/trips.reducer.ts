@@ -1,6 +1,6 @@
 import {UsersModel} from "../../interfaces/users.model";
 import {createReducer, on} from "@ngrx/store";
-import {actions} from "./index";
+import * as actions from './trips.actions';
 
 export interface State {
   tripsList:
@@ -14,13 +14,13 @@ export interface State {
       travelPoints: {
         startPoint: {
           address: string,
-          latitude: string,
-          longitude: string,
+          latitude: number,
+          longitude: number,
         },
         destinationPoint: {
           address: string,
-          latitude: string,
-          longitude: string,
+          latitude: number,
+          longitude: number,
         },
       }
       tripUsers?: UsersModel[],
@@ -39,13 +39,13 @@ const initialState: State = {
       travelPoints: {
         startPoint: {
           address: '',
-          latitude: '',
-          longitude: '',
+          latitude: 0,
+          longitude: 0,
         },
         destinationPoint: {
           address: '',
-          latitude: '',
-          longitude: '',
+          latitude: 0,
+          longitude: 0,
         },
       },
       tripUsers: [],
@@ -66,11 +66,4 @@ export const reducer = createReducer(
     ...state,
     tripsList: [...trips],
   })),
-  on(actions.addTripsUserAction, (state: State, { users }) => ({
-    ...state,
-    tripsList: {
-      ...state.tripsList,
-      tripUser: users,
-    }
-  }))
 )

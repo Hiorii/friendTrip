@@ -1,14 +1,10 @@
 import {createReducer, on} from "@ngrx/store";
 import {UsersModel} from "../../interfaces/users.model";
-import {actions} from "../users";
+import * as actions from './users.actions'
 
 export interface State {
   allUsersList: UsersModel[],
   currentUser: UsersModel,
-  tripUsers: {
-    tripUserList: UsersModel[],
-    availableUserList: UsersModel[]
-  }
 }
 
 const initialState: State = {
@@ -24,16 +20,12 @@ const initialState: State = {
     isActive: false,
     _token: '',
     _tokenExpirationData: new Date,
-  },
-  tripUsers: {
-    tripUserList: [],
-    availableUserList: []
   }
 }
 
 export const reducer = createReducer(
   initialState,
-  on(actions.setAllUsersList, (state: State, { users }) => ({
+  on(actions.setAllUsersListAction, (state: State, { users }) => ({
     ...state,
     allUsersList: users,
   })),

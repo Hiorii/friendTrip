@@ -4,6 +4,8 @@ import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
 import {AddTripNavigationModel} from "../../core/enums/add-trip-navigation.model";
 import {TripInfoDataModel} from "../../core/interfaces/trip-info-data.model";
 import {UsersModel} from "../../core/interfaces/users.model";
+import {Store} from "@ngrx/store";
+import {selectAllUsersList} from "../../core/store/users";
 
 @Component({
   selector: 'app-add-trip',
@@ -19,7 +21,13 @@ export class AddTripComponent implements OnInit {
   travelPointData: TripPointDataModel
   travelUsersData: UsersModel[]
 
-  constructor(private travelDataService: TravelDataService) { }
+  //users Data
+  allUsersList$ = this.store.select(selectAllUsersList)
+
+  constructor(
+    private travelDataService: TravelDataService,
+    private store: Store
+) { }
 
   ngOnInit(): void {
     this.travelDataService.travelInfoData.subscribe(data => {

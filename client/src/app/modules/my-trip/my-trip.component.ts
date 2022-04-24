@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, NgForm} from "@angular/forms";
+import {TripModel} from "../../core/interfaces/trip.model";
+import {Store} from "@ngrx/store";
+import {getTripsDataAction} from "../../core/store/trips/trips.actions";
 
 @Component({
   selector: 'app-my-trip',
@@ -7,16 +10,16 @@ import {FormBuilder, NgForm} from "@angular/forms";
   styleUrls: ['./my-trip.component.scss']
 })
 export class MyTripComponent implements OnInit {
+  tripsList: TripModel[]
 
-  originPoint: string
-  destinationPoint: string
-
-
-
-
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private store: Store,
+  ) { }
 
   ngOnInit() {
+    this.store.dispatch(getTripsDataAction())
+
 
   }
 

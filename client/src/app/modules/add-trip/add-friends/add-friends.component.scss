@@ -1,6 +1,15 @@
 @import "src/assets/sass/settings";
 
 .add-friend-container {
+  @include center();
+
+  .title {
+    font-size: 1.5rem;
+    color: $main-font;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
   .userContainer {
     margin: .7rem 0;
     width: 80vw;
@@ -24,11 +33,11 @@
 
   .travelUserContainer {
     @include flex(flex-start, center);
-    margin: 2rem;
+    margin: 1.6rem;
 
     img {
-      width: 40px;
-      height: 40px;
+      width: 30px;
+      height: 30px;
       border-radius: 50%;
     }
 
@@ -36,6 +45,7 @@
       margin-bottom: 0;
       margin-left: 1rem;
       font-weight: 600;
+      color: $primary-white;
     }
   }
 }

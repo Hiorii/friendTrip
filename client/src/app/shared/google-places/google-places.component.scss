@@ -4,6 +4,14 @@
   padding: 0 1rem;
   margin-top: 1rem;
   width: 100%;
+  @include center();
+
+  p {
+    font-size: 1.5rem;
+    color: $main-font;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
 
   .inputs-container {
     @include flex(center, center);

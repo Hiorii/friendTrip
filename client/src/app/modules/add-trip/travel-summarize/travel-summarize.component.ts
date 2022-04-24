@@ -8,6 +8,8 @@ import {TripPointDataModel} from "../../../core/interfaces/trip-point-data.model
 import {TripApiService} from "../../../core/services/api/trip-api.service";
 import {Store} from "@ngrx/store";
 import {setTripDataAction} from "../../../core/store/trips/trips.actions";
+import {LocalStorageService} from "../../../core/services/local-storage.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-travel-summarize',
@@ -23,7 +25,9 @@ export class TravelSummarizeComponent implements OnInit {
 
   constructor(
     private tripApiService: TripApiService,
-    private store: Store
+    private store: Store,
+    private localStorageService: LocalStorageService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -40,6 +44,12 @@ export class TravelSummarizeComponent implements OnInit {
     this.tripApiService.addNewTrip(this.tripData)
       .subscribe((newTripData: any) => {
         this.store.dispatch(setTripDataAction({trip: newTripData}))
+
+        this.router.navigate(['my-trips'])
       })
+
+    this.localStorageService.removeItem('tripPoints')
+    this.localStorageService.removeItem('tripInfo')
+    this.localStorageService.removeItem('tripUsers')
   }
 }

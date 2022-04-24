@@ -1,4 +1,5 @@
 <div class="add-friend-container">
+  <p class="title">Add friends you want to travel with:</p>
   <ng-template #rt let-r="result" let-t="term">
     <div
       class="userContainer"
@@ -27,10 +28,10 @@
       </form>
     </div>
   </div>
-  <ng-container *ngIf="travelUser.length">
+  <ng-container *ngIf="tripUsers.length">
     <div
       class="travelUserContainer"
-      *ngFor="let user of travelUser"
+      *ngFor="let user of tripUsers"
     >
       <img *ngIf="user.photo" [src]="user.photo" class="me-1">
       <img *ngIf="!user.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">

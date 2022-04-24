@@ -1,11 +1,13 @@
-import * as reducer from './trips.reducer';
-// @ts-ignore
-import * as actions from './trips.actions';
-import {createFeatureSelector} from "@ngrx/store";
+import {Action, createFeatureSelector, createSelector} from "@ngrx/store";
+import { State } from './trips.reducer';
+import * as fromTrips from './trips.reducer';
 
-export { reducer }
-export { actions }
+export function reducer(state: State, action: Action) {
+  return fromTrips.reducer(state, action)
+}
+
 export const stateKey = 'trips'
 
-// @ts-ignore
-const selectTripsState = createFeatureSelector(<reducer.State>(stateKey))
+const selectTripsState = createFeatureSelector<fromTrips.State>(stateKey)
+
+//export const selectAllUsersList = createSelector(selectTripsState, fromTrips.getTripUsers)

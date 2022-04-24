@@ -1,7 +1,6 @@
 @import "./src/assets/sass/settings";
 
 section {
-  margin-top: 0;
   @include flex(center, center);
   flex-direction: column;
 
@@ -13,11 +12,6 @@ section {
     .travelPoints {
       @include flex(center,center);
       flex-direction: column;
-
-      p {
-        font-size: 1.3rem;
-        color: $main-font;
-      }
 
       .googlePlaces {
         width: 100%;

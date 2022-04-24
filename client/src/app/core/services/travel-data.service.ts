@@ -2,7 +2,6 @@ import {Injectable, Output} from '@angular/core';
 import {Subject} from "rxjs";
 import {TripPointDataModel} from "../interfaces/trip-point-data.model";
 import {TripInfoDataModel} from "../interfaces/trip-info-data.model";
-import {TravelInfoModel} from "../interfaces/travel-info.model";
 import {UsersModel} from "../interfaces/users.model";
 
 @Injectable({

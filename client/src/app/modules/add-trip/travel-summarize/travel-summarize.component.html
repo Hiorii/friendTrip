@@ -1,8 +1,13 @@
 <div class="travelSummarizeContainer">
-
+  <div class="col-md-6 info-container">
+<!--    <img src="/assets/img/trips/default_trip_image.jpg" alt="default_trip_image">-->
+    <p class="travelName">{{ tripInfoData?.travelName }}</p>
+  </div>
+  <app-google-map [tripPoints]="tripPointData" ></app-google-map>
+  <app-button
+    [title]="'Create Trip'"
+    (handleOnClick)="createTrip()"
+  ></app-button>
 </div>
-<app-button
-  [title]="'Create Trip'"
-  (handleOnClick)="createTrip()"
-></app-button>
+
 

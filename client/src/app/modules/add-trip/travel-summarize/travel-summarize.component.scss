@@ -1,0 +1,24 @@
+@import "src/assets/sass/settings";
+
+.travelSummarizeContainer {
+  @include flex(center, center);
+  flex-direction: column;
+
+  .info-container {
+    img {
+      width: 100vw;
+      height: 10rem;
+      position: absolute;
+      top: 51.8px;
+      left: 0;
+      z-index: -1;
+    }
+
+    .travelName {
+      color: $primary-white;
+      text-shadow: 2px 2px $primary;
+      z-index: 9;
+      font-size: 2.3rem;
+    }
+  }
+}

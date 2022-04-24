@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { MapDirectionsService } from "@angular/google-maps";
 import {map, Observable} from "rxjs";
+import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
 
 @Component({
   selector: 'app-google-map',
@@ -8,6 +9,8 @@ import {map, Observable} from "rxjs";
   styleUrls: ['./google-map.component.scss']
 })
 export class GoogleMapComponent implements OnInit {
+  @Input() tripPoints: TripPointDataModel
+
   zoom = 12
   center: google.maps.LatLngLiteral
   options: google.maps.MapOptions = {
@@ -26,24 +29,23 @@ export class GoogleMapComponent implements OnInit {
   markerPositions: google.maps.LatLngLiteral[] = [ ];
   markerLabel: google.maps.MarkerLabel = {text: "Some"}
 
-  readonly directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
+  directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
 
   addMarker(event: google.maps.MapMouseEvent) {
-    console.log(event)
     this.markerPositions.push(event.latLng.toJSON());
     this.markerLabel.text = 'tex'
   }
 
-  constructor(private mapDirectionsService: MapDirectionsService) {
-    const request: google.maps.DirectionsRequest = {
-      destination: {lat: 52.779242, lng: 15.205320},
-      origin: {lat: 53.779242, lng: 15.205320},
-      travelMode: google.maps.TravelMode.DRIVING
-    };
-    this.directionsResults$ = mapDirectionsService.route(request).pipe(map(response => response.result));
-  }
+  constructor(private mapDirectionsService: MapDirectionsService) { }
 
   ngOnInit(): void {
+    const request: google.maps.DirectionsRequest = {
+      destination: {lat: this.tripPoints?.destinationPoint.latitude, lng: this.tripPoints?.destinationPoint.longitude},
+      origin: {lat: this.tripPoints?.startPoint.latitude, lng: this.tripPoints?.startPoint.longitude},
+      travelMode: google.maps.TravelMode.DRIVING
+    };
+    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: position.coords.latitude,

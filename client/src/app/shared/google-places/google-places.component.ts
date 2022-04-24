@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {TripPointsModel} from "../../core/interfaces/trip-points.model";
 import {TravelDataService} from "../../core/services/travel-data.service";
 import {FormBuilder, Validators} from "@angular/forms";
+import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
+import {LocalStorageService} from "../../core/services/local-storage.service";
 
 @Component({
   selector: 'app-google-places',
@@ -9,6 +11,7 @@ import {FormBuilder, Validators} from "@angular/forms";
   styleUrls: ['./google-places.component.scss']
 })
 export class GooglePlacesComponent implements OnInit {
+  tripPoints: TripPointDataModel
   tripPlacesForm = this.fb.group({
     startPoint: ['', [Validators.required]],
     destinationPoint: ['', [Validators.required]]
@@ -16,21 +19,23 @@ export class GooglePlacesComponent implements OnInit {
 
   startPoint: TripPointsModel = {
     address: '',
-    latitude: '',
-    longitude: ''
+    latitude: 0,
+    longitude: 0
   }
   destinationPoint: TripPointsModel = {
     address: '',
-    latitude: '',
-    longitude: ''
+    latitude: 0,
+    longitude: 0
   }
 
   constructor(
     private travelDataService: TravelDataService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
+    this.setCurrentTripPoints()
   }
 
   handleStartAddressChange(address: any) {
@@ -51,6 +56,15 @@ export class GooglePlacesComponent implements OnInit {
       destinationPoint: this.destinationPoint
     }
 
+    this.localStorageService.setItem('tripPoints', travelDataPoints)
+
     this.travelDataService.handleTravelPointData(travelDataPoints)
+  }
+
+  private setCurrentTripPoints() {
+    this.tripPoints = this.localStorageService.getItem('tripPoints') || {}
+
+    this.tripPlacesForm.get('startPoint').setValue(this.tripPoints?.startPoint?.address),
+    this.tripPlacesForm.get('destinationPoint').setValue(this.tripPoints?.destinationPoint?.address)
   }
 }

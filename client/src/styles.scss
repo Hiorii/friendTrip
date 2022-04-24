@@ -39,9 +39,9 @@ html {
 body {
   margin: 0;
   padding: 0;
-  background-color: $primary;
-  color: $second-font;
-  font-family: $primary-font;
+  background-color: $primary !important;
+  color: $second-font !important;
+  font-family: $primary-font !important;
 }
 
 a {
@@ -57,7 +57,6 @@ a {
 section {
   margin-top: 6rem;
   padding: 0 1rem;
-  height: 100vh;
 }
 
 /* Importing Bootstrap SCSS file. */

@@ -10,7 +10,6 @@
       *ngIf="isTravelPointData"
       class="travelPoints"
     >
-      <p>Choose your start and destination point:</p>
       <div class="googlePlaces">
         <app-google-places></app-google-places>
       </div>
@@ -19,16 +18,17 @@
       *ngIf="isAddUser"
       class="travelUsers"
     >
-      <p>Add friends you want to travel with:</p>
       <div class="addFriends">
-        <app-add-friends></app-add-friends>
+        <app-add-friends
+          [allUsersList]="allUsersList$ | async"
+         >
+        ></app-add-friends>
       </div>
     </div>
     <div
       *ngIf="isTravelSummarize"
       class="travelPoints"
     >
-      <p>Travel Summarize:</p>
       <div class="travelSummarize">
         <app-travel-summarize
           [tripInfoData]="travelInfoData"

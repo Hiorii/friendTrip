@@ -1,14 +1,10 @@
-import * as fromTrips from './trips/trips.reducer';
-import * as fromUsers from './users/users.reducer';
-
 import {
-  ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
-  createSelector,
   MetaReducer
 } from '@ngrx/store';
-import { environment } from '../../../environments/environment';
+
+import * as fromTrips from './trips/trips.reducer';
+import * as fromUsers from './users/users.reducer';
 
 export const tripsKey = 'trips'
 export const usersKey = 'users';
@@ -23,4 +19,4 @@ export const reducers: ActionReducerMap<State> = {
   [usersKey]: fromUsers.reducer
 };
 
-export const metaReducers: MetaReducer<State>[] = !environment.production ? [] : [];
+export const metaReducers: MetaReducer<State>[] = [];

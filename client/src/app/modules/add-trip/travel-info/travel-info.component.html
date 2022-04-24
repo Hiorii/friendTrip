@@ -1,4 +1,5 @@
 <div class="travelInfoContainer">
+  <p>Trip's info:</p>
   <form [formGroup]="travelInfoForm">
     <input class="form-control" aria-describedby="tripName" placeholder="Enter Trip Name" formControlName="travelName">
     <input class="form-control" aria-describedby="tripPlannedTotalCost" placeholder="Enter Planned Cost" formControlName="travelPlannedTotalCost">
@@ -13,9 +14,9 @@
 <!--    </div>-->
     <input class="form-control" aria-describedby="tripPhoto" placeholder="Choose photo" >
   </form>
+  <app-button
+    [disabled]="!travelInfoForm.valid"
+    [title]="'Next'"
+    (handleOnClick)="handleNextPage()"
+  ></app-button>
 </div>
-<app-button
-  [disabled]="!travelInfoForm.valid"
-  [title]="'Next'"
-  (handleOnClick)="handleNextPage()"
-></app-button>

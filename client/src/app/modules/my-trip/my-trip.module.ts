@@ -4,6 +4,7 @@ import {MyTripComponent} from "./my-trip.component";
 import {MyTripRoutingModule} from "./my-trip-routing.module";
 import {GoogleMapModule} from "../../shared/google-map/google-map.module";
 import {GooglePlacesModule} from "../../shared/google-places/google-places.module";
+import { TripComponent } from './trip/trip.component';
 
 @NgModule({
   imports: [
@@ -12,6 +13,6 @@ import {GooglePlacesModule} from "../../shared/google-places/google-places.modul
     GoogleMapModule,
     GooglePlacesModule
   ],
-  declarations: [MyTripComponent],
+  declarations: [MyTripComponent, TripComponent],
 })
 export class MyTripModule { }
