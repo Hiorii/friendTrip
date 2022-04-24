@@ -10,4 +10,8 @@ export const stateKey = 'trips'
 
 const selectTripsState = createFeatureSelector<fromTrips.State>(stateKey)
 
-//export const selectAllUsersList = createSelector(selectTripsState, fromTrips.getTripUsers)
+// export const selectAllUsersList = createSelector(selectTripsState, fromTrips.getTripUsers)
+
+export const selectTripInfo = createSelector(selectTripsState, fromTrips.getTripInfo)
+export const selectTripPoints = createSelector(selectTripsState, fromTrips.getTripPoints)
+export const selectTripUsers = createSelector(selectTripsState, fromTrips.getTripUsers)

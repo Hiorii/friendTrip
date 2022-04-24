@@ -26,7 +26,6 @@ export class TravelSummarizeComponent implements OnInit {
   constructor(
     private tripApiService: TripApiService,
     private store: Store,
-    private localStorageService: LocalStorageService,
     private router: Router
   ) { }
 
@@ -47,9 +46,5 @@ export class TravelSummarizeComponent implements OnInit {
 
         this.router.navigate(['my-trips'])
       })
-
-    this.localStorageService.removeItem('tripPoints')
-    this.localStorageService.removeItem('tripInfo')
-    this.localStorageService.removeItem('tripUsers')
   }
 }

@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {TripPointsModel} from "../../core/interfaces/trip-points.model";
 import {TravelDataService} from "../../core/services/travel-data.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
 import {LocalStorageService} from "../../core/services/local-storage.service";
+import {Store} from "@ngrx/store";
+import {setTripPointsAction} from "../../core/store/trips/trips.actions";
 
 @Component({
   selector: 'app-google-places',
@@ -11,6 +13,8 @@ import {LocalStorageService} from "../../core/services/local-storage.service";
   styleUrls: ['./google-places.component.scss']
 })
 export class GooglePlacesComponent implements OnInit {
+  @Input() tripPointData: TripPointDataModel
+
   tripPoints: TripPointDataModel
   tripPlacesForm = this.fb.group({
     startPoint: ['', [Validators.required]],
@@ -31,7 +35,7 @@ export class GooglePlacesComponent implements OnInit {
   constructor(
     private travelDataService: TravelDataService,
     private fb: FormBuilder,
-    private localStorageService: LocalStorageService
+    private store: Store
   ) { }
 
   ngOnInit(): void {
@@ -56,13 +60,13 @@ export class GooglePlacesComponent implements OnInit {
       destinationPoint: this.destinationPoint
     }
 
-    this.localStorageService.setItem('tripPoints', travelDataPoints)
+    this.store.dispatch(setTripPointsAction({ tripPoints: travelDataPoints }))
 
     this.travelDataService.handleTravelPointData(travelDataPoints)
   }
 
   private setCurrentTripPoints() {
-    this.tripPoints = this.localStorageService.getItem('tripPoints') || {}
+    this.tripPoints = this.tripPointData
 
     this.tripPlacesForm.get('startPoint').setValue(this.tripPoints?.startPoint?.address),
     this.tripPlacesForm.get('destinationPoint').setValue(this.tripPoints?.destinationPoint?.address)

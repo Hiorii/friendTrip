@@ -6,6 +6,8 @@ import {AuthService} from "../../../core/services/api/auth.service";
 import {Observable, OperatorFunction} from 'rxjs';
 import {debounceTime, map} from 'rxjs/operators';
 import {LocalStorageService} from "../../../core/services/local-storage.service";
+import {Store} from "@ngrx/store";
+import {setTripUsersAction} from "../../../core/store/trips/trips.actions";
 
 @Component({
   selector: 'app-add-friends',
@@ -14,6 +16,7 @@ import {LocalStorageService} from "../../../core/services/local-storage.service"
 })
 export class AddFriendsComponent implements OnInit {
   @Input() allUsersList: UsersModel[]
+  @Input() tripUsersData: UsersModel[]
 
   allUsers: any[] = []
   tripUsers: UsersModel[] = []
@@ -28,7 +31,8 @@ export class AddFriendsComponent implements OnInit {
     private travelDataService: TravelDataService,
     private fb: FormBuilder,
     private authService: AuthService,
-    private localStorageService: LocalStorageService,
+    private store: Store,
+    private localStorageService: LocalStorageService
   ) { }
 
   ngOnInit(): void {
@@ -44,7 +48,7 @@ export class AddFriendsComponent implements OnInit {
     const currentlyAddedUsers = Array.from(this.tripUsers)
     currentlyAddedUsers.push(currentUser)
 
-    this.localStorageService.setItem('tripUsers', currentlyAddedUsers)
+    this.store.dispatch(setTripUsersAction({ tripUsers: currentlyAddedUsers }))
     this.tripUsers = currentlyAddedUsers
 
     //remove added user from allUsers
@@ -75,8 +79,8 @@ export class AddFriendsComponent implements OnInit {
   }
 
   private setTripUsersList() {
-    if (this.localStorageService.getItem('tripUsers')) {
-      this.tripUsers = this.localStorageService.getItem('tripUsers')
+    if (this.tripUsersData.length) {
+      this.tripUsers = this.tripUsersData
     } else {
       this.tripUsers = []
     }

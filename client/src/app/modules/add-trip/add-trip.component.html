@@ -4,14 +4,18 @@
       *ngIf="isTravelInfo"
       class="travelInfo"
     >
-      <app-travel-info></app-travel-info>
+      <app-travel-info
+        [tripInfoData]="tripInfo$ | async"
+      ></app-travel-info>
     </div>
     <div
       *ngIf="isTravelPointData"
       class="travelPoints"
     >
       <div class="googlePlaces">
-        <app-google-places></app-google-places>
+        <app-google-places
+          [tripPointData]="tripPoints$ | async"
+        ></app-google-places>
       </div>
     </div>
     <div
@@ -21,6 +25,7 @@
       <div class="addFriends">
         <app-add-friends
           [allUsersList]="allUsersList$ | async"
+          [tripUsersData]="tripUsers$ | async"
          >
         ></app-add-friends>
       </div>
@@ -31,9 +36,9 @@
     >
       <div class="travelSummarize">
         <app-travel-summarize
-          [tripInfoData]="travelInfoData"
-          [tripPointData]="travelPointData"
-          [tripUsersData]="travelUsersData"
+          [tripInfoData]="tripInfo$ | async"
+          [tripPointData]="tripPoints$ | async"
+          [tripUsersData]="tripUsers$ | async"
         ></app-travel-summarize>
       </div>
     </div>

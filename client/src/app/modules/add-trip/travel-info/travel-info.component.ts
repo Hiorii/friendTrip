@@ -1,8 +1,11 @@
-import {Component, OnInit, Output} from '@angular/core';
+import {Component, Input, OnInit, Output} from '@angular/core';
 import {TravelDataService} from "../../../core/services/travel-data.service";
 import {FormBuilder, Validators} from "@angular/forms";
 import {TripInfoDataModel} from "../../../core/interfaces/trip-info-data.model";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
+import {Store} from "@ngrx/store";
+import {setTripInfoAction} from "../../../core/store/trips/trips.actions";
+import {selectTripInfo} from "../../../core/store/trips";
 
 @Component({
   selector: 'app-travel-info',
@@ -10,6 +13,8 @@ import {LocalStorageService} from "../../../core/services/local-storage.service"
   styleUrls: ['./travel-info.component.scss']
 })
 export class TravelInfoComponent implements OnInit {
+  @Input() tripInfoData: TripInfoDataModel
+
   travelInfo: TripInfoDataModel
   travelInfoForm = this.fb.group({
     travelName: ['', [Validators.required, Validators.minLength(3)]],
@@ -20,7 +25,7 @@ export class TravelInfoComponent implements OnInit {
   constructor(
     private travelDataService: TravelDataService,
     private fb: FormBuilder,
-    private localStorageService: LocalStorageService
+    private store: Store
     ) { }
 
   ngOnInit(): void {
@@ -35,9 +40,7 @@ export class TravelInfoComponent implements OnInit {
       travelPhoto: this.travelInfoForm.get('travelPhoto').value,
     }
 
-    this.travelInfo = travelInfoData
-
-    this.localStorageService.setItem('tripInfo', this.travelInfo)
+    this.store.dispatch(setTripInfoAction({ tripInfo: travelInfoData}))
 
     this.travelDataService.handleTravelInfoData(this.travelInfo)
   }
@@ -47,11 +50,13 @@ export class TravelInfoComponent implements OnInit {
   }
 
   private setCurrentTripInfo() {
-    this.travelInfo = this.localStorageService.getItem('tripInfo')
+    this.travelInfo = this.tripInfoData
 
-    this.travelInfoForm.get('travelName').setValue(this.travelInfo.travelName),
-    this.travelInfoForm.get('travelPlannedTotalCost').setValue(this.travelInfo.travelPlannedTotalCost),
-    this.travelInfoForm.get('travelPhoto').setValue(this.travelInfo.travelPhoto)
+    if(this.travelInfo) {
+      this.travelInfoForm.get('travelName').setValue(this.travelInfo.travelName),
+      this.travelInfoForm.get('travelPlannedTotalCost').setValue(this.travelInfo.travelPlannedTotalCost),
+      this.travelInfoForm.get('travelPhoto').setValue(this.travelInfo.travelPhoto)
+    }
   }
 
   private saveTripInfoData() {
