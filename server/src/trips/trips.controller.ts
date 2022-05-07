@@ -7,20 +7,20 @@ import { TripsType } from './trips.model';
 export class TripsController {
   constructor(private tripService: TripsService) {}
 
-  @Get()
-  async getAllTrips() {
-    return this.tripService.getAllTrips();
-  }
+  // @Get()
+  // async getAllTrips() {
+  //   return this.tripService.getAllUserTrips();
+  // }
 
-  @Get(':id')
-  async getTrip(@Param('id') id: string) {
-    return this.tripService.getTrip(id);
-  }
-
-  @Post()
-  async addNewTrip(@Body() newTripData: TripsType) {
-    const newTrip = await this.tripService.addNewTrip(newTripData);
-
-    return newTrip;
-  }
+  // @Get(':id')
+  // async getTrip(@Param('id') id: string) {
+  //   return this.tripService.getUserTrip(id);
+  // }
+  //
+  // @Post()
+  // async addNewTrip(@Body() newTripData: TripsType) {
+  //   const newTrip = await this.tripService.addNewUserTrip(newTripData);
+  //
+  //   return newTrip;
+  // }
 }

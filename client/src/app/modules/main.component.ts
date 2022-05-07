@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {Store} from "@ngrx/store";
-import {getAllUsersListAction} from "../core/store/users/users.actions";
+import {getAllUsersListAction, setCurrentUserAction} from "../core/store/users/users.actions";
+import {LocalStorageService} from "../core/services/local-storage.service";
+import {AuthService} from "../core/services/api/auth.service";
+import {UsersModel} from "../core/interfaces/users.model";
 
 @Component({
   selector: 'app-main',
@@ -9,10 +12,21 @@ import {getAllUsersListAction} from "../core/store/users/users.actions";
 })
 export class MainComponent implements OnInit {
 
-  constructor(private store: Store) { }
+  constructor(
+    private store: Store,
+    private localStorageService: LocalStorageService,
+    private authService: AuthService,
+    ) { }
 
   ngOnInit(): void {
-    this.store.dispatch(getAllUsersListAction())
-  }
+    const currentUser = this.localStorageService.getItem('user')?.email
 
+    this.store.dispatch(getAllUsersListAction())
+
+    if (currentUser) {
+      this.authService.getCurrentUser(currentUser).subscribe((data: any) => {
+        this.store.dispatch(setCurrentUserAction({ currentUser: data }))
+      })
+    }
+  }
 }

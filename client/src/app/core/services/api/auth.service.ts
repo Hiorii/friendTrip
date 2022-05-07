@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {UsersModel} from "../../interfaces/users.model";
 
 @Injectable({
@@ -14,8 +14,10 @@ export class AuthService {
     return this.http.get<UsersModel[]>(`${this.url}/users`)
   }
 
-  getUser() {
-    return this.http.get<UsersModel[]>(`${this.url}/auth/user`)
+  getCurrentUser(userEmail: string) {
+    const params = new HttpParams().append('email', userEmail);
+
+    return this.http.get<UsersModel[]>(`${this.url}/users/currentUser`, { params })
   }
 
   registerUser(userData: Partial<UsersModel>) {

@@ -23,6 +23,8 @@
 
   .title-container {
     width: 100vw;
+    margin-bottom: 3rem;
+
     h2,p {
       color: white;
       text-shadow: 2px 2px $primary;
@@ -43,7 +45,7 @@
   .btn-switch-mode {
     background: transparent;
     border: none;
-    color: $primary;
+    color: $primary-white;
     width: 100%;
     text-align: center;
     margin-top: 1rem;

@@ -104,7 +104,7 @@ export const reducer = createReducer(
   })),
   on(actions.setTripDataAction, (state: State, { trip }) => ({
     ...state,
-    tripsList: [...state.tripsList, trip],
+    currentTrip: trip,
   })),
   on(actions.setTripsDataAction, (state: State, { trips }) => ({
     ...state,
@@ -132,6 +132,9 @@ export const reducer = createReducer(
     }
   })),
 )
+
+export const getAllTripsList = (state: State) => state.tripsList
+export const getCurrentTrip = (state: State) => state.currentTrip
 
 export const getTripInfo = (state: State) => state.currentTrip.travelInfoData
 export const getTripPoints = (state: State) => state.currentTrip.travelPoints

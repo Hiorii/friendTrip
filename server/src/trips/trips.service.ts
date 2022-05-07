@@ -4,33 +4,34 @@ import { Model } from 'mongoose';
 import { TripsType } from './trips.model';
 import { TravelPointsModel } from './travel-points/travel-points.model';
 import { UsersType } from '../users/users.model';
+import {TripsModule} from "./trips.module";
 
 @Injectable()
 export class TripsService {
-  constructor(
-    @InjectModel('Trips') private readonly tripsModule: Model<TripsType>,
-  ) {}
+  // constructor(
+  //   @InjectModel('Users') private readonly TripsModule: Model<UsersType>,
+  // ) {}
 
-  async getAllTrips(): Promise<TripsType[]> {
-    return this.tripsModule.find().exec();
-  }
+  // async getAllUserTrips(): Promise<TripsType[]> {
+  //   return this.TripsModule.findOne({ usersTrips: [] });
+  // }
 
-  async getTrip(id: string): Promise<TripsType> {
-    return this.tripsModule.findOne({ id });
-  }
-
-  async addNewTrip(tripData: TripsType): Promise<TripsType> {
-    const newTrip = new this.tripsModule({
-      travelInfoData: tripData.travelInfoData,
-      travelPoints: {
-        startPoint: tripData.travelPoints.startPoint,
-        destinationPoint: tripData.travelPoints.destinationPoint,
-      },
-      tripUsers: tripData.tripUsers,
-    });
-
-    await newTrip.save();
-
-    return newTrip;
-  }
+  // async getUserTrip(id: string): Promise<TripsType> {
+  //   return this.usersTripsModule.findOne({ id });
+  // }
+  //
+  // async addNewUserTrip(tripData: TripsType): Promise<TripsType> {
+  //   const newTrip = new this.usersTripsModule({
+  //     travelInfoData: tripData.travelInfoData,
+  //     travelPoints: {
+  //       startPoint: tripData.travelPoints.startPoint,
+  //       destinationPoint: tripData.travelPoints.destinationPoint,
+  //     },
+  //     tripUsers: tripData.tripUsers,
+  //   });
+  //
+  //   await newTrip.save();
+  //
+  //   return newTrip;
+  // }
 }

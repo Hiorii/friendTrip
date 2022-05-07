@@ -36,8 +36,9 @@ export class AuthService {
     };
   }
 
-  async getAuthUser(request) {
-    await this.userService.user(request);
+  async getAuthUser(params) {
+    await this.userService.getCurrentUser(params);
+    //await this.userService.user(params);
   }
 
   async logout(response) {

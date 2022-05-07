@@ -38,6 +38,7 @@ export class AuthComponent implements OnInit {
           email: user.email,
           photo: user.photoUrl,
           creationDate: new Date(),
+          usersTrips: [],
           isActive: true,
           _token: user.idToken,
           _tokenExpirationData: user.response.expires_at

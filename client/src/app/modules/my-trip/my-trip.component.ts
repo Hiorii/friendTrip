@@ -3,6 +3,10 @@ import {FormBuilder, NgForm} from "@angular/forms";
 import {TripModel} from "../../core/interfaces/trip.model";
 import {Store} from "@ngrx/store";
 import {getTripsDataAction} from "../../core/store/trips/trips.actions";
+import {selectAllTripsList} from "../../core/store/trips";
+import {LocalStorageService} from "../../core/services/local-storage.service";
+import {selectCurrentUser} from "../../core/store/users";
+import {UsersModel} from "../../core/interfaces/users.model";
 
 @Component({
   selector: 'app-my-trip',
@@ -10,7 +14,7 @@ import {getTripsDataAction} from "../../core/store/trips/trips.actions";
   styleUrls: ['./my-trip.component.scss']
 })
 export class MyTripComponent implements OnInit {
-  tripsList: TripModel[]
+  tripsList$ = this.store.select(selectAllTripsList)
 
   constructor(
     private fb: FormBuilder,
@@ -18,9 +22,10 @@ export class MyTripComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.store.dispatch(getTripsDataAction())
-
-
+    this.store.select(selectCurrentUser).subscribe(user => {
+      if (user.email) {
+        this.store.dispatch(getTripsDataAction({ currentUser: user }))
+      }
+    })
   }
-
 }

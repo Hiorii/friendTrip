@@ -2,14 +2,13 @@
 
 section {
   background-color: $primary-white;
-  position: absolute;
+  position: fixed;
   bottom: 0;
   right: 0;
   @include flex(space-around, center);
   height: 4rem;
   width: 100vw;
   padding: 0 1rem;
-  padding-bottom: .3rem;
   z-index: 999;
 
   i {

@@ -1,0 +1,13 @@
+.trips-list-container {
+  margin-bottom: 2rem;
+
+  .single-trip {
+    .img-container {
+      max-height: 7rem;
+      img {
+        height: 100%;
+        width: 100%;
+      }
+    }
+  }
+}

@@ -40,14 +40,14 @@
       align-items: center;
       text-align: center;
       margin-top: 1rem;
-      color: $primary;
+      color: $primary-white;
     }
 
     .separator::before,
     .separator::after {
       content: '';
       flex: 1;
-      border-bottom: 1px solid $primary;
+      border-bottom: 1px solid $primary-white;
     }
 
     .separator:not(:empty)::before {

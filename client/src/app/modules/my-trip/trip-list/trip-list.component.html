@@ -1,0 +1,25 @@
+<div
+  *ngFor="let trip of tripList"
+  class="trips-list-container col-md-6"
+  (click)="openSingleTrip(trip)"
+>
+  <div class="single-trip card md-3">
+    <div class="row g-0">
+      <div class="img-container col-md-4">
+        <img src="/assets/img/trips/default_trip_image.jpg" alt="my_trip_image" class="img-fluid rounded-start">
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ trip?.travelInfoData?.travelName }}</h5>
+          <p class="card-text">{{ trip?.travelPoints?.startPoint?.address }} -> {{ trip?.travelPoints?.destinationPoint?.address }}</p>
+          <p
+            *ngFor="let user of trip.tripUsers"
+            class="card-text"
+          >
+            <small class="text-muted"> {{ user }} </small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

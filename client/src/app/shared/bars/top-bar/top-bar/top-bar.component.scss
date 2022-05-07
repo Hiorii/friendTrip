@@ -2,7 +2,7 @@
 
 section {
   background-color: $primary-white;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   @include flex(space-around, center);

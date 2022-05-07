@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import {TripsSchema, TripsType} from '../trips/trips.model';
 
 export const UsersSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -7,6 +8,7 @@ export const UsersSchema = new mongoose.Schema({
   password: { type: String },
   photo: { type: String },
   creationDate: { type: Date, required: true },
+  usersTrips: { type: [TripsSchema] },
   isActive: { type: Boolean, required: true },
   _token: { type: String },
   _tokenExpirationData: { type: Date },
@@ -20,6 +22,7 @@ export interface UsersType {
   password?: string;
   photo?: string;
   creationDate?: Date;
+  usersTrips: TripsType[];
   isActive?: boolean;
   _token?: string;
   _tokenExpirationData?: Date;

@@ -34,6 +34,7 @@ export class SignupComponent implements OnInit {
       email: this.signupForm.get('email').value,
       password: this.signupForm.get('password').value,
       creationDate: new Date(),
+      usersTrips: [],
       isActive: true,
     }
 

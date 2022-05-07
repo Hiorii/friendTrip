@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Res, Get, Req } from '@nestjs/common';
+import {Controller, Post, Body, Res, Get, Req, Param, Query} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UsersType } from '../users/users.model';
 import * as bcrypt from 'bcrypt';
@@ -31,10 +31,10 @@ export class AuthController {
     return this.authService.login(newUserData, response);
   }
 
-  @Get('auth/user')
-  async user(@Req() request: Request) {
-    return this.authService.getAuthUser(request);
-  }
+  // @Get('auth/user')
+  // async user(@Query() query) {
+  //   return this.authService.getAuthUser(query.email);
+  // }
 
   @Post('auth/logout')
   async logout(@Res({ passthrough: true }) response: Response) {

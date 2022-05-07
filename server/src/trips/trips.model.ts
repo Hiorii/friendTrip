@@ -8,6 +8,8 @@ export const TripsSchema = new mongoose.Schema({
     travelName: { type: String, required: true },
     travelPlannedTotalCost: { type: Number },
     travelPhoto: { type: String },
+    travelPlannedStartDate: { type: Date },
+    travelPlannedEndDate: { type: Date },
   },
   travelPoints: {
     startPoint: {
@@ -35,6 +37,7 @@ export interface TripsType {
     destinationPoint: TravelPointsModel;
   };
   tripUsers?: UsersType[];
+  _id?: string;
 }
 
 const Trip = mongoose.model('Trip', TripsSchema);

@@ -17,6 +17,7 @@ const initialState: State = {
     password: '',
     photo: '',
     creationDate: new Date,
+    usersTrips: [],
     isActive: false,
     _token: '',
     _tokenExpirationData: new Date,
@@ -29,6 +30,11 @@ export const reducer = createReducer(
     ...state,
     allUsersList: users,
   })),
+  on(actions.setCurrentUserAction, (state: State, { currentUser }) => ({
+    ...state,
+    currentUser: currentUser,
+  }))
 )
 
 export const getAllUsersList = (state: State) => state.allUsersList
+export const getCurrentUser = (state: State) => state.currentUser

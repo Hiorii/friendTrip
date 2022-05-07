@@ -10,6 +10,7 @@ import {Store} from "@ngrx/store";
 import {setTripDataAction} from "../../../core/store/trips/trips.actions";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../../../core/services/api/auth.service";
 
 @Component({
   selector: 'app-travel-summarize',
@@ -26,7 +27,9 @@ export class TravelSummarizeComponent implements OnInit {
   constructor(
     private tripApiService: TripApiService,
     private store: Store,
-    private router: Router
+    private router: Router,
+    private localStorageService: LocalStorageService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -40,11 +43,16 @@ export class TravelSummarizeComponent implements OnInit {
   }
 
   createTrip() {
-    this.tripApiService.addNewTrip(this.tripData)
-      .subscribe((newTripData: any) => {
-        this.store.dispatch(setTripDataAction({trip: newTripData}))
+    const currentUser = this.localStorageService.getItem('user')
+    // const user = this.authService.getCurrentUser(currentUser.email)
+    //   .subscribe(user => console.log(user))
 
-        this.router.navigate(['my-trips'])
+    this.tripApiService.addNewTrip(currentUser, this.tripData)
+      .subscribe((newTripData: any) => {
+        console.log(newTripData)
+        // this.store.dispatch(setTripDataAction({trip: newTripData}))
+        //
+        // this.router.navigate(['my-trips'])
       })
   }
 }

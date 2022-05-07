@@ -12,6 +12,9 @@ const selectTripsState = createFeatureSelector<fromTrips.State>(stateKey)
 
 // export const selectAllUsersList = createSelector(selectTripsState, fromTrips.getTripUsers)
 
+export const selectAllTripsList = createSelector(selectTripsState, fromTrips.getAllTripsList)
+export const selectCurrentTrip = createSelector(selectTripsState, fromTrips.getCurrentTrip)
+
 export const selectTripInfo = createSelector(selectTripsState, fromTrips.getTripInfo)
 export const selectTripPoints = createSelector(selectTripsState, fromTrips.getTripPoints)
 export const selectTripUsers = createSelector(selectTripsState, fromTrips.getTripUsers)

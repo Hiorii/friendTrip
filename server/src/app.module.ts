@@ -9,7 +9,7 @@ import { TripsModule } from './trips/trips.module';
     UsersModule,
     DbModule,
     AuthModule,
-    TripsModule
+    TripsModule,
   ],
   controllers: [],
   providers: [],

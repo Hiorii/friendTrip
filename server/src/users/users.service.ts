@@ -9,6 +9,7 @@ import { UsersType } from './users.model';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
+import { log } from 'util';
 
 @Injectable()
 export class UsersService {
@@ -29,6 +30,10 @@ export class UsersService {
     return this.usersModule.findOne({ id: id });
   }
 
+  async getCurrentUser(email: string) {
+    return this.usersModule.findOne({ email: email });
+  }
+
   async addNewUser(userData: UsersType): Promise<UsersType> {
     const { email } = userData;
     const existingUser = await this.usersModule.findOne({ email });
@@ -41,6 +46,7 @@ export class UsersService {
         password: userData.password,
         photo: userData.photo,
         creationDate: userData.creationDate,
+        usersTrips: [],
         isActive: userData.isActive,
       });
 
@@ -95,5 +101,51 @@ export class UsersService {
     return {
       message: 'Logout success',
     };
+  }
+
+  async getUserTrips(data: any) {
+    return this.usersModule
+      .findOne({ email: data.userEmail })
+      .select('usersTrips -_id');
+  }
+
+  async getUserTrip(tripData: any) {
+    let currentTripData;
+
+    await this.getUserTrips(tripData).then((data) => {
+      const currentTrip = data.usersTrips.filter(
+        (trip) => trip._id.toString() === tripData.id,
+      );
+
+      currentTrip.map((data) => (currentTripData = data));
+    });
+
+    return currentTripData;
+  }
+
+  async addNewUserTrip(newTripData: any): Promise<any> {
+    const filter = { email: newTripData.currentUser.email };
+    const user = await this.getUser(newTripData.currentUser.email);
+    const dataToUpdate = {
+      usersTrips: [...user.usersTrips, newTripData.tripData],
+    };
+
+    user.usersTrips.map((data) => {
+      if (
+        data.travelInfoData.travelName ===
+        newTripData.tripData.travelInfoData.travelName
+      ) {
+        return { message: 'Trip with such name already exist' };
+      }
+    });
+
+    const newUserTrips = await this.usersModule.findOneAndUpdate(
+      filter,
+      dataToUpdate,
+    );
+
+    await newUserTrips.save();
+
+    return newUserTrips;
   }
 }
