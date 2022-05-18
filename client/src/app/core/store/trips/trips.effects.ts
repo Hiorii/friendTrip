@@ -25,14 +25,12 @@ export class TripsEffects {
       switchMap(({currentUser ,id}) => this.tripApiService
         .getSingleTrip(currentUser, id)
         .pipe(
-          tap(data => console.log(data)),
           map(singleTrip => actions.setTripDataAction({ trip: singleTrip })),
         )),
     ))
 
   constructor(
     private actions$: Actions,
-    private tripApiService: TripApiService,
-    private store: Store
+    private tripApiService: TripApiService
   ) { }
 }

@@ -1,3 +1,4 @@
 <div class="singleTrip-container">
-  <p>{{ currentTrip?.travelPoints?.destinationPoint | json }}</p>
+  <p>{{ currentTrip?.travelInfoData?.travelName }}</p>
+  <app-google-map [tripPoints]="currentTrip?.travelPoints"></app-google-map>
 </div>

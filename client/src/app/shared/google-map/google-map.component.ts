@@ -16,7 +16,7 @@ export class GoogleMapComponent implements OnInit {
   options: google.maps.MapOptions = {
     center: { lat: 52.779242, lng: 15.205320 },
     mapTypeId: 'hybrid',
-    zoomControl: true,
+    zoomControl: false,
     scrollwheel: true,
     disableDoubleClickZoom: true,
     maxZoom: 15,
@@ -36,20 +36,23 @@ export class GoogleMapComponent implements OnInit {
     this.markerLabel.text = 'tex'
   }
 
-  constructor(private mapDirectionsService: MapDirectionsService) { }
+  constructor(private mapDirectionsService: MapDirectionsService) {   console.log('cons', this.tripPoints) }
 
   ngOnInit(): void {
+    console.log('ng', this.tripPoints)
+    this.setCenterPoints()
+
     const request: google.maps.DirectionsRequest = {
-      destination: {lat: this.tripPoints?.destinationPoint.latitude, lng: this.tripPoints?.destinationPoint.longitude},
-      origin: {lat: this.tripPoints?.startPoint.latitude, lng: this.tripPoints?.startPoint.longitude},
+      destination: {lat: +this.tripPoints?.destinationPoint?.latitude, lng: +this.tripPoints?.destinationPoint?.longitude},
+      origin: {lat: +this.tripPoints?.startPoint?.latitude, lng: +this.tripPoints?.startPoint?.longitude},
       travelMode: google.maps.TravelMode.DRIVING
     };
     this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
 
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
+        lng: +this.tripPoints?.destinationPoint?.longitude,
+        lat: +this.tripPoints?.destinationPoint?.latitude
       }
     })
   }
@@ -60,5 +63,10 @@ export class GoogleMapComponent implements OnInit {
 
   zoomOut() {
     if (this.zoom > this.options.minZoom) this.zoom--
+  }
+
+  private setCenterPoints() {
+    this.options.center.lng = this.tripPoints?.destinationPoint?.longitude
+    this.options.center.lat = this.tripPoints?.destinationPoint?.latitude
   }
 }

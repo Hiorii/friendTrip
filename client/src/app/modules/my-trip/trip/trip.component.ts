@@ -26,6 +26,10 @@ export class TripComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
 
     this.store.dispatch(getTripDataAction({currentUser, id: id}))
-    this.store.select(selectCurrentTrip).subscribe(trip => this.currentTrip = trip)
+    // this.store.select(selectCurrentTrip).subscribe(trip => {
+    //   console.log(trip)
+    //   this.currentTrip = trip
+    //   console.log(this.currentTrip)
+    // })
   }
 }
