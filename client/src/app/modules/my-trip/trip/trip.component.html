@@ -1,4 +1,14 @@
 <div class="singleTrip-container">
-  <p>{{ currentTrip?.travelInfoData?.travelName }}</p>
+  <h1 class="title">{{ currentTrip?.travelInfoData?.travelName }}</h1>
   <app-google-map [tripPoints]="currentTrip?.travelPoints"></app-google-map>
+  <ng-container *ngIf="currentTrip.tripUsers.length">
+    <div
+      class="travelUserContainer"
+      *ngFor="let user of currentTrip.tripUsers"
+    >
+      <img *ngIf="user.photo" [src]="user.photo" class="me-1">
+      <img *ngIf="!user.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
+      <p>{{ user.name }} {{ user.surname }}</p>
+    </div>
+  </ng-container>
 </div>

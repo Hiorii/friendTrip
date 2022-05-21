@@ -1,3 +1,31 @@
+@import 'src/assets/sass/settings';
+
 .singleTrip-container {
   margin: 5rem 0;
+
+  .title {
+    width: 100%;
+    text-align: center;
+    color: $main-font;
+    text-shadow: $text-shadow;
+    margin: 1rem 0;
+  }
+
+  .travelUserContainer {
+    @include flex(flex-start, center);
+    margin: 1.6rem;
+
+    img {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+
+    p {
+      margin-bottom: 0;
+      margin-left: 1rem;
+      font-weight: 600;
+      color: $primary-white;
+    }
+  }
 }
