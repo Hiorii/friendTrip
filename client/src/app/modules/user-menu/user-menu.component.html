@@ -1,0 +1,26 @@
+<div class="container">
+  <div
+    class="close"
+    (click)="closeUserMenu.emit(false)"
+  >
+    <i class="fa fa-close"></i>
+  </div>
+
+  <div class="menu-content">
+    <div class="navigation">
+      <p>Some Content here</p>
+      <p>Some Content here</p>
+      <p>Some Content here</p>
+      <p>Some Content here</p>
+      <p>Some Content here</p>
+    </div>
+    <div
+      class="logout"
+      (click)="userLogout()"
+    >
+      <i class="fa fa-sign-out"></i>
+      <p>Logout</p>
+    </div>
+  </div>
+
+</div>

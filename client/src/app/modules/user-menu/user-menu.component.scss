@@ -1,0 +1,52 @@
+@import "src/assets/sass/settings";
+
+.container {
+  width: 80%;
+  height: 100%;
+  background-color: $primary-lighter;
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  .menu-content {
+    padding: 7rem 1rem 5rem;
+    height: 100%;
+    cursor: pointer;
+
+    @include flex(space-between, flex-start);
+    flex-direction: column;
+
+    .logout {
+      @include flex(center, center);
+
+      p {
+        margin-bottom: 0;
+      }
+
+      i {
+        font-size: 1.3rem;
+        color: $primary-white;
+        padding-right: 1rem;
+      }
+    }
+  }
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    i {
+      color: $primary-white;
+      font-size: 2.5rem;
+      padding: 1rem;
+      cursor: pointer;
+    }
+  }
+
+  p {
+    color: white;
+    text-shadow: $text-shadow;
+    font-size: 1.3rem;
+  }
+}

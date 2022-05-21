@@ -10,6 +10,7 @@ import {GoogleMapModule} from "./google-map/google-map.module";
 import { GooglePlacesComponent } from './google-places/google-places.component';
 import {GooglePlacesModule} from "./google-places/google-places.module";
 import { ButtonComponent } from './button/button.component';
+import {UserMenuModule} from "../modules/user-menu/user-menu.module";
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { ButtonComponent } from './button/button.component';
     ReactiveFormsModule,
     RouterModule,
     GoogleMapModule,
+    UserMenuModule,
   ]
 })
 export class SharedModule { }

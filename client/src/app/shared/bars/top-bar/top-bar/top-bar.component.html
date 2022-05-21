@@ -1,5 +1,8 @@
 <section>
-  <div class="user">
+  <div
+    class="user"
+    (click)="showUserMenu()"
+  >
     <img src="{{ currentUser.photo }}" alt="">
   </div>
   <form [formGroup]="searchForm">
@@ -11,5 +14,13 @@
   </form>
   <div class="chat">
     <i class='fa fa-comments'></i>
+  </div>
+  <div
+    class="user-menu-container"
+    [class.novisible]="isUserMenuVisible"
+  >
+    <app-user-menu
+      (closeUserMenu)="showUserMenu()"
+    ></app-user-menu>
   </div>
 </section>

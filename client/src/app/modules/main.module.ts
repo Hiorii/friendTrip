@@ -14,12 +14,13 @@ import {MyTripModule} from "./my-trip/my-trip.module";
 import {ToDoModule} from "./to-do/to-do.module";
 import {SharedModule} from "../shared/shared.module";
 import {RouterModule} from "@angular/router";
+import {UserMenuModule} from "./user-menu/user-menu.module";
 
 @NgModule({
   declarations: [MainComponent],
-  exports: [
-    MainComponent,
-  ],
+    exports: [
+        MainComponent,
+    ],
   imports: [
     CommonModule,
     AuthModule,
@@ -28,6 +29,7 @@ import {RouterModule} from "@angular/router";
     JournalModule,
     MyTripModule,
     ToDoModule,
+    UserMenuModule,
     RouterModule
   ]
 })

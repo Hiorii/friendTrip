@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../../core/services/api/auth.service";
 import {LocalStorageService} from "../../../../core/services/local-storage.service";
 import {UsersModel} from "../../../../core/interfaces/users.model";
@@ -12,6 +12,7 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 export class TopBarComponent implements OnInit {
   currentUser: UsersModel
   searchForm: FormGroup
+  isUserMenuVisible = false;
 
   constructor(
     private authService: AuthService,
@@ -27,4 +28,7 @@ export class TopBarComponent implements OnInit {
     })
   }
 
+  showUserMenu(): void {
+    this.isUserMenuVisible = !this.isUserMenuVisible;
+  }
 }
