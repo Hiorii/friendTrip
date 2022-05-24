@@ -11,9 +11,10 @@
     <i class="fa fa-plus-circle"></i>
     <p>Add Trip</p>
   </div>
-  <div class="highlighted" [routerLink]="['/highlights']" routerLinkActive="active">
-    <i class='fa fa-star'></i>
-    <p>Highlighted</p>
+  <div class="notifications" [routerLink]="['/notifications']" routerLinkActive="active">
+    <i class='fa fa-bell'></i>
+    <p>Notifications</p>
+    <div class="alertMessage">1</div>
   </div>
   <div class="toDo" [routerLink]="['/to-do']" routerLinkActive="active">
     <i class='fa fa-list'></i>

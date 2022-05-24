@@ -15,6 +15,8 @@ import {ToDoModule} from "./to-do/to-do.module";
 import {SharedModule} from "../shared/shared.module";
 import {RouterModule} from "@angular/router";
 import {UserMenuModule} from "./user-menu/user-menu.module";
+import { NotificationsComponent } from './notifications/notifications.component';
+import {NotificationsModule} from "./notifications/notifications.module";
 
 @NgModule({
   declarations: [MainComponent],
@@ -29,6 +31,7 @@ import {UserMenuModule} from "./user-menu/user-menu.module";
     JournalModule,
     MyTripModule,
     ToDoModule,
+    NotificationsModule,
     UserMenuModule,
     RouterModule
   ]

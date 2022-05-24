@@ -1,4 +1,5 @@
 import {TripModel} from "./trip.model";
+import {NotificationModel} from "./notification.model";
 
 export interface UsersModel {
   _id?: string;
@@ -12,4 +13,5 @@ export interface UsersModel {
   isActive: boolean;
   _token?: string;
   _tokenExpirationData?: Date;
+  notifications?: NotificationModel[];
 }
