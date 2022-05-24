@@ -45,19 +45,25 @@ export class TravelSummarizeComponent implements OnInit {
   createTrip() {
     const currentUser = this.localStorageService.getItem('user')
 
-    if (this.tripData.tripUsers.length > 0) {
-      this.tripData.tripUsers.forEach(user => {
-        console.log(user)
-      })
-    }
     // const user = this.authService.getCurrentUser(currentUser.email)
     //   .subscribe(user => console.log(user))
 
-    // this.tripApiService.addNewTrip(currentUser, this.tripData)
-    //   .subscribe((newTripData: any) => {
-    //     // this.store.dispatch(setTripDataAction({trip: newTripData}))
-    //     //
-    //     this.router.navigate(['my-trips'])
-    //   })
+    this.tripApiService.addNewTrip(currentUser, this.tripData)
+      .subscribe((newTripData: any) => {
+        // this.store.dispatch(setTripDataAction({trip: newTripData}))
+        //
+        this.router.navigate(['my-trips'])
+      })
+
+    if (this.tripData.tripUsers.length > 0) {
+      this.tripData.tripUsers.forEach(user => {
+        this.tripApiService.addNewTrip(user, this.tripData)
+          .subscribe((newTripData: any) => {
+            // this.store.dispatch(setTripDataAction({trip: newTripData}))
+            //
+            //this.router.navigate(['my-trips'])
+          })
+      })
+    }
   }
 }
