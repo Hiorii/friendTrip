@@ -1,0 +1,42 @@
+<div class="chatContainer">
+  <div class="chatTitle">
+    <i
+      class="fa fa-arrow-left"
+      (click)="closeChatRoom()"
+    ></i>
+    <h3>Some text title</h3>
+  </div>
+  <div class="chatContent">
+    <div
+      *ngFor="let message of messages"
+      class="boxContainer someone"
+    >
+      <div
+        *ngIf="message.from !== 'other'"
+        class="box boxSomeone someone"
+      >{{ message.message }}</div>
+    </div>
+    <div
+      *ngFor="let message of messages"
+      class="boxContainer"
+    >
+      <div
+        *ngIf="message.from === 'other'"
+        class="box boxMe myself"
+      >{{ message.message }}</div>
+    </div>
+  </div>
+  <div class="chatInputs">
+    <form
+      [formGroup]="chatForm"
+      (ngSubmit)="onSubmit($event)"
+    >
+      <input class="form-control" aria-describedby="chatMessage" placeholder="Message" formControlName="message">
+      <button
+        type="submit"
+      >
+        <i class="fa fa-arrow-right"></i>
+      </button>
+    </form>
+  </div>
+</div>

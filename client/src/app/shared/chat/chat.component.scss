@@ -1,0 +1,124 @@
+@import "src/assets/sass/settings";
+
+.chatContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 9999;
+
+  .chatTitle {
+    background-color: $primary-white;
+    box-shadow: 0 4px 2px -2px #000;
+    height: 7%;
+    border-bottom: 1px solid lightgrey;
+    @include flex(center, center);
+
+    i {
+      font-size: 1.4rem;
+    }
+
+    h3 {
+      margin: 0 6rem;
+    }
+  }
+
+  .chatContent {
+    background-color: $primary-white;
+    height: 86%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: 5rem;
+
+    .boxContainer {
+      display: flex;
+      width: 100%;
+      margin: .7rem 0;
+
+      &.someone {
+        justify-content: flex-end;
+      }
+    }
+
+    .box {
+      width: auto;
+      max-width: 60%;
+      height: auto;
+      background: $primary-lighter;
+      padding: .7rem;
+      color: $primary-white;
+      position: relative;
+      align-items: flex-start;
+      margin: 0 2rem;
+    }
+
+    .boxSomeone {
+      background-color: lightgrey;
+      color: $second-font;
+      align-self: flex-end;
+    }
+
+    .boxMe {
+
+    }
+
+    .someone:before {
+      content: "";
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-left: 10px solid lightgrey;;
+      border-right: 10px solid transparent;
+      border-top: 10px solid lightgrey;;
+      border-bottom: 10px solid transparent;
+      right: -19px;
+      top: 6px;
+    }
+
+    .myself:before {
+      content: "";
+      width: 0px;
+      height: 0px;
+      position: absolute;
+      border-left: 10px solid transparent;
+      border-right: 10px solid $primary-lighter;
+      border-top: 10px solid $primary-lighter;
+      border-bottom: 10px solid transparent;
+      left: -19px;
+      top: 6px;
+    }
+  }
+
+  .chatInputs {
+    background-color: $primary-white;
+    height: 7%;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    @include flex(center, center);
+    border-top: 1px solid lightgrey;
+
+    form {
+      width: 100%;
+      @include flex(space-between, center);
+
+      input {
+        width: 80%;
+        margin: 0 1rem;
+      }
+
+      button {
+        background: transparent;
+        border: none;
+
+        i {
+          margin-right: 1rem;
+          font-size: 1.5rem;
+          color: $primary-light;
+        }
+      }
+    }
+  }
+}

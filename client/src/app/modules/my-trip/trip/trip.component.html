@@ -10,5 +10,19 @@
       <img *ngIf="!user.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
       <p>{{ user.name }} {{ user.surname }}</p>
     </div>
+
+    <div class="chatContainer">
+      <app-chat
+        *ngIf="isChatVisible"
+        (isChatVisible)="showChat($event)"
+      ></app-chat>
+    </div>
+
+    <div
+      class="chatIcon"
+      (click)="showChat(true)"
+    >
+      <i class="fa fa-commenting"></i>
+    </div>
   </ng-container>
 </div>

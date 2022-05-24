@@ -11,6 +11,7 @@ import { GooglePlacesComponent } from './google-places/google-places.component';
 import {GooglePlacesModule} from "./google-places/google-places.module";
 import { ButtonComponent } from './button/button.component';
 import {UserMenuModule} from "../modules/user-menu/user-menu.module";
+import {ChatModule} from "./chat/chat.module";
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import {UserMenuModule} from "../modules/user-menu/user-menu.module";
     RouterModule,
     GoogleMapModule,
     UserMenuModule,
+    ChatModule
   ]
 })
 export class SharedModule { }

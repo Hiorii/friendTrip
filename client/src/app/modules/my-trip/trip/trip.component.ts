@@ -5,7 +5,6 @@ import {TripModel} from "../../../core/interfaces/trip.model";
 import {getTripDataAction} from "../../../core/store/trips/trips.actions";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {ActivatedRoute} from "@angular/router";
-import {selectCurrentUser} from "../../../core/store/users";
 
 @Component({
   selector: 'app-trip',
@@ -14,6 +13,7 @@ import {selectCurrentUser} from "../../../core/store/users";
 })
 export class TripComponent implements OnInit {
   currentTrip: TripModel
+  isChatVisible: boolean = false;
 
   constructor(
     private store: Store,
@@ -31,5 +31,9 @@ export class TripComponent implements OnInit {
         this.currentTrip = trip
       }
     })
+  }
+
+  showChat(isVisible: boolean): void {
+    this.isChatVisible = isVisible;
   }
 }

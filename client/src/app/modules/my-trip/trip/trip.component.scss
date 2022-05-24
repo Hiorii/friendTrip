@@ -28,4 +28,12 @@
       color: $primary-white;
     }
   }
+
+  .chatIcon {
+    font-size: 2.5rem;
+    color: $primary-white;
+    position: fixed;
+    bottom: 5rem;
+    right: 2rem;
+  }
 }

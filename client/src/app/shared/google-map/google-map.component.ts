@@ -36,10 +36,9 @@ export class GoogleMapComponent implements OnInit {
     this.markerLabel.text = 'tex'
   }
 
-  constructor(private mapDirectionsService: MapDirectionsService) {   console.log('cons', this.tripPoints) }
+  constructor(private mapDirectionsService: MapDirectionsService) { }
 
   ngOnInit(): void {
-    console.log('ng', this.tripPoints)
     this.setCenterPoints()
 
     const request: google.maps.DirectionsRequest = {
