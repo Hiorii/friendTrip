@@ -28,7 +28,7 @@ export class TripComponent implements OnInit {
 
     this.store.dispatch(getTripDataAction({currentUser, id: this.tripId}))
     this.store.select(selectCurrentTrip).subscribe(trip => {
-      if (trip.travelPoints.destinationPoint) {
+      if (trip?.travelPoints?.destinationPoint) {
         this.currentTrip = trip
       }
     })

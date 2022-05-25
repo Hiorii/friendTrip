@@ -143,8 +143,8 @@ export const reducer = createReducer(
 export const getAllTripsList = (state: State) => state.tripsList
 export const getCurrentTrip = (state: State) => state.currentTrip
 
-export const getTripInfo = (state: State) => state.currentTrip.travelInfoData
-export const getTripPoints = (state: State) => state.currentTrip.travelPoints
-export const getTripUsers = (state: State) => state.currentTrip.tripUsers
-export const getTripMessages = (state: State) => state.currentTrip.messages
+export const getTripInfo = (state: State) => state.currentTrip?.travelInfoData
+export const getTripPoints = (state: State) => state.currentTrip?.travelPoints
+export const getTripUsers = (state: State) => state.currentTrip?.tripUsers
+export const getTripMessages = (state: State) => state.currentTrip?.messages
 
