@@ -15,7 +15,7 @@
       <app-chat
         *ngIf="isChatVisible"
         [tripId]="currentTrip.id"
-        [tripMessages]="currentTrip.messages[0].messages"
+        [tripMessages]="currentTrip?.messages[0]?.messages"
         (isChatVisible)="showChat($event)"
       ></app-chat>
     </div>
