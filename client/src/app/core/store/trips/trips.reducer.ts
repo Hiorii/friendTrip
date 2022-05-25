@@ -1,11 +1,13 @@
 import {UsersModel} from "../../interfaces/users.model";
 import {createReducer, on} from "@ngrx/store";
 import * as actions from './trips.actions';
+import {MessageModel} from "../../interfaces/message.model";
 
 export interface State {
   tripsList:
     {
       _id?: string,
+      id: string,
       travelInfoData: {
         travelName: string,
         travelPlannedTotalCost?: number,
@@ -28,6 +30,7 @@ export interface State {
   currentTrip:
     {
       _id?: string,
+      id: string,
       travelInfoData: {
         travelName: string,
         travelPlannedTotalCost?: number,
@@ -46,6 +49,7 @@ export interface State {
         },
       }
       tripUsers?: UsersModel[],
+      messages?: any[],
     }
 }
 
@@ -53,6 +57,7 @@ const initialState: State = {
   tripsList: [
     {
       _id: '',
+      id: '',
       travelInfoData: {
         travelName: '',
         travelPlannedTotalCost: 0,
@@ -76,6 +81,7 @@ const initialState: State = {
   currentTrip:
     {
       _id: '',
+      id: '',
       travelInfoData: {
         travelName: '',
         travelPlannedTotalCost: 0,
@@ -94,6 +100,7 @@ const initialState: State = {
         },
       },
       tripUsers: [],
+      messages: [],
     }
 }
 
@@ -139,3 +146,5 @@ export const getCurrentTrip = (state: State) => state.currentTrip
 export const getTripInfo = (state: State) => state.currentTrip.travelInfoData
 export const getTripPoints = (state: State) => state.currentTrip.travelPoints
 export const getTripUsers = (state: State) => state.currentTrip.tripUsers
+export const getTripMessages = (state: State) => state.currentTrip.messages
+

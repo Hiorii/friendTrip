@@ -1,0 +1,17 @@
+<div
+  *ngFor="let message of messages"
+  class="boxContainer"
+  [class.someone]="message.from === currentUser.name"
+>
+  <div
+    class="box"
+    [class.boxSomeone]="message.from === currentUser.name"
+    [class.someone]="message.from === currentUser.name"
+    [class.boxMe]="message.from !== currentUser.name"
+    [class.myself]="message.from !== currentUser.name"
+  >
+    <span>{{ message.from }}</span>
+    <p>{{ message.message }}</p>
+    <span class="time">{{ currentTime | date:'short' }}</span>
+  </div>
+</div>

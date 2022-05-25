@@ -14,6 +14,7 @@ import {ActivatedRoute} from "@angular/router";
 export class TripComponent implements OnInit {
   currentTrip: TripModel
   isChatVisible: boolean = false;
+  tripId: string;
 
   constructor(
     private store: Store,
@@ -23,9 +24,9 @@ export class TripComponent implements OnInit {
 
   ngOnInit(): void {
     const currentUser = this.localStorageService.getItem('user').email
-    const id = this.route.snapshot.paramMap.get('id');
+    this.tripId = this.route.snapshot.paramMap.get('id');
 
-    this.store.dispatch(getTripDataAction({currentUser, id: id}))
+    this.store.dispatch(getTripDataAction({currentUser, id: this.tripId}))
     this.store.select(selectCurrentTrip).subscribe(trip => {
       if (trip.travelPoints.destinationPoint) {
         this.currentTrip = trip

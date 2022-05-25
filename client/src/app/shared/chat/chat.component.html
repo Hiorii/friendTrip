@@ -8,22 +8,13 @@
   </div>
   <div class="chatContent">
     <div
-      *ngFor="let message of messages"
-      class="boxContainer someone"
+      #scrollMe
+      class="singleMess"
     >
-      <div
-        *ngIf="message.from !== 'other'"
-        class="box boxSomeone someone"
-      >{{ message.message }}</div>
-    </div>
-    <div
-      *ngFor="let message of messages"
-      class="boxContainer"
-    >
-      <div
-        *ngIf="message.from === 'other'"
-        class="box boxMe myself"
-      >{{ message.message }}</div>
+      <app-single-message
+        [messages]="messages"
+        [currentUser]="currentUser"
+      ></app-single-message>
     </div>
   </div>
   <div class="chatInputs">

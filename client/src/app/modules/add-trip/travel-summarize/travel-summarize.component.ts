@@ -11,6 +11,7 @@ import {setTripDataAction} from "../../../core/store/trips/trips.actions";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../core/services/api/auth.service";
+import {UUID} from "angular2-uuid";
 
 @Component({
   selector: 'app-travel-summarize',
@@ -23,6 +24,7 @@ export class TravelSummarizeComponent implements OnInit {
   @Input() tripUsersData: UsersModel[]
 
   tripData: TripModel
+  tripMessages: [] = [];
 
   constructor(
     private tripApiService: TripApiService,
@@ -34,9 +36,11 @@ export class TravelSummarizeComponent implements OnInit {
 
   ngOnInit(): void {
     const tripData = {
+      id: UUID.UUID(),
       travelInfoData: this.tripInfoData,
       travelPoints: this.tripPointData,
-      tripUsers: this.tripUsersData
+      tripUsers: this.tripUsersData,
+      messages: this.tripMessages,
     }
 
    this.tripData = tripData

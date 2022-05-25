@@ -1,0 +1,80 @@
+@import "src/assets/sass/settings";
+
+.boxContainer {
+  display: flex;
+  width: 100%;
+  margin: .7rem 0;
+
+  &.someone {
+    justify-content: flex-end;
+  }
+}
+
+.box {
+  width: auto;
+  max-width: 60%;
+  min-width: 10rem;
+  height: auto;
+  background: lightgrey;
+  padding: .7rem;
+  color: $primary-white;
+  position: relative;
+  align-items: flex-start;
+  margin: 0 2rem;
+  @include flex(flex-start, flex-start);
+  flex-direction: column;
+
+  p {
+    font-weight: 600;
+    white-space: initial;
+  }
+
+  span {
+    color: black;
+    font-size: .7rem;
+  }
+
+  .time {
+    width: 100%;
+    text-align: right;
+  }
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.boxSomeone {
+  background-color: $primary-lighter;
+  align-self: flex-end;
+}
+
+.boxMe {
+  color:$second-font;
+}
+
+.someone:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid $primary-lighter;
+  border-right: 10px solid transparent;
+  border-top: 10px solid $primary-lighter;;
+  border-bottom: 10px solid transparent;
+  right: -19px;
+  top: 6px;
+}
+
+.myself:before {
+  content: "";
+  width: 0px;
+  height: 0px;
+  position: absolute;
+  border-left: 10px solid transparent;
+  border-right: 10px solid lightgrey;
+  border-top: 10px solid lightgrey;
+  border-bottom: 10px solid transparent;
+  left: -19px;
+  top: 6px;
+}
