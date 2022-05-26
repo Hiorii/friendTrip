@@ -10,6 +10,7 @@ import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 import { log } from 'util';
+import { MessageModel } from '../chat/message.model';
 
 @Injectable()
 export class UsersService {
@@ -129,15 +130,14 @@ export class UsersService {
     const dataToUpdate = {
       usersTrips: [...user.usersTrips, newTripData.tripData],
     };
-
-    user.usersTrips.map((data) => {
-      if (
-        data.travelInfoData.travelName ===
-        newTripData.tripData.travelInfoData.travelName
-      ) {
-        return { message: 'Trip with such name already exist' };
-      }
-    });
+    // user.usersTrips.map((data) => {
+    //   if (
+    //     data.travelInfoData.travelName ===
+    //     newTripData.tripData.travelInfoData.travelName
+    //   ) {
+    //     return { message: 'Trip with such name already exist' };
+    //   }
+    // });
 
     const newUserTrips = await this.usersModule.findOneAndUpdate(
       filter,
@@ -147,5 +147,43 @@ export class UsersService {
     await newUserTrips.save();
 
     return newUserTrips;
+  }
+
+  async addMessagesToTrip(id: string, messages: MessageModel[]) {
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) =>
+          JSON.stringify(tr.id === id),
+        );
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === id) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          data.messages.push(messages);
+        });
+
+        tripToUpdate = currentTrip;
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
   }
 }

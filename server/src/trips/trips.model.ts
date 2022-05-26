@@ -2,8 +2,10 @@ import * as mongoose from 'mongoose';
 import { TravelPointsModel } from './travel-points/travel-points.model';
 import { UsersType } from '../users/users.model';
 import { TravelInfoModel } from './travel-info/travel-info.model';
+import {MessageModel} from "../chat/message.model";
 
 export const TripsSchema = new mongoose.Schema({
+  id: { type: String, required: true },
   travelInfoData: {
     travelName: { type: String, required: true },
     travelPlannedTotalCost: { type: Number },
@@ -24,6 +26,7 @@ export const TripsSchema = new mongoose.Schema({
     },
   },
   tripUsers: [],
+  messages: [],
   // pointsToVisit: [{}],
   // totalCost: {},
   // status: { modelfor active, finished }
@@ -31,12 +34,14 @@ export const TripsSchema = new mongoose.Schema({
 });
 
 export interface TripsType {
+  id: string;
   travelInfoData: TravelInfoModel;
   travelPoints: {
     startPoint: TravelPointsModel;
     destinationPoint: TravelPointsModel;
   };
   tripUsers?: UsersType[];
+  messages?: MessageModel[];
   _id?: string;
 }
 

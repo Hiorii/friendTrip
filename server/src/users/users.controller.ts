@@ -1,6 +1,7 @@
-import {Body, Controller, Get, Param, Post, Put, Query} from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersType } from './users.model';
+import { MessageModel } from '../chat/message.model';
 
 @Controller('users')
 export class UsersController {
@@ -41,5 +42,13 @@ export class UsersController {
   @Put('trips')
   async addNewUserTrip(@Body() newTripData: any) {
     return this.userService.addNewUserTrip(newTripData);
+  }
+
+  @Put('trip/:id/messages')
+  async addMessagesToTrip(
+    @Param('id') id: string,
+    @Body() messages: MessageModel[],
+  ) {
+    return this.userService.addMessagesToTrip(id, messages);
   }
 }
