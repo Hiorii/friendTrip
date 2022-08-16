@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TravelDataService} from "../../../core/services/travel-data.service";
-import {FormBuilder} from "@angular/forms";
+import {UntypedFormBuilder} from "@angular/forms";
 import {UsersModel} from "../../../core/interfaces/users.model";
 import {AuthService} from "../../../core/services/api/auth.service";
 import {Observable, OperatorFunction} from 'rxjs';
@@ -29,7 +29,7 @@ export class AddFriendsComponent implements OnInit {
 
   constructor(
     private travelDataService: TravelDataService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private authService: AuthService,
     private store: Store,
     private localStorageService: LocalStorageService

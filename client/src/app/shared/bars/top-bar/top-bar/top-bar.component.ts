@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../../../core/services/api/auth.service";
 import {LocalStorageService} from "../../../../core/services/local-storage.service";
 import {UsersModel} from "../../../../core/interfaces/users.model";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-top-bar',
@@ -11,13 +11,13 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class TopBarComponent implements OnInit {
   currentUser: UsersModel
-  searchForm: FormGroup
+  searchForm: UntypedFormGroup
   isUserMenuVisible = false;
 
   constructor(
     private authService: AuthService,
     private localStorageService: LocalStorageService,
-    private fb: FormBuilder
+    private fb: UntypedFormBuilder
   ) { }
 
   ngOnInit(): void {

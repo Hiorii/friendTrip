@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {UsersModel} from "../../../core/interfaces/users.model";
 
 @Component({
@@ -8,14 +8,14 @@ import {UsersModel} from "../../../core/interfaces/users.model";
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
+  loginForm!: UntypedFormGroup;
   isLoggedin: boolean = false;
 
   @Output() handleLoginWithGoogle = new EventEmitter()
   @Output() handleLogin = new EventEmitter()
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) {}
 
   ngOnInit() {

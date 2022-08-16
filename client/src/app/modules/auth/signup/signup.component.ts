@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {UsersModel} from "../../../core/interfaces/users.model";
 
 @Component({
@@ -9,13 +9,13 @@ import {UsersModel} from "../../../core/interfaces/users.model";
 })
 export class SignupComponent implements OnInit {
   isLoggedin: boolean = false;
-  signupForm!: FormGroup;
+  signupForm!: UntypedFormGroup;
 
   @Output() handleLoginWithGoogle = new EventEmitter()
   @Output() handleRegister = new EventEmitter()
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) { }
 
   ngOnInit(): void {

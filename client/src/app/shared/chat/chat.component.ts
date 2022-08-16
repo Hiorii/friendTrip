@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild
 } from '@angular/core';
-import {FormBuilder} from "@angular/forms";
+import {UntypedFormBuilder} from "@angular/forms";
 import {Observable} from "rxjs";
 import {ChatService} from "./chat.service";
 import {MessageModel} from "../../core/interfaces/message.model";
@@ -39,7 +39,7 @@ export class ChatComponent implements OnInit, OnChanges, AfterViewChecked {
   @ViewChild('scrollMe') private myScrollContainer: ElementRef;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private chatService: ChatService,
     private localStorageService: LocalStorageService,
     private tripApiService: TripApiService,

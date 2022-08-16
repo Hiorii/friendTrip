@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {TripPointsModel} from "../../core/interfaces/trip-points.model";
 import {TravelDataService} from "../../core/services/travel-data.service";
-import {FormBuilder, Validators} from "@angular/forms";
+import {UntypedFormBuilder, Validators} from "@angular/forms";
 import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
 import {LocalStorageService} from "../../core/services/local-storage.service";
 import {Store} from "@ngrx/store";
@@ -34,7 +34,7 @@ export class GooglePlacesComponent implements OnInit {
 
   constructor(
     private travelDataService: TravelDataService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: Store
   ) { }
 

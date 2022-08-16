@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, NgForm} from "@angular/forms";
+import {UntypedFormBuilder, NgForm} from "@angular/forms";
 import {TripModel} from "../../core/interfaces/trip.model";
 import {Store} from "@ngrx/store";
 import {getTripsDataAction} from "../../core/store/trips/trips.actions";
@@ -17,7 +17,7 @@ export class MyTripComponent implements OnInit {
   tripsList$ = this.store.select(selectAllTripsList)
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: Store,
   ) { }
 

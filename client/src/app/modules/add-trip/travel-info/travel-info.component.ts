@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, Output} from '@angular/core';
 import {TravelDataService} from "../../../core/services/travel-data.service";
-import {FormBuilder, Validators} from "@angular/forms";
+import {UntypedFormBuilder, Validators} from "@angular/forms";
 import {TripInfoDataModel} from "../../../core/interfaces/trip-info-data.model";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {Store} from "@ngrx/store";
@@ -24,7 +24,7 @@ export class TravelInfoComponent implements OnInit {
 
   constructor(
     private travelDataService: TravelDataService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private store: Store
     ) { }
 

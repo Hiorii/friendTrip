@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {GoogleLoginProvider, SocialAuthService, SocialUser} from "angularx-social-login";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, FormGroup} from "@angular/forms";
 import {Location} from "@angular/common";
 import {AuthService} from "../../core/services/api/auth.service";
 import {LocalStorageService} from "../../core/services/local-storage.service";
@@ -18,7 +18,7 @@ export class AuthComponent implements OnInit {
   isLoggedin: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private location: Location,
     private socialAuthService: SocialAuthService,
     private authService: AuthService,
