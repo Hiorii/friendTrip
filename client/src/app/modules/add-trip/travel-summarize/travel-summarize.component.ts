@@ -13,6 +13,7 @@ import {AuthService} from "../../../core/services/api/auth.service";
 import {UUID} from "angular2-uuid";
 import {DialogService} from "../../../shared/dialog/dialog.service";
 import {tap} from "rxjs";
+import {ToastService} from "../../../shared/toast/toast.service";
 
 @Component({
   selector: 'app-travel-summarize',
@@ -33,6 +34,7 @@ export class TravelSummarizeComponent implements OnInit {
     private router: Router,
     private localStorageService: LocalStorageService,
     private dialogService: DialogService,
+    private toastService: ToastService,
     private authService: AuthService
   ) { }
 
@@ -51,8 +53,8 @@ export class TravelSummarizeComponent implements OnInit {
   createTrip() {
     const currentUser = this.localStorageService.getItem('user')
 
-    // const user = this.authService.getCurrentUser(currentUser.email)
-    //   .subscribe(user => console.log(user))
+    const user = this.authService.getCurrentUser(currentUser.email)
+      .subscribe(user => console.log(user))
 
     this.dialogService.openConfirmationDialog({
       title: 'Add new trip',
@@ -66,6 +68,7 @@ export class TravelSummarizeComponent implements OnInit {
               // this.store.dispatch(setTripDataAction({trip: newTripData}))
               //
               this.router.navigate(['my-trips'])
+              this.toastService.success('New trip successfully added')
             })
 
           if (this.tripData.tripUsers.length > 0) {

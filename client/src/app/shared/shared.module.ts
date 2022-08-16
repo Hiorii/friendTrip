@@ -14,13 +14,15 @@ import {UserMenuModule} from "../modules/user-menu/user-menu.module";
 import {ChatModule} from "./chat/chat.module";
 import {DialogComponent} from "./dialog/dialog.component";
 import {MaterialModule} from "./material.module";
+import {ToastComponent} from "./toast/toast.component";
 
 @NgModule({
   declarations: [
     TopBarComponent,
     BottomBarComponent,
     ButtonComponent,
-    DialogComponent
+    DialogComponent,
+    ToastComponent
   ],
   exports: [
     TopBarComponent,

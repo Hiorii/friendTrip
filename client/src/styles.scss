@@ -59,6 +59,25 @@ section {
   padding: 0 1rem;
 }
 
+.mat-snack-bar-handset {
+  span {
+    color: $second-font;
+  }
+
+  .toastSuccess {
+    background: $color-success;
+  }
+
+  .toastWarning {
+    background: $color-warning;
+  }
+
+  .toastDanger {
+    background: $color-danger;
+  }
+}
+
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
 
