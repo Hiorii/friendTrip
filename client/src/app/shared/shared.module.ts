@@ -12,12 +12,15 @@ import {GooglePlacesModule} from "./google-places/google-places.module";
 import { ButtonComponent } from './button/button.component';
 import {UserMenuModule} from "../modules/user-menu/user-menu.module";
 import {ChatModule} from "./chat/chat.module";
+import {DialogComponent} from "./dialog/dialog.component";
+import {MaterialModule} from "./material.module";
 
 @NgModule({
   declarations: [
     TopBarComponent,
     BottomBarComponent,
     ButtonComponent,
+    DialogComponent
   ],
   exports: [
     TopBarComponent,
@@ -32,7 +35,8 @@ import {ChatModule} from "./chat/chat.module";
     RouterModule,
     GoogleMapModule,
     UserMenuModule,
-    ChatModule
+    ChatModule,
+    MaterialModule,
   ]
 })
 export class SharedModule { }

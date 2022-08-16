@@ -14,6 +14,7 @@ import {MatSortModule } from '@angular/material/sort';
 import {MatPaginatorModule } from '@angular/material/paginator';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatDialogModule} from "@angular/material/dialog";
 
 const MaterialComponents = [
   MatIconModule,
@@ -33,7 +34,8 @@ const MaterialComponents = [
   MatOptionModule,
   MatButtonModule,
   MatSlideToggleModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatDialogModule,
 ]
 @NgModule({
   imports: [

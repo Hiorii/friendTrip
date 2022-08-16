@@ -1,0 +1,13 @@
+@import "src/assets/sass/settings";
+
+h3 {
+  font-weight: 600;
+}
+
+.confirm-btn {
+  background-color: $primary-light;
+
+  &:hover {
+    background-color: $primary;
+  }
+}

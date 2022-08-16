@@ -11,6 +11,8 @@ import {LocalStorageService} from "../../../core/services/local-storage.service"
 import {Router} from "@angular/router";
 import {AuthService} from "../../../core/services/api/auth.service";
 import {UUID} from "angular2-uuid";
+import {DialogService} from "../../../shared/dialog/dialog.service";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-travel-summarize',
@@ -30,6 +32,7 @@ export class TravelSummarizeComponent implements OnInit {
     private store: Store,
     private router: Router,
     private localStorageService: LocalStorageService,
+    private dialogService: DialogService,
     private authService: AuthService
   ) { }
 
@@ -51,22 +54,31 @@ export class TravelSummarizeComponent implements OnInit {
     // const user = this.authService.getCurrentUser(currentUser.email)
     //   .subscribe(user => console.log(user))
 
-    this.tripApiService.addNewTrip(currentUser, this.tripData)
-      .subscribe((newTripData: any) => {
-        // this.store.dispatch(setTripDataAction({trip: newTripData}))
-        //
-        this.router.navigate(['my-trips'])
-      })
+    this.dialogService.openConfirmationDialog({
+      title: 'Add new trip',
+      desc: 'Are you sure you want to add new trip?'
+    })
+      .afterClosed()
+      .subscribe(confirmed => {
+        if (confirmed) {
+          this.tripApiService.addNewTrip(currentUser, this.tripData)
+            .subscribe((newTripData: any) => {
+              // this.store.dispatch(setTripDataAction({trip: newTripData}))
+              //
+              this.router.navigate(['my-trips'])
+            })
 
-    if (this.tripData.tripUsers.length > 0) {
-      this.tripData.tripUsers.forEach(user => {
-        this.tripApiService.addNewTrip(user, this.tripData)
-          .subscribe((newTripData: any) => {
-            // this.store.dispatch(setTripDataAction({trip: newTripData}))
-            //
-            //this.router.navigate(['my-trips'])
-          })
+          if (this.tripData.tripUsers.length > 0) {
+            this.tripData.tripUsers.forEach(user => {
+              this.tripApiService.addNewTrip(user, this.tripData)
+                .subscribe((newTripData: any) => {
+                  // this.store.dispatch(setTripDataAction({trip: newTripData}))
+                  //
+                  //this.router.navigate(['my-trips'])
+                })
+            })
+          }
+        }
       })
-    }
   }
 }
