@@ -31,4 +31,8 @@ export class TopBarComponent implements OnInit {
   showUserMenu(): void {
     this.isUserMenuVisible = !this.isUserMenuVisible;
   }
+
+  getUrl() {
+    return this.currentUser.photo;
+  }
 }

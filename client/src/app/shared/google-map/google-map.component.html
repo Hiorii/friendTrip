@@ -4,13 +4,14 @@
   [zoom]="zoom"
   [center]="center"
   [options]="options"
-  (mapClick)="addMarker($event)">
+  (mapClick)="addMarker($event)"
 >
   <map-marker
-    *ngFor="let markerPosition of markerPositions"
-    [position]="markerPosition"
-    [options]="markerOptions"
-    [label]="markerLabel"
+    *ngFor="let markerPosition of markers"
+    [position]="markerPosition.position"
+    [options]="markerPosition.options"
+    [label]="markerPosition.label"
+    (mapClick)="markerClick($event)"
   ></map-marker>
   <map-directions-renderer
     *ngIf="(directionsResults$ | async) as directionsResults"

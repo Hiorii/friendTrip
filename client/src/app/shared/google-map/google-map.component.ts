@@ -1,15 +1,39 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { MapDirectionsService } from "@angular/google-maps";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges
+} from '@angular/core';
+import {MapDirectionsService} from "@angular/google-maps";
 import {map, Observable} from "rxjs";
 import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
+import {LocalStorageService} from "../../core/services/local-storage.service";
+import {UUID} from "angular2-uuid";
 
 @Component({
   selector: 'app-google-map',
   templateUrl: './google-map.component.html',
-  styleUrls: ['./google-map.component.scss']
+  styleUrls: ['./google-map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GoogleMapComponent implements OnInit {
+export class GoogleMapComponent implements OnInit, OnChanges {
   @Input() tripPoints: TripPointDataModel
+  // @Input() set tripPoints(tripPoints: TripPointDataModel) {
+  //   if (!tripPoints) return
+  //
+  //   console.log(tripPoints)
+  //   this.tripPointsToTravel = tripPoints;
+  // }
+  //
+  // get tripPoints(): TripPointDataModel {
+  //   return this.tripPointsToTravel;
+  // }
+
+  tripPointsToTravel: any;
+  currentUser: any;
 
   zoom = 12
   center: google.maps.LatLngLiteral
@@ -19,41 +43,77 @@ export class GoogleMapComponent implements OnInit {
     zoomControl: false,
     scrollwheel: true,
     disableDoubleClickZoom: true,
-    maxZoom: 15,
-    minZoom: 8,
+    // maxZoom: 15,
+    // minZoom: 8,
   }
 
+  markers = [];
 //  marker1 = { position: { lat: 52.779242, lng: 5.205320 } };
 
-  markerOptions: google.maps.MarkerOptions = {draggable: true};
-  markerPositions: google.maps.LatLngLiteral[] = [ ];
-  markerLabel: google.maps.MarkerLabel = {text: "Some"}
+
+  // markerOptions: google.maps.MarkerOptions = {draggable: true};
+  // markerPositions: google.maps.LatLngLiteral[] = [ ];
+  // markerLabel: google.maps.MarkerLabel = {text: "Some"}
 
   directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
 
   addMarker(event: google.maps.MapMouseEvent) {
-    this.markerPositions.push(event.latLng.toJSON());
-    this.markerLabel.text = 'tex'
+    // this.markerPositions.push(event.latLng.toJSON());
+    // this.markerLabel.text = this.currentUser.name
+
+    this.markers.push({
+      position: {
+        lat: event.latLng.lat(),
+        lng: event.latLng.lng(),
+      },
+      label: {
+        color: 'black',
+        text: this.currentUser.name,
+      },
+      title: UUID.UUID(),
+      options: {
+        draggable: true,
+        clickable: true,
+
+        // animation: google.maps.Animation.BOUNCE
+      },
+    });
   }
 
-  constructor(private mapDirectionsService: MapDirectionsService) { }
+  constructor(
+    private mapDirectionsService: MapDirectionsService,
+    private localStorageService: LocalStorageService,
+    ) { }
 
   ngOnInit(): void {
-    this.setCenterPoints()
+    this.currentUser = this.localStorageService.getItem('user');
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    this.tripPointsToTravel = changes['tripPoints'].currentValue;
+
+    this.setCenterPoints();
 
     const request: google.maps.DirectionsRequest = {
-      destination: {lat: +this.tripPoints?.destinationPoint?.latitude, lng: +this.tripPoints?.destinationPoint?.longitude},
-      origin: {lat: +this.tripPoints?.startPoint?.latitude, lng: +this.tripPoints?.startPoint?.longitude},
+      destination: {lat: +this.tripPointsToTravel?.destinationPoint?.latitude, lng: +this.tripPointsToTravel?.destinationPoint?.longitude},
+      origin: {lat: +this.tripPointsToTravel?.startPoint?.latitude, lng: +this.tripPointsToTravel?.startPoint?.longitude},
       travelMode: google.maps.TravelMode.DRIVING
     };
     this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
 
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
-        lng: +this.tripPoints?.destinationPoint?.longitude,
-        lat: +this.tripPoints?.destinationPoint?.latitude
+        lng: +this.tripPointsToTravel?.destinationPoint?.longitude,
+        lat: +this.tripPointsToTravel?.destinationPoint?.latitude
       }
     })
+
+    this.showMarkerDetails()
+    // REMOVE //
+    // google.maps.event.addListener(this.markerOptions, "dblclick", (event: any)=> {
+    //   console.log(this.markerPositions)
+    //   console.log(event)
+    // });
   }
 
   zoomIn() {
@@ -65,7 +125,19 @@ export class GoogleMapComponent implements OnInit {
   }
 
   private setCenterPoints() {
-    this.options.center.lng = this.tripPoints?.destinationPoint?.longitude
-    this.options.center.lat = this.tripPoints?.destinationPoint?.latitude
+    this.options.center.lng = this.tripPointsToTravel?.destinationPoint?.longitude
+    this.options.center.lat = this.tripPointsToTravel?.destinationPoint?.latitude
+  }
+
+  private showMarkerDetails() {
+
+  }
+
+  markerClick(event) {
+    this.markers.forEach(marker => {
+      if (event.latLng.lat() === marker.position.lat && event.latLng.lng() === marker.position.lng) {
+        console.log(marker)
+      }
+    })
   }
 }

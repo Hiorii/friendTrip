@@ -1,6 +1,9 @@
 <div class="singleTrip-container">
   <h1 class="title">{{ currentTrip?.travelInfoData?.travelName }}</h1>
-  <app-google-map [tripPoints]="currentTrip?.travelPoints"></app-google-map>
+  <app-google-map
+    *ngIf="currentTrip?.travelPoints"
+    [tripPoints]="currentTrip?.travelPoints"
+  ></app-google-map>
   <ng-container *ngIf="currentTrip.tripUsers.length">
     <div
       class="travelUserContainer"

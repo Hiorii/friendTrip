@@ -3,7 +3,7 @@
     class="user"
     (click)="showUserMenu()"
   >
-    <img src="{{ currentUser.photo }}" alt="">
+    <img src="{{ getUrl() }}" alt="{{ currentUser.usersTrips }} photo">
   </div>
   <form [formGroup]="searchForm">
     <div class="input-group">
