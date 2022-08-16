@@ -7,6 +7,7 @@ import {GooglePlacesModule} from "../../shared/google-places/google-places.modul
 import { TripComponent } from './trip/trip.component';
 import { TripListComponent } from './trip-list/trip-list.component';
 import {ChatModule} from "../../shared/chat/chat.module";
+import {SharedModule} from "../../shared/shared.module";
 
 @NgModule({
     imports: [
@@ -14,7 +15,8 @@ import {ChatModule} from "../../shared/chat/chat.module";
         MyTripRoutingModule,
         GoogleMapModule,
         GooglePlacesModule,
-        ChatModule
+        ChatModule,
+        SharedModule
     ],
   declarations: [MyTripComponent, TripComponent, TripListComponent],
 })

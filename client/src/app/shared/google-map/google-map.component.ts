@@ -21,16 +21,7 @@ import {UUID} from "angular2-uuid";
 })
 export class GoogleMapComponent implements OnInit, OnChanges {
   @Input() tripPoints: TripPointDataModel
-  // @Input() set tripPoints(tripPoints: TripPointDataModel) {
-  //   if (!tripPoints) return
-  //
-  //   console.log(tripPoints)
-  //   this.tripPointsToTravel = tripPoints;
-  // }
-  //
-  // get tripPoints(): TripPointDataModel {
-  //   return this.tripPointsToTravel;
-  // }
+  @Input() isMarkerAdded: boolean
 
   tripPointsToTravel: any;
   currentUser: any;
@@ -48,36 +39,29 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   }
 
   markers = [];
-//  marker1 = { position: { lat: 52.779242, lng: 5.205320 } };
-
-
-  // markerOptions: google.maps.MarkerOptions = {draggable: true};
-  // markerPositions: google.maps.LatLngLiteral[] = [ ];
-  // markerLabel: google.maps.MarkerLabel = {text: "Some"}
 
   directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
 
   addMarker(event: google.maps.MapMouseEvent) {
-    // this.markerPositions.push(event.latLng.toJSON());
-    // this.markerLabel.text = this.currentUser.name
+    if (this.isMarkerAdded) {
+      this.markers.push({
+        position: {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng(),
+        },
+        label: {
+          color: 'black',
+          text: this.currentUser.name,
+        },
+        title: UUID.UUID(),
+        options: {
+          draggable: true,
+          clickable: true,
 
-    this.markers.push({
-      position: {
-        lat: event.latLng.lat(),
-        lng: event.latLng.lng(),
-      },
-      label: {
-        color: 'black',
-        text: this.currentUser.name,
-      },
-      title: UUID.UUID(),
-      options: {
-        draggable: true,
-        clickable: true,
-
-        // animation: google.maps.Animation.BOUNCE
-      },
-    });
+          // animation: google.maps.Animation.BOUNCE
+        },
+      });
+    }
   }
 
   constructor(
@@ -90,7 +74,7 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.tripPointsToTravel = changes['tripPoints'].currentValue;
+    this.tripPointsToTravel = changes['tripPoints']?.currentValue;
 
     this.setCenterPoints();
 
@@ -108,7 +92,6 @@ export class GoogleMapComponent implements OnInit, OnChanges {
       }
     })
 
-    this.showMarkerDetails()
     // REMOVE //
     // google.maps.event.addListener(this.markerOptions, "dblclick", (event: any)=> {
     //   console.log(this.markerPositions)
@@ -116,12 +99,19 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     // });
   }
 
-  zoomIn() {
-    if (this.zoom < this.options.maxZoom) this.zoom++
-  }
-
-  zoomOut() {
-    if (this.zoom > this.options.minZoom) this.zoom--
+  // zoomIn() {
+  //   if (this.zoom < this.options.maxZoom) this.zoom++
+  // }
+  //
+  // zoomOut() {
+  //   if (this.zoom > this.options.minZoom) this.zoom--
+  // }
+  markerClick(event) {
+    this.markers.forEach(marker => {
+      if (event.latLng.lat() === marker.position.lat && event.latLng.lng() === marker.position.lng) {
+        this.showMarkerDetails(marker)
+      }
+    })
   }
 
   private setCenterPoints() {
@@ -129,15 +119,7 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     this.options.center.lat = this.tripPointsToTravel?.destinationPoint?.latitude
   }
 
-  private showMarkerDetails() {
+  private showMarkerDetails(marker) {
 
-  }
-
-  markerClick(event) {
-    this.markers.forEach(marker => {
-      if (event.latLng.lat() === marker.position.lat && event.latLng.lng() === marker.position.lng) {
-        console.log(marker)
-      }
-    })
   }
 }

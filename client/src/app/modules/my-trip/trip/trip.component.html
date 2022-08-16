@@ -1,20 +1,47 @@
 <div class="singleTrip-container">
-  <h1 class="title">{{ currentTrip?.travelInfoData?.travelName }}</h1>
+  <h1
+    class="title"
+    [class.isDisabled]="isMarkerAdded"
+  >
+    {{ currentTrip?.travelInfoData?.travelName }}
+  </h1>
   <app-google-map
     *ngIf="currentTrip?.travelPoints"
     [tripPoints]="currentTrip?.travelPoints"
+    [isMarkerAdded]="isMarkerAdded"
+    [class.isMarkedAdded]="isMarkerAdded"
   ></app-google-map>
+
+  <ng-container *ngIf="!isMarkerAdded">
+    <app-button
+      [title]="'Add custom travel point to visit'"
+      (handleOnClick)="handleAddCustomTravelPoint()"
+    ></app-button>
+  </ng-container>
+
+  <ng-container *ngIf="isMarkerAdded">
+    <app-button
+      class="btnCancelAddMarker"
+      [title]="'Cancel Adding Marker'"
+      (handleOnClick)="handleCancelAddCustomTravelPoint()"
+    ></app-button>
+  </ng-container>
+
   <ng-container *ngIf="currentTrip.tripUsers.length">
     <div
-      class="travelUserContainer"
       *ngFor="let user of currentTrip.tripUsers"
+      class="travelUserContainer"
+      [class.isDisabled]="isMarkerAdded"
     >
       <img *ngIf="user.photo" [src]="user.photo" class="me-1">
       <img *ngIf="!user.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
       <p>{{ user.name }} {{ user.surname }}</p>
     </div>
 
-    <div class="chatContainer">
+    <div
+      class="chatContainer"
+      [class.isDisabled]="isMarkerAdded"
+    >
       <app-chat
         *ngIf="isChatVisible"
         [tripId]="currentTrip.id"
@@ -25,6 +52,7 @@
 
     <div
       class="chatIcon"
+      [class.isDisabled]="isMarkerAdded"
       (click)="showChat(true)"
     >
       <i class="fa fa-commenting"></i>

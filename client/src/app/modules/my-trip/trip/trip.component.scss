@@ -11,6 +11,19 @@
     margin: 1rem 0;
   }
 
+  .btnCancelAddMarker {
+    .btn {
+      position: absolute;
+      top: 72%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .isMarkedAdded {
+    @include center();
+  }
+
   .travelUserContainer {
     @include flex(flex-start, center);
     margin: 1.6rem;
@@ -35,5 +48,9 @@
     position: fixed;
     bottom: 5rem;
     right: 2rem;
+  }
+
+  .isDisabled {
+    display: none;
   }
 }
