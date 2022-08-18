@@ -10,6 +10,7 @@
     [tripPoints]="currentTrip?.travelPoints"
     [isMarkerAdded]="isMarkerAdded"
     [class.isMarkedAdded]="isMarkerAdded"
+    (markersList)="onMarkerListUpdate($event)"
   ></app-google-map>
 
   <ng-container *ngIf="!isMarkerAdded">
@@ -24,6 +25,11 @@
       class="btnCancelAddMarker"
       [title]="'Cancel Adding Marker'"
       (handleOnClick)="handleCancelAddCustomTravelPoint()"
+    ></app-button>
+    <app-button
+      class="btnSaveAddMarker"
+      [title]="'Save Markers'"
+      (handleOnClick)="handleSaveAddCustomTravelPoint()"
     ></app-button>
   </ng-container>
 

@@ -2,6 +2,7 @@ import {UsersModel} from "../../interfaces/users.model";
 import {createReducer, on} from "@ngrx/store";
 import * as actions from './trips.actions';
 import {MessageModel} from "../../interfaces/message.model";
+import {MarkerModel} from "../../interfaces/marker.model";
 
 export interface State {
   tripsList:
@@ -50,6 +51,7 @@ export interface State {
       }
       tripUsers?: UsersModel[],
       messages?: any[],
+      markers?: MarkerModel[],
     }
 }
 
@@ -101,6 +103,7 @@ const initialState: State = {
       },
       tripUsers: [],
       messages: [],
+      markers: [],
     }
 }
 
@@ -138,6 +141,13 @@ export const reducer = createReducer(
       tripUsers: tripUsers
     }
   })),
+  on(actions.setTripMarkersAction, (state: State, { markers }) => ({
+    ...state,
+    currentTrip: {
+      ...state.currentTrip,
+      markers: markers
+    }
+  }))
 )
 
 export const getAllTripsList = (state: State) => state.tripsList

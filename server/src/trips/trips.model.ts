@@ -3,6 +3,7 @@ import { TravelPointsModel } from './travel-points/travel-points.model';
 import { UsersType } from '../users/users.model';
 import { TravelInfoModel } from './travel-info/travel-info.model';
 import {MessageModel} from "../chat/message.model";
+import {MarkersModel} from "./markers.model";
 
 export const TripsSchema = new mongoose.Schema({
   id: { type: String, required: true },
@@ -27,6 +28,7 @@ export const TripsSchema = new mongoose.Schema({
   },
   tripUsers: [],
   messages: [],
+  markers: [],
   // pointsToVisit: [{}],
   // totalCost: {},
   // status: { modelfor active, finished }
@@ -42,6 +44,7 @@ export interface TripsType {
   };
   tripUsers?: UsersType[];
   messages?: MessageModel[];
+  markers?: MarkersModel[];
   _id?: string;
 }
 

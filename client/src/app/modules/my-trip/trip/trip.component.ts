@@ -2,9 +2,12 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {selectCurrentTrip} from "../../../core/store/trips";
 import {TripModel} from "../../../core/interfaces/trip.model";
-import {getTripDataAction} from "../../../core/store/trips/trips.actions";
+import {getTripDataAction, saveTripMarkersAction} from "../../../core/store/trips/trips.actions";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {ActivatedRoute} from "@angular/router";
+import {DialogService} from "../../../shared/dialog/dialog.service";
+import {tap} from "rxjs";
+import {MarkerModel} from "../../../core/interfaces/marker.model";
 
 @Component({
   selector: 'app-trip',
@@ -13,16 +16,18 @@ import {ActivatedRoute} from "@angular/router";
   encapsulation: ViewEncapsulation.None,
 })
 export class TripComponent implements OnInit {
-  currentTrip: TripModel
+  currentTrip: TripModel;
   isChatVisible: boolean = false;
   tripId: string;
   isMarkerAdded: boolean = false;
   currentUser: any;
+  markersList: MarkerModel[];
 
   constructor(
     private store: Store,
     private localStorageService: LocalStorageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: DialogService
   ) { }
 
   ngOnInit(): void {
@@ -44,6 +49,14 @@ export class TripComponent implements OnInit {
   handleCancelAddCustomTravelPoint() {
     this.isMarkerAdded = false;
     this.getTripDate(this.currentUser);
+  }
+
+  handleSaveAddCustomTravelPoint() {
+    this.store.dispatch(saveTripMarkersAction({ id: this.currentTrip.id, currentUser: this.currentUser, markers: this.markersList }))
+  }
+
+  onMarkerListUpdate(markers: MarkerModel[]) {
+    this.markersList = markers;
   }
 
   private getTripDate(user: any) {

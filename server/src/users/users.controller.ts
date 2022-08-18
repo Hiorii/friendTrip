@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersType } from './users.model';
 import { MessageModel } from '../chat/message.model';
+import { MarkersModel } from '../trips/markers.model';
 
 @Controller('users')
 export class UsersController {
@@ -50,5 +51,14 @@ export class UsersController {
     @Body() messages: MessageModel[],
   ) {
     return this.userService.addMessagesToTrip(id, messages);
+  }
+
+  @Put('trip/:id/markers')
+  async addMarkersToTrip(
+    @Param('id') id: string,
+    @Body() currentUser: string,
+    @Body() markers: MarkersModel[],
+  ) {
+    return this.userService.addMarkersToTrip(id, currentUser, markers);
   }
 }

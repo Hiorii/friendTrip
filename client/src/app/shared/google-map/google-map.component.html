@@ -7,14 +7,21 @@
   (mapClick)="addMarker($event)"
 >
   <map-marker
+    #marker="mapMarker"
     *ngFor="let markerPosition of markers"
     [position]="markerPosition.position"
     [options]="markerPosition.options"
     [label]="markerPosition.label"
-    (mapClick)="markerClick($event)"
+    (mapClick)="markerClick(marker)"
   ></map-marker>
   <map-directions-renderer
     *ngIf="(directionsResults$ | async) as directionsResults"
     [directions]="directionsResults"
   ></map-directions-renderer>
+  <map-info-window>
+    <app-google-map-info-window
+      [currentUser]="currentUser"
+      [markerData]="$markerData | async"
+    ></app-google-map-info-window>
+  </map-info-window>
 </google-map>

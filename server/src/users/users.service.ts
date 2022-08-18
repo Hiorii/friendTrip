@@ -11,6 +11,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 import { log } from 'util';
 import { MessageModel } from '../chat/message.model';
+import { MarkersModel } from '../trips/markers.model';
 
 @Injectable()
 export class UsersService {
@@ -156,9 +157,7 @@ export class UsersService {
 
     await this.getAllUsers().then((data) => {
       data.forEach((trip) => {
-        currentTrip = trip.usersTrips.filter((tr) =>
-          JSON.stringify(tr.id === id),
-        );
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === id);
 
         trip.usersTrips.forEach((a) => {
           if (a.id === id) {
@@ -185,5 +184,30 @@ export class UsersService {
       .then((res) => {
         console.log(res);
       });
+  }
+
+  async addMarkersToTrip(tripId: string, currentUser: any, markers: MarkersModel[]) {
+    const filter = { email: currentUser.currentUser };
+    const user = await this.getUser(currentUser.currentUser);
+    const dataToUpdate = {
+      usersTrips:
+    };
+    // user.usersTrips.map((data) => {
+    //   if (
+    //     data.travelInfoData.travelName ===
+    //     newTripData.tripData.travelInfoData.travelName
+    //   ) {
+    //     return { message: 'Trip with such name already exist' };
+    //   }
+    // });
+
+    const newUserTripMarker = await this.usersModule.findOneAndUpdate(
+      filter,
+      dataToUpdate,
+    );
+
+    await newUserTripMarker.save();
+
+    return newUserTripMarker;
   }
 }

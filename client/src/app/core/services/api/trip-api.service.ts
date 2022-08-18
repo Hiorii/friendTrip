@@ -3,6 +3,7 @@ import {HttpClient, HttpParams} from "@angular/common/http";
 import {TripModel} from "../../interfaces/trip.model";
 import {UsersModel} from "../../interfaces/users.model";
 import {MessageModel} from "../../interfaces/message.model";
+import {MarkerModel} from "../../interfaces/marker.model";
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,9 @@ export class TripApiService {
 
   addNewMessages(id: string, messages: MessageModel[]) {
     return this.http.put(this.url + `trip/${id}/messages`, {messages})
+  }
+
+  addNewMarkers(id: string, currentUser: string, markers: MarkerModel[]) {
+    return this.http.put(this.url + `trip/${id}/markers`, {currentUser, markers})
   }
 }

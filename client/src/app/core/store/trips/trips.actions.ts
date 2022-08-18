@@ -3,6 +3,7 @@ import {TripModel} from "../../interfaces/trip.model";
 import {UsersModel} from "../../interfaces/users.model";
 import {TripInfoDataModel} from "../../interfaces/trip-info-data.model";
 import {TripPointDataModel} from "../../interfaces/trip-point-data.model";
+import {MarkerModel} from "../../interfaces/marker.model";
 
 export const getTripsDataAction = createAction('[Trips] Get Trips Data', props<{ currentUser: UsersModel }>())
 export const setTripsDataAction = createAction('[Trips] Set Trips Data', props<{ trips: TripModel[] }>())
@@ -14,3 +15,8 @@ export const getTripUsersAction = createAction('[Trips] Get Trips Users', props<
 export const setTripInfoAction = createAction('[Trips] Set Trip Info', props<{ tripInfo: TripInfoDataModel }>())
 export const setTripPointsAction = createAction('[Trips] Set Trip Points', props<{ tripPoints: TripPointDataModel }>())
 export const setTripUsersAction = createAction('[Trips] Set Trip Users', props<{ tripUsers: UsersModel[] }>())
+
+//Add Marker
+export const saveTripMarkersAction = createAction('[Trips] Save Trips Markers', props<{ id: string, currentUser: string, markers: MarkerModel[]}>())
+export const setTripMarkersAction = createAction('[Trips] Set Trips Markers', props<{ markers: MarkerModel[]}>())
+export const updateTripMarkersAction = createAction('[Trips] Update Trips Markers', props<{ id: string, currentUser: string, markers: MarkerModel[]}>())

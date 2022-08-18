@@ -1,17 +1,19 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, EventEmitter,
   Input,
   OnChanges,
-  OnInit,
-  SimpleChanges
+  OnInit, Output,
+  SimpleChanges, ViewChild
 } from '@angular/core';
-import {MapDirectionsService} from "@angular/google-maps";
+import {MapDirectionsService, MapGeocoder, MapInfoWindow, MapMarker} from "@angular/google-maps";
 import {map, Observable} from "rxjs";
 import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
 import {LocalStorageService} from "../../core/services/local-storage.service";
 import {UUID} from "angular2-uuid";
+import {TripApiService} from "../../core/services/api/trip-api.service";
+import {MarkerModel} from "../../core/interfaces/marker.model";
 
 @Component({
   selector: 'app-google-map',
@@ -22,9 +24,14 @@ import {UUID} from "angular2-uuid";
 export class GoogleMapComponent implements OnInit, OnChanges {
   @Input() tripPoints: TripPointDataModel
   @Input() isMarkerAdded: boolean
+  @Output() markersList = new EventEmitter<MarkerModel[]>()
 
+  @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
+
+  $markerData: any;
   tripPointsToTravel: any;
   currentUser: any;
+
 
   zoom = 12
   center: google.maps.LatLngLiteral
@@ -38,7 +45,7 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     // minZoom: 8,
   }
 
-  markers = [];
+  markers: MarkerModel[] = [];
 
   directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
 
@@ -50,8 +57,8 @@ export class GoogleMapComponent implements OnInit, OnChanges {
           lng: event.latLng.lng(),
         },
         label: {
-          color: 'black',
-          text: this.currentUser.name,
+          color: 'white',
+          text: this.currentUser.name.substring(0,2),
         },
         title: UUID.UUID(),
         options: {
@@ -62,11 +69,15 @@ export class GoogleMapComponent implements OnInit, OnChanges {
         },
       });
     }
+
+    this.markersList.emit(this.markers);
   }
 
   constructor(
     private mapDirectionsService: MapDirectionsService,
     private localStorageService: LocalStorageService,
+    private geocoder: MapGeocoder,
+    private tripApiService: TripApiService
     ) { }
 
   ngOnInit(): void {
@@ -106,12 +117,8 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   // zoomOut() {
   //   if (this.zoom > this.options.minZoom) this.zoom--
   // }
-  markerClick(event) {
-    this.markers.forEach(marker => {
-      if (event.latLng.lat() === marker.position.lat && event.latLng.lng() === marker.position.lng) {
-        this.showMarkerDetails(marker)
-      }
-    })
+  markerClick(marker: MapMarker) {
+    this.showMarkerDetails(marker)
   }
 
   private setCenterPoints() {
@@ -120,6 +127,13 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   }
 
   private showMarkerDetails(marker) {
+    const markerlatlng = {
+      lat: parseFloat(marker._position.lat),
+      lng: parseFloat(marker._position.lng),
+    };
 
+    this.$markerData = this.geocoder.geocode({ location: markerlatlng })
+
+    this.infoWindow.open(marker)
   }
 }

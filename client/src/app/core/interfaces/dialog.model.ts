@@ -1,6 +1,4 @@
 export interface DialogModel {
-  title?: string;
+  title: string;
   desc?: string;
-  yes?: string;
-  no?: string;
 }

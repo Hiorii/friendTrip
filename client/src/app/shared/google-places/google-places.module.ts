@@ -5,8 +5,6 @@ import {GooglePlaceModule} from "ngx-google-places-autocomplete";
 import {SharedModule} from "../shared.module";
 import {ReactiveFormsModule} from "@angular/forms";
 
-
-
 @NgModule({
   declarations: [GooglePlacesComponent],
   exports: [
