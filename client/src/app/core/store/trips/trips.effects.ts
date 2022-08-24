@@ -8,7 +8,9 @@ import {Store} from "@ngrx/store";
 import {selectCurrentUser} from "../users";
 import {DialogService} from "../../../shared/dialog/dialog.service";
 import {ToastService} from "../../../shared/toast/toast.service";
-import {updateTripMarkersAction} from "./trips.actions";
+import {removeTripMarkersAction, setTripDataAction, updateTripMarkersAction} from "./trips.actions";
+import {selectCurrentTrip} from "./index";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Injectable()
 export class TripsEffects {
@@ -94,8 +96,42 @@ export class TripsEffects {
 
             return EMPTY;
           }),
-          tap(_ => this.toast.success('Your markers has been saved')),
-          map(() => actions.setTripMarkersAction({ markers: markers }))
+          map(() => actions.setTripMarkersAction({ markers: markers })),
+          tap(_ => {
+            this.toast.success('Your markers has been saved')
+            window.location.reload()
+          }),
+        )
+      )
+    )
+  )
+
+  removeTripMarkersAction$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(removeTripMarkersAction),
+      withLatestFrom(this.store.select(selectCurrentUser)),
+      exhaustMap(([{ id, currentUser, markerId }, currentUserData]) => this.dialog
+        .openConfirmationDialog({
+          title: 'Travel points remove',
+          desc: 'Are you sure you want to remove travel point?'
+        })
+        .afterClosed()
+        .pipe(
+          switchMap(confirmed => (confirmed
+          ? this.tripApiService.removeMarker(id, currentUser, markerId)
+            .pipe(
+              catchError(error => {
+                this.toast.danger(error)
+                return EMPTY
+              }),
+              map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
+              tap(_ => {
+                this.toast.success('Your markers has been removed')
+                window.location.reload()
+              }),
+            )
+          : EMPTY
+          ))
         )
       )
     )
@@ -105,6 +141,8 @@ export class TripsEffects {
     private actions$: Actions,
     private tripApiService: TripApiService,
     private dialog: DialogService,
-    private toast: ToastService
+    private toast: ToastService,
+    private store: Store,
+    private router: Router,
   ) { }
 }

@@ -12,6 +12,7 @@ import { Request, Response } from 'express';
 import { log } from 'util';
 import { MessageModel } from '../chat/message.model';
 import { MarkersModel } from '../trips/markers.model';
+import { TripsType } from '../trips/trips.model';
 
 @Injectable()
 export class UsersService {
@@ -186,28 +187,107 @@ export class UsersService {
       });
   }
 
-  async addMarkersToTrip(tripId: string, currentUser: any, markers: MarkersModel[]) {
-    const filter = { email: currentUser.currentUser };
-    const user = await this.getUser(currentUser.currentUser);
-    const dataToUpdate = {
-      usersTrips:
-    };
-    // user.usersTrips.map((data) => {
-    //   if (
-    //     data.travelInfoData.travelName ===
-    //     newTripData.tripData.travelInfoData.travelName
-    //   ) {
-    //     return { message: 'Trip with such name already exist' };
-    //   }
-    // });
+  async addMarkersToTrip(
+    tripId: string,
+    currentUser: any,
+    markers: MarkersModel[],
+  ) {
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
 
-    const newUserTripMarker = await this.usersModule.findOneAndUpdate(
-      filter,
-      dataToUpdate,
-    );
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
 
-    await newUserTripMarker.save();
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
 
-    return newUserTripMarker;
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          data.markers.push(markers);
+        });
+
+        tripToUpdate = currentTrip;
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
+  }
+
+  async removeMarkerFromTrip(tripId, query) {
+    const { markerId } = query;
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          let currMarker;
+          let index;
+
+          data.markers.map((marker) =>
+            marker.markers.map((m) => {
+              if (m.label.id === markerId) {
+                currMarker = m;
+                index = marker.markers.indexOf(m);
+
+                if (index > -1) {
+                  marker.markers.splice(index, 1);
+                }
+              }
+            }),
+          );
+        });
+
+        tripToUpdate = [...new Set(currentTrip)];
+        tripToUpdate.map((data) =>
+          data.markers.map((m) => {
+            const index = data.markers.indexOf(m);
+
+            if (index > -1) {
+              if (m.markers.length === 0) {
+                data.markers.splice(index, 1);
+              }
+            }
+          }),
+        );
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
+
+    return tripToUpdate;
   }
 }

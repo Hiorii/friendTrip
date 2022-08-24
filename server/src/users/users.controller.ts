@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersType } from './users.model';
 import { MessageModel } from '../chat/message.model';
@@ -60,5 +60,13 @@ export class UsersController {
     @Body() markers: MarkersModel[],
   ) {
     return this.userService.addMarkersToTrip(id, currentUser, markers);
+  }
+
+  @Delete('trip/:id/markers')
+  async removeMarkersFromTrip(
+    @Param('id') id: string,
+    @Query() query
+  ) {
+    return this.userService.removeMarkerFromTrip(id, query);
   }
 }

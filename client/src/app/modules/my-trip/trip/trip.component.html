@@ -9,6 +9,7 @@
     *ngIf="currentTrip?.travelPoints"
     [tripPoints]="currentTrip?.travelPoints"
     [isMarkerAdded]="isMarkerAdded"
+    [markersDataForCurrentTrip]="markersData$ | async"
     [class.isMarkedAdded]="isMarkerAdded"
     (markersList)="onMarkerListUpdate($event)"
   ></app-google-map>
@@ -33,7 +34,7 @@
     ></app-button>
   </ng-container>
 
-  <ng-container *ngIf="currentTrip.tripUsers.length">
+  <ng-container *ngIf="currentTrip?.tripUsers.length">
     <div
       *ngFor="let user of currentTrip.tripUsers"
       class="travelUserContainer"

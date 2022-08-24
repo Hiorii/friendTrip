@@ -7,6 +7,7 @@ export interface MarkerModel {
   label: {
     color: string;
     text: string;
+    id: string;
   };
   options: {
     [key: string]: boolean | string

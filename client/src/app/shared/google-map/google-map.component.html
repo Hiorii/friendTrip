@@ -21,7 +21,9 @@
   <map-info-window>
     <app-google-map-info-window
       [currentUser]="currentUser"
+      [currentMarkerId]="currentMarkerId"
       [markerData]="$markerData | async"
+      [tripData]="tripData"
     ></app-google-map-info-window>
   </map-info-window>
 </google-map>

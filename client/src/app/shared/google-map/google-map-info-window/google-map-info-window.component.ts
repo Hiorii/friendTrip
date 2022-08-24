@@ -1,4 +1,6 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Store} from "@ngrx/store";
+import {removeTripMarkersAction} from "../../../core/store/trips/trips.actions";
 
 @Component({
   selector: 'app-google-map-info-window',
@@ -8,16 +10,17 @@ import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core'
 export class GoogleMapInfoWindowComponent implements OnInit, OnChanges {
   @Input() markerData;
   @Input() currentUser;
+  @Input() tripData;
+  @Input() currentMarkerId;
 
   markerAddress: string;
 
-  constructor() { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void { }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.markerData = changes['markerData'].currentValue?.results;
-    console.log(this.markerData)
+    this.markerData = changes['markerData']?.currentValue?.results;
     if (this.markerData?.length) {
       this.markerData.filter(data => {
         if (data.types.includes('route')) {
@@ -27,4 +30,7 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges {
     }
   }
 
+  removeMarker() {
+    this.store.dispatch(removeTripMarkersAction({ id: this.tripData.id, currentUser: this.currentUser, markerId: this.currentMarkerId }))
+  }
 }

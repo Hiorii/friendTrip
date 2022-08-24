@@ -36,4 +36,10 @@ export class TripApiService {
   addNewMarkers(id: string, currentUser: string, markers: MarkerModel[]) {
     return this.http.put(this.url + `trip/${id}/markers`, {currentUser, markers})
   }
+
+  removeMarker(id: string, currentUser: string, markerId: string) {
+    const params = new HttpParams().set('id', id).append('markerId', markerId);
+
+    return this.http.delete(this.url + `trip/${id}/markers`, {params})
+  }
 }

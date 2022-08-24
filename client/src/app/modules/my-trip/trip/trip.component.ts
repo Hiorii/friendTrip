@@ -1,12 +1,10 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {selectCurrentTrip} from "../../../core/store/trips";
+import {selectCurrentTrip, selectTripMarkers} from "../../../core/store/trips";
 import {TripModel} from "../../../core/interfaces/trip.model";
 import {getTripDataAction, saveTripMarkersAction} from "../../../core/store/trips/trips.actions";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {ActivatedRoute} from "@angular/router";
-import {DialogService} from "../../../shared/dialog/dialog.service";
-import {tap} from "rxjs";
 import {MarkerModel} from "../../../core/interfaces/marker.model";
 
 @Component({
@@ -15,26 +13,29 @@ import {MarkerModel} from "../../../core/interfaces/marker.model";
   styleUrls: ['./trip.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class TripComponent implements OnInit {
+export class TripComponent implements OnInit, OnChanges {
   currentTrip: TripModel;
   isChatVisible: boolean = false;
   tripId: string;
   isMarkerAdded: boolean = false;
   currentUser: any;
   markersList: MarkerModel[];
+  markersData$ = this.store.select(selectTripMarkers);
 
   constructor(
     private store: Store,
     private localStorageService: LocalStorageService,
     private route: ActivatedRoute,
-    private dialog: DialogService
   ) { }
 
   ngOnInit(): void {
     this.currentUser = this.localStorageService.getItem('user').email
     this.tripId = this.route.snapshot.paramMap.get('id');
-
     this.getTripDate(this.currentUser);
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
   }
 
   showChat(isVisible: boolean): void {

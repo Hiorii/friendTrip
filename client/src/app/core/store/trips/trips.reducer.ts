@@ -27,6 +27,8 @@ export interface State {
         },
       }
       tripUsers?: UsersModel[],
+      messages?: any[],
+      markers?: MarkerModel[],
     }[],
   currentTrip:
     {
@@ -78,6 +80,8 @@ const initialState: State = {
         },
       },
       tripUsers: [],
+      messages: [],
+      markers: [],
     }
   ],
   currentTrip:
@@ -157,4 +161,4 @@ export const getTripInfo = (state: State) => state.currentTrip?.travelInfoData
 export const getTripPoints = (state: State) => state.currentTrip?.travelPoints
 export const getTripUsers = (state: State) => state.currentTrip?.tripUsers
 export const getTripMessages = (state: State) => state.currentTrip?.messages
-
+export const getTripMarkers = (state: State) => state.currentTrip?.markers

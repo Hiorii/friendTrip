@@ -20,3 +20,5 @@ export const setTripUsersAction = createAction('[Trips] Set Trip Users', props<{
 export const saveTripMarkersAction = createAction('[Trips] Save Trips Markers', props<{ id: string, currentUser: string, markers: MarkerModel[]}>())
 export const setTripMarkersAction = createAction('[Trips] Set Trips Markers', props<{ markers: MarkerModel[]}>())
 export const updateTripMarkersAction = createAction('[Trips] Update Trips Markers', props<{ id: string, currentUser: string, markers: MarkerModel[]}>())
+export const removeTripMarkersAction = createAction('[Trips] Remove Trips Markers', props<{ id: string, currentUser: string, markerId: string}>())
+
