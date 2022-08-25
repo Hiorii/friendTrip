@@ -1,0 +1,156 @@
+@import "../../../../assets/sass/settings";
+
+.marker-info-container {
+  .voting-container {
+    @include flex(center, center);
+    margin-bottom: 10px;
+
+    .status-container {
+      @include flex(center, center);
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+
+      &.yes {
+        background-color: $color-success;
+        margin-right: 10px;
+      }
+
+      &.no {
+        background-color: $color-danger;
+      }
+    }
+
+
+    i {
+      margin: 0;
+      padding: 0;
+      color: $second-font;
+    }
+  }
+
+  .vote-btn-container {
+    @include flex(flex-start, center);
+
+    .vote-btn-container-inner {
+      .toggle-container {
+        @include flex(flex-start, center);
+        margin-bottom: 10px;
+
+        i {
+          margin: 0 5px 0 0;
+          padding: 0;
+          color: $primary;
+        }
+
+        .vote {
+          cursor: pointer;
+          color: $primary;
+          margin: 0;
+          padding: 0;
+          font-weight: 600;
+          font-size: 1.1rem;
+        }
+      }
+    }
+  }
+
+  .remove-btn-container {
+    @include flex(flex-start, center);
+    margin-bottom: 10px;
+
+    i {
+      margin: 0 5px 0 0;
+      padding: 0;
+      color: $color-danger;
+    }
+
+    .remove {
+      cursor: pointer;
+      color: $color-danger;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .vote-complete-btn-container {
+    @include flex(flex-start, center);
+
+    i {
+      margin: 0 5px 0 0;
+      padding: 0;
+      color: $color-success;
+    }
+
+    p {
+      cursor: pointer;
+      color: $color-success;
+      margin: 0;
+      padding: 0;
+    }
+  }
+
+  .userList {
+    @include flex(flex-start, center);
+    margin-bottom: 10px;
+
+    .user-inner {
+      @include flex(flex-start, center);
+
+      img {
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        margin: 0 5px 0 0;
+      }
+
+      p {
+        margin: 0;
+        padding: 0;
+        font-weight: 600;
+      }
+    }
+
+    .status-container {
+      @include flex(center, center);
+
+      margin-left: 20px;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      border: 1px solid $main-btn;
+
+      &.check {
+        background-color: $color-success;
+      }
+
+      &.times {
+        background-color: $color-danger;
+      }
+
+      &.question {
+        background-color: $color-warning;
+      }
+    }
+  }
+
+  .votes-title {
+    font-size: 11px;
+
+    span {
+      font-weight: 600;
+    }
+  }
+
+  .already-voted {
+    font-size: 13px;
+    font-weight: 600;
+    color: $color-danger;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+
+
+

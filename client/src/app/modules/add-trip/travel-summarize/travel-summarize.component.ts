@@ -24,6 +24,7 @@ export class TravelSummarizeComponent implements OnInit {
   @Input() tripInfoData: TripInfoDataModel
   @Input() tripPointData: TripPointDataModel
   @Input() tripUsersData: UsersModel[]
+  @Input() currentUser: UsersModel
 
   tripData: TripModel
   tripMessages: [] = [];
@@ -43,6 +44,7 @@ export class TravelSummarizeComponent implements OnInit {
       id: UUID.UUID(),
       travelInfoData: this.tripInfoData,
       travelPoints: this.tripPointData,
+      creator: this.currentUser,
       tripUsers: this.tripUsersData,
       messages: this.tripMessages,
     }

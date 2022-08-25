@@ -13,6 +13,8 @@ import { log } from 'util';
 import { MessageModel } from '../chat/message.model';
 import { MarkersModel } from '../trips/markers.model';
 import { TripsType } from '../trips/trips.model';
+import {VotingStatusModel} from "../trips/voting-status.enum";
+import {WaypointsModel} from "../trips/waypoints.model";
 
 @Injectable()
 export class UsersService {
@@ -288,6 +290,93 @@ export class UsersService {
         console.log(res);
       });
 
+    return tripToUpdate;
+  }
+
+  async voteOnMarker(id: string, currentUser: any, votingStatus: any) {
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === id);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === id) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          data.markers.map((marker) =>
+            marker.markers.map((m) => {
+              m.label.voteStatus.forEach(us => {
+                if (us.user.email === currentUser.currentUser.email) {
+                  us.status = votingStatus.votingStatus;
+                  us.votesCount = 0;
+                }
+              })
+            }),
+          );
+        });
+
+        tripToUpdate = currentTrip;
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
+    return tripToUpdate;
+  }
+
+  async addNewWaypoints(
+    tripId: string,
+    currentUser: any,
+    waypoints: WaypointsModel,
+  ) {
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          data.waypoints.push(waypoints);
+        });
+
+        tripToUpdate = currentTrip;
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
     return tripToUpdate;
   }
 }

@@ -4,6 +4,8 @@ import {TripModel} from "../../interfaces/trip.model";
 import {UsersModel} from "../../interfaces/users.model";
 import {MessageModel} from "../../interfaces/message.model";
 import {MarkerModel} from "../../interfaces/marker.model";
+import {VotingStatusModel} from "../../enums/voting-status.model";
+import {WaypointsModel} from "../../interfaces/waypoints.model";
 
 @Injectable({
   providedIn: 'root'
@@ -37,9 +39,17 @@ export class TripApiService {
     return this.http.put(this.url + `trip/${id}/markers`, {currentUser, markers})
   }
 
+  addNewWaypoints(id: string, currentUser: string, waypoints: WaypointsModel) {
+    return this.http.put(this.url + `trip/${id}/waypoints`, {currentUser, waypoints})
+  }
+
   removeMarker(id: string, currentUser: string, markerId: string) {
     const params = new HttpParams().set('id', id).append('markerId', markerId);
 
     return this.http.delete(this.url + `trip/${id}/markers`, {params})
+  }
+
+  voteOnMarker(id: string, currentUser: UsersModel, votingStatus: VotingStatusModel) {
+    return this.http.put(this.url + `trip/${id}/markers/vote`, {currentUser, votingStatus})
   }
 }

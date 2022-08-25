@@ -1,8 +1,8 @@
 import {UsersModel} from "../../interfaces/users.model";
 import {createReducer, on} from "@ngrx/store";
 import * as actions from './trips.actions';
-import {MessageModel} from "../../interfaces/message.model";
 import {MarkerModel} from "../../interfaces/marker.model";
+import {WaypointsModel} from "../../interfaces/waypoints.model";
 
 export interface State {
   tripsList:
@@ -25,10 +25,12 @@ export interface State {
           latitude: number,
           longitude: number,
         },
-      }
+      },
+      creator: UsersModel,
       tripUsers?: UsersModel[],
       messages?: any[],
       markers?: MarkerModel[],
+      waypoints?: WaypointsModel[],
     }[],
   currentTrip:
     {
@@ -50,10 +52,12 @@ export interface State {
           latitude: number,
           longitude: number,
         },
-      }
+      },
+      creator: UsersModel,
       tripUsers?: UsersModel[],
       messages?: any[],
       markers?: MarkerModel[],
+      waypoints?: WaypointsModel[],
     }
 }
 
@@ -79,9 +83,11 @@ const initialState: State = {
           longitude: 0,
         },
       },
+      creator: null,
       tripUsers: [],
       messages: [],
       markers: [],
+      waypoints: []
     }
   ],
   currentTrip:
@@ -105,9 +111,11 @@ const initialState: State = {
           longitude: 0,
         },
       },
+      creator: null,
       tripUsers: [],
       messages: [],
       markers: [],
+      waypoints: []
     }
 }
 
@@ -162,3 +170,4 @@ export const getTripPoints = (state: State) => state.currentTrip?.travelPoints
 export const getTripUsers = (state: State) => state.currentTrip?.tripUsers
 export const getTripMessages = (state: State) => state.currentTrip?.messages
 export const getTripMarkers = (state: State) => state.currentTrip?.markers
+export const getTripWaypoints= (state: State) => state.currentTrip?.waypoints

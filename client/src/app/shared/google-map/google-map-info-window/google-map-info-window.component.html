@@ -1,5 +1,93 @@
 <div class="marker-info-container">
   <h4>{{ currentUser.name }}'s marker</h4>
   <p>{{ markerAddress }}</p>
-  <p (click)="removeMarker()">Remove marker</p>
+  <hr>
+  <div class="vote-btn-container">
+    <div
+      *ngIf="!hadUserVoted"
+      class="vote-btn-container-inner"
+    >
+      <div class="toggle-container">
+        <i class="fa fa-comments-o"></i>
+        <p
+          *ngIf="!isVotingStarted"
+          class="vote"
+          (click)="toggleVoteOnMarker()"
+        >
+          Start voting on marker
+        </p>
+        <p
+          *ngIf="isVotingStarted"
+          class="vote"
+          (click)="toggleVoteOnMarker()"
+        >
+          Cancel voting on marker
+        </p>
+      </div>
+      <ng-container *ngIf="isVotingStarted">
+        <div class="voting-container">
+          <div
+            class="status-container yes"
+            (click)="voteYesOnMarker()"
+          >
+            <i class="fa fa-check"></i>
+          </div>
+          <div
+            class="status-container no"
+            (click)="voteNoOnMarker()"
+          >
+            <i class="fa fa-times"></i>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+    <ng-container *ngIf="hadUserVoted">
+      <p class="already-voted">You've already cast your vote</p>
+    </ng-container>
+  </div>
+  <hr>
+  <ng-container *ngIf="updatedUserList">
+    <div class="votes-title">
+      <p>Voting results: <span>{{ currentVotesCount }}/{{ totalVotesCount }} votes completed</span></p>
+    </div>
+    <div
+      *ngFor="let user of updatedUserList"
+      class="userList"
+    >
+      <div class="user-inner">
+        <img [src]="user?.photo" alt="">
+        <p>{{user?.surname + " " + user?.name?.substring(0,1) + "."}}</p>
+      </div>
+      <div
+        *ngIf="user?.markerVoteStatus === VotingStatusModel.confirmed"
+        class="status-container check"
+      >
+        <i class="fa fa-check"></i>
+      </div>
+      <div
+        *ngIf="user?.markerVoteStatus === VotingStatusModel.declined"
+        class="status-container times"
+      >
+        <i class="fa fa-times"></i>
+      </div>
+      <div
+        *ngIf="user?.markerVoteStatus === VotingStatusModel.unvoted"
+        class="status-container question"
+      >
+        <i class="fa fa-question"></i>
+      </div>
+    </div>
+  </ng-container>
+  <hr>
+  <div class="remove-btn-container">
+    <i class="fa fa-trash"></i>
+    <p class="remove" (click)="removeMarker()">Remove marker</p>
+  </div>
+  <div
+    *ngIf="hadMarkedVoteCompleteSuccessful"
+    class="vote-complete-btn-container"
+  >
+    <i class="fa fa-location-arrow"></i>
+    <p (click)="addMarkerToTrip()">Add travel point ot trip</p>
+  </div>
 </div>

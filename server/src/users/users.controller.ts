@@ -3,6 +3,8 @@ import { UsersService } from './users.service';
 import { UsersType } from './users.model';
 import { MessageModel } from '../chat/message.model';
 import { MarkersModel } from '../trips/markers.model';
+import { VotingStatusModel } from "../trips/voting-status.enum";
+import {WaypointsModel} from "../trips/waypoints.model";
 
 @Controller('users')
 export class UsersController {
@@ -68,5 +70,23 @@ export class UsersController {
     @Query() query
   ) {
     return this.userService.removeMarkerFromTrip(id, query);
+  }
+
+  @Put('trip/:id/markers/vote')
+  async voteOnMarker(
+    @Param('id') id: string,
+    @Body() currentUser: UsersType,
+    @Body() votingStatus: VotingStatusModel,
+  ) {
+    return this.userService.voteOnMarker(id, currentUser, votingStatus);
+  }
+
+  @Put('trip/:id/waypoints')
+  async addNewWaypoints(
+    @Param('id') id: string,
+    @Body() currentUser: UsersType,
+    @Body() waypoints: WaypointsModel,
+  ) {
+    return this.userService.addNewWaypoints(id, currentUser, waypoints);
   }
 }

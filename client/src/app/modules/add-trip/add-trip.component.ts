@@ -5,7 +5,7 @@ import {AddTripNavigationModel} from "../../core/enums/add-trip-navigation.model
 import {TripInfoDataModel} from "../../core/interfaces/trip-info-data.model";
 import {UsersModel} from "../../core/interfaces/users.model";
 import {Store} from "@ngrx/store";
-import {selectAllUsersList} from "../../core/store/users";
+import {selectAllUsersList, selectCurrentUser} from "../../core/store/users";
 import {selectTripInfo, selectTripPoints, selectTripUsers} from "../../core/store/trips";
 
 @Component({
@@ -24,6 +24,7 @@ export class AddTripComponent implements OnInit {
 
   //users Data
   allUsersList$ = this.store.select(selectAllUsersList)
+  currentUser$ = this.store.select(selectCurrentUser)
 
   //trip Data
   tripInfo$ = this.store.select(selectTripInfo)

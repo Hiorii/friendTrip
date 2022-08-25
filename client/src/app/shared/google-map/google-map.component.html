@@ -22,8 +22,10 @@
     <app-google-map-info-window
       [currentUser]="currentUser"
       [currentMarkerId]="currentMarkerId"
+      [currentMarkerVoteStatus]="currentMarkerVoteStatus"
       [markerData]="$markerData | async"
       [tripData]="tripData"
+      (onAddMarkerToTrip)="onAddMarkerToTrip($event)"
     ></app-google-map-info-window>
   </map-info-window>
 </google-map>

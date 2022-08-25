@@ -1,3 +1,5 @@
+import {VoteStatusModel} from "./vote-status.model";
+
 export interface MarkerModel {
   position: {
     lat: number;
@@ -5,9 +7,10 @@ export interface MarkerModel {
   };
   title: string;
   label: {
+    id: string;
     color: string;
     text: string;
-    id: string;
+    voteStatus: VoteStatusModel[]
   };
   options: {
     [key: string]: boolean | string

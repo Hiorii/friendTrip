@@ -1,10 +1,9 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component, EventEmitter,
   Input,
   OnChanges,
-  OnInit, Output, SimpleChange,
+  OnInit, Output,
   SimpleChanges, ViewChild
 } from '@angular/core';
 import {MapDirectionsService, MapGeocoder, MapInfoWindow, MapMarker} from "@angular/google-maps";
@@ -15,8 +14,12 @@ import {UUID} from "angular2-uuid";
 import {TripApiService} from "../../core/services/api/trip-api.service";
 import {MarkerModel} from "../../core/interfaces/marker.model";
 import {Store} from "@ngrx/store";
-import {selectCurrentTrip} from "../../core/store/trips";
+import {selectCurrentTrip, selectTripWaypoints} from "../../core/store/trips";
 import {TripModel} from "../../core/interfaces/trip.model";
+import {selectCurrentUser} from "../../core/store/users";
+import {VotingStatusModel} from "../../core/enums/voting-status.model";
+import {VoteStatusModel} from "../../core/interfaces/vote-status.model";
+import {saveTripWaypointsAction} from "../../core/store/trips/trips.actions";
 
 @Component({
   selector: 'app-google-map',
@@ -37,6 +40,8 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   currentUser: any;
   tripData: TripModel;
   currentMarkerId: string;
+  currentMarkerVoteStatus: VoteStatusModel;
+  user: any;
 
   zoom = 12
   center: google.maps.LatLngLiteral
@@ -53,22 +58,40 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   markers: MarkerModel[] = [];
 
   directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
+  waypoints: any[] = [];
 
   addMarker(event: google.maps.MapMouseEvent) {
+    let voteArr = [];
+
     if (this.isMarkerAdded) {
+      this.tripData.tripUsers.forEach(user => {
+        voteArr.push({
+          status: VotingStatusModel.unvoted,
+          votesCount: 1,
+          user: user
+        })
+      });
+
+      voteArr.push({
+        status: VotingStatusModel.unvoted,
+        votesCount: 1,
+        user: this.tripData.creator
+      })
+
       const markerData = {
         position: {
           lat: event.latLng.lat(),
           lng: event.latLng.lng(),
         },
         label: {
-          color: 'white',
-          text: this.currentUser.name.substring(0,2),
           id: UUID.UUID(),
+          color: 'white',
+          text: this.currentUser.name.substring(0, 2),
+          voteStatus: voteArr,
         },
         title: UUID.UUID(),
         options: {
-          draggable: true,
+          draggable: false,
           clickable: true,
 
           // animation: google.maps.Animation.BOUNCE
@@ -85,11 +108,12 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     private localStorageService: LocalStorageService,
     private geocoder: MapGeocoder,
     private tripApiService: TripApiService,
-    private store: Store
+    private store: Store,
     ) { }
 
   ngOnInit(): void {
     this.currentUser = this.localStorageService.getItem('user');
+    this.store.select(selectCurrentUser).subscribe(user => this.user = user);
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -98,12 +122,15 @@ export class GoogleMapComponent implements OnInit, OnChanges {
 
     this.setCurrentTripMarkers(changes);
     this.setCenterPoints();
+    this.setWaypoints();
 
     const request: google.maps.DirectionsRequest = {
       destination: {lat: +this.tripPointsToTravel?.destinationPoint?.latitude, lng: +this.tripPointsToTravel?.destinationPoint?.longitude},
       origin: {lat: +this.tripPointsToTravel?.startPoint?.latitude, lng: +this.tripPointsToTravel?.startPoint?.longitude},
-      travelMode: google.maps.TravelMode.DRIVING
+      travelMode: google.maps.TravelMode.DRIVING,
+      waypoints: this.waypoints
     };
+
     this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
 
     navigator.geolocation.getCurrentPosition((position) => {
@@ -131,6 +158,15 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     this.showMarkerDetails(marker)
   }
 
+  onAddMarkerToTrip(markersData: any) {
+    const newWayPoints = {
+      location: new google.maps.LatLng(markersData.lat,markersData.lng),
+      stopover: true
+    }
+
+    this.store.dispatch(saveTripWaypointsAction({ id: this.tripData.id, currentUser: this.user, waypoints: newWayPoints }))
+  }
+
   private setCenterPoints() {
     this.options.center.lng = this.tripPointsToTravel?.destinationPoint?.longitude
     this.options.center.lat = this.tripPointsToTravel?.destinationPoint?.latitude
@@ -138,6 +174,8 @@ export class GoogleMapComponent implements OnInit, OnChanges {
 
   private showMarkerDetails(marker) {
     this.currentMarkerId = marker._label.id;
+    this.currentMarkerVoteStatus = marker._label.voteStatus
+
     const markerlatlng = {
       lat: parseFloat(marker._position.lat),
       lng: parseFloat(marker._position.lng),
@@ -154,5 +192,17 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     if (this.markersDataForCurrentTrip) {
       this.markersDataForCurrentTrip.map((markersData: any) => this.markers = markersData.markers)
     }
+  }
+
+  private setWaypoints() {
+    const newWaypointsArr = [];
+
+    this.store.select(selectTripWaypoints).subscribe((waypoints: any) => {
+      waypoints.forEach(waypoint => {
+        newWaypointsArr.push(waypoint.waypoints);
+
+        this.waypoints = newWaypointsArr;
+      })
+    })
   }
 }
