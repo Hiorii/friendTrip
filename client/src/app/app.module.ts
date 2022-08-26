@@ -8,6 +8,7 @@ import {SharedModule} from "./shared/shared.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from "./shared/material.module";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import {MaterialModule} from "./shared/material.module";
     SharedModule,
     NgbModule,
     BrowserAnimationsModule,
-    MaterialModule
+    MaterialModule,
+    NgxSpinnerModule.forRoot({ type: 'ball-beat' })
   ],
   providers: [],
   bootstrap: [AppComponent]

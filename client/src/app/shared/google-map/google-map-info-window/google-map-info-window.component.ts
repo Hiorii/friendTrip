@@ -59,7 +59,7 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
 
   ngOnDestroy() {
     this.allUserListSubscription.unsubscribe();
-    this.markerSubscription.unsubscribe();
+    if (this.markerSubscription) this.markerSubscription.unsubscribe();
   }
 
   removeMarker() {
@@ -137,7 +137,7 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
       if (user.voteCount === 0) {
         currentVotes.push(1);
       }
-      this.currentVotesCount = currentVotes.reduce((a,b) => a + b);
+      this.currentVotesCount = currentVotes.reduce((a,b) => a + b,0);
     })
   }
 
