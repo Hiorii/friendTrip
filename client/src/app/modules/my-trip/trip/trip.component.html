@@ -23,8 +23,16 @@
     ></app-waypoints>
   </ng-container>
 
+  <ng-container *ngIf="(totalTripDistance$ | async) && (totalTripDuration$ | async)">
+    <app-trip-duration-distance
+      [totalTripDistance]="totalTripDistance$ | async"
+      [totalTripDuration]="totalTripDuration$ | async"
+    ></app-trip-duration-distance>
+  </ng-container>
+
   <ng-container *ngIf="!isMarkerAdded">
     <app-button
+      class="btnAddMarker"
       [title]="'Add custom travel point to visit'"
       (handleOnClick)="handleAddCustomTravelPoint()"
     ></app-button>

@@ -31,6 +31,8 @@ export interface State {
       messages?: any[],
       markers?: MarkerModel[],
       waypoints?: WaypointsModel[],
+      totalTripDistance?: number;
+      totalTripDuration?: string;
     }[],
   currentTrip:
     {
@@ -58,6 +60,8 @@ export interface State {
       messages?: any[],
       markers?: MarkerModel[],
       waypoints?: WaypointsModel[],
+      totalTripDistance?: number;
+      totalTripDuration?: string;
     }
 }
 
@@ -87,7 +91,9 @@ const initialState: State = {
       tripUsers: [],
       messages: [],
       markers: [],
-      waypoints: []
+      waypoints: [],
+      totalTripDistance: 0,
+      totalTripDuration: ''
     }
   ],
   currentTrip:
@@ -115,7 +121,9 @@ const initialState: State = {
       tripUsers: [],
       messages: [],
       markers: [],
-      waypoints: []
+      waypoints: [],
+      totalTripDistance: 0,
+      totalTripDuration: ''
     }
 }
 
@@ -159,6 +167,20 @@ export const reducer = createReducer(
       ...state.currentTrip,
       markers: markers
     }
+  })),
+  on(actions.setTripDistanceAction, (state: State, { distance }) => ({
+    ...state,
+    currentTrip: {
+      ...state.currentTrip,
+      totalTripDistance: distance
+    }
+  })),
+  on(actions.setTripDurationAction, (state: State, { duration }) => ({
+    ...state,
+    currentTrip: {
+      ...state.currentTrip,
+      totalTripDuration: duration
+    }
   }))
 )
 
@@ -171,3 +193,5 @@ export const getTripUsers = (state: State) => state.currentTrip?.tripUsers
 export const getTripMessages = (state: State) => state.currentTrip?.messages
 export const getTripMarkers = (state: State) => state.currentTrip?.markers
 export const getTripWaypoints= (state: State) => state.currentTrip?.waypoints
+export const getTripDistance = (state: State) => state.currentTrip?.totalTripDistance
+export const getTripDuration = (state: State) => state.currentTrip?.totalTripDuration

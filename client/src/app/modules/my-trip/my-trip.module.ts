@@ -11,6 +11,7 @@ import {SharedModule} from "../../shared/shared.module";
 import { WaypointsComponent } from './waypoints/waypoints.component';
 import { WaypointComponent } from './waypoints/waypoint/waypoint.component';
 import {CoreModule} from "../../core/core.module";
+import { TripDurationDistanceComponent } from './trip-duration-distance/trip-duration-distance.component';
 
 @NgModule({
     imports: [
@@ -22,6 +23,6 @@ import {CoreModule} from "../../core/core.module";
         SharedModule,
         CoreModule
     ],
-  declarations: [MyTripComponent, TripComponent, TripListComponent, WaypointsComponent, WaypointComponent],
+  declarations: [MyTripComponent, TripComponent, TripListComponent, WaypointsComponent, WaypointComponent, TripDurationDistanceComponent],
 })
 export class MyTripModule { }

@@ -29,6 +29,12 @@
     }
   }
 
+  .btnAddMarker {
+    .btn {
+      margin-top: 1px;
+    }
+  }
+
   .isMarkedAdded {
     @include center();
   }

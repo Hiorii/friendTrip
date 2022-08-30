@@ -6,7 +6,7 @@ import {
   OnInit, Output,
   SimpleChanges, ViewChild
 } from '@angular/core';
-import {MapDirectionsService, MapGeocoder, MapInfoWindow, MapMarker} from "@angular/google-maps";
+import {MapDirectionsResponse, MapDirectionsService, MapGeocoder, MapInfoWindow, MapMarker} from "@angular/google-maps";
 import {map, Observable} from "rxjs";
 import {TripPointDataModel} from "../../core/interfaces/trip-point-data.model";
 import {LocalStorageService} from "../../core/services/local-storage.service";
@@ -19,7 +19,11 @@ import {TripModel} from "../../core/interfaces/trip.model";
 import {selectCurrentUser} from "../../core/store/users";
 import {VotingStatusModel} from "../../core/enums/voting-status.model";
 import {VoteStatusModel} from "../../core/interfaces/vote-status.model";
-import {removeTripMarkersAction, saveTripWaypointsAction} from "../../core/store/trips/trips.actions";
+import {
+  removeTripMarkersAction,
+  saveTripWaypointsAction,
+  setTripDistanceAction, setTripDurationAction
+} from "../../core/store/trips/trips.actions";
 
 @Component({
   selector: 'app-google-map',
@@ -42,6 +46,9 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   currentMarkerId: string;
   currentMarkerVoteStatus: VoteStatusModel;
   user: any;
+
+  totalTripDistance: number;
+  totalTripDuration: string;
 
   zoom = 12
   center: google.maps.LatLngLiteral
@@ -136,6 +143,8 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     };
 
     this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => {
+      this.setTripDistance(response);
+
       return response.result
     }));
 
@@ -203,5 +212,28 @@ export class GoogleMapComponent implements OnInit, OnChanges {
         this.waypoints = newWaypointsArr;
       })
     })
+  }
+
+  private setTripDistance(response: MapDirectionsResponse) {
+    let distanceArr = [];
+    let durationArr = [];
+
+    response.result?.routes[0]?.legs.forEach(leg => {
+      distanceArr.push(leg.distance.value);
+      const distance = distanceArr.reduce((a,b) => a + b);
+      durationArr.push(leg.duration.value);
+      const duration = durationArr.reduce((a,b) => a + b);
+
+      this.totalTripDistance = Math.round((distance / 1000));
+
+      if (duration >= 3600) {
+        this.totalTripDuration = new Date(duration * 1000).toISOString().substring(11, 16)
+      } else {
+        this.totalTripDuration = new Date(duration * 1000).toISOString().substring(14, 19)
+      }
+    })
+
+    this.store.dispatch(setTripDistanceAction( {distance: this.totalTripDistance}));
+    this.store.dispatch(setTripDurationAction({duration: this.totalTripDuration}));
   }
 }

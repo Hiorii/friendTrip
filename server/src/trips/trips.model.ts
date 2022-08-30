@@ -32,6 +32,8 @@ export const TripsSchema = new mongoose.Schema({
   messages: [],
   markers: [],
   waypoints: [],
+  totalTripDistance: { type: Number },
+  totalTripDuration: { type: String },
   // pointsToVisit: [{}],
   // totalCost: {},
   // status: { modelfor active, finished }
@@ -50,6 +52,8 @@ export interface TripsType {
   messages?: MessageModel[];
   markers?: MarkersModel[];
   waypoints?: WaypointsModel[];
+  totalTripDistance?: number;
+  totalTripDuration?: string;
   _id?: string;
 }
 

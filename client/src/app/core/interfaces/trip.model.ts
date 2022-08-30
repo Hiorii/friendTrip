@@ -14,4 +14,6 @@ export interface TripModel {
   messages?: any[];
   markers?: MarkerModel[];
   waypoints?: WaypointsModel[];
+  totalTripDistance?: number;
+  totalTripDuration?: string;
 }

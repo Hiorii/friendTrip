@@ -1,0 +1,12 @@
+@import '../../../../assets/sass/settings';
+
+.container {
+  @include flex(space-around, center);
+  margin-top: 1rem;
+  color: $primary-white;
+
+  span {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}

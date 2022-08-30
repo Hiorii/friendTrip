@@ -17,6 +17,9 @@ export const getTripUsersAction = createAction('[Trips] Get Trips Users', props<
 export const setTripInfoAction = createAction('[Trips] Set Trip Info', props<{ tripInfo: TripInfoDataModel }>())
 export const setTripPointsAction = createAction('[Trips] Set Trip Points', props<{ tripPoints: TripPointDataModel }>())
 export const setTripUsersAction = createAction('[Trips] Set Trip Users', props<{ tripUsers: UsersModel[] }>())
+export const setTripDistanceAction = createAction('[Trips] Set Trip Distance', props<{ distance: number }>())
+export const setTripDurationAction = createAction('[Trips] Set Trip Duration', props<{ duration: string }>())
+
 
 //Marker
 export const saveTripMarkersAction = createAction('[Trips] Save Trips Markers', props<{ id: string, currentUser: string, markers: MarkerModel[]}>())
