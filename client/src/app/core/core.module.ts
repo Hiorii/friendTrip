@@ -10,9 +10,12 @@ import {StoreDevtoolsModule} from "@ngrx/store-devtools";
 import {EffectsModule} from "@ngrx/effects";
 import {TripsEffects} from "./store/trips/trips.effects";
 import {UsersEffects} from "./store/users/users.effects";
+import {FilterPipe} from './pipes/filter-unique.pipe';
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    FilterPipe
+  ],
   imports: [
     CommonModule,
     HttpClientModule,
@@ -31,6 +34,7 @@ import {UsersEffects} from "./store/users/users.effects";
       maxAge: 25,
     })
   ],
+  exports: [FilterPipe],
   providers: [AuthService, LocalStorageService, TripApiService]
 })
 export class CoreModule { }

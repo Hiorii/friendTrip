@@ -8,6 +8,9 @@ import { TripComponent } from './trip/trip.component';
 import { TripListComponent } from './trip-list/trip-list.component';
 import {ChatModule} from "../../shared/chat/chat.module";
 import {SharedModule} from "../../shared/shared.module";
+import { WaypointsComponent } from './waypoints/waypoints.component';
+import { WaypointComponent } from './waypoints/waypoint/waypoint.component';
+import {CoreModule} from "../../core/core.module";
 
 @NgModule({
     imports: [
@@ -16,8 +19,9 @@ import {SharedModule} from "../../shared/shared.module";
         GoogleMapModule,
         GooglePlacesModule,
         ChatModule,
-        SharedModule
+        SharedModule,
+        CoreModule
     ],
-  declarations: [MyTripComponent, TripComponent, TripListComponent],
+  declarations: [MyTripComponent, TripComponent, TripListComponent, WaypointsComponent, WaypointComponent],
 })
 export class MyTripModule { }

@@ -293,6 +293,58 @@ export class UsersService {
     return tripToUpdate;
   }
 
+  async removeWaypointsFromTrip(tripId, query) {
+    const { waypointId } = query;
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          let currWaypoint;
+          let index;
+
+          data.waypoints.map((waypoint) => {
+            if (waypoint.waypoints.id === waypointId) {
+              currWaypoint = data.waypoints.filter(w => w.waypoints === waypoint.waypoints)
+
+              index = data.waypoints.indexOf(...currWaypoint);
+
+              if (index > -1) {
+                data.waypoints.splice(index, 1);
+              }
+            }
+          });
+        });
+
+        tripToUpdate = [...new Set(currentTrip)];
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
+
+    return tripToUpdate;
+  }
+
   async voteOnMarker(id: string, currentUser: any, votingStatus: any) {
     let tripToUpdate;
     let currentTrip;

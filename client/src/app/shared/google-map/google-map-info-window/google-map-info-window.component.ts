@@ -6,6 +6,8 @@ import {VoteStatusModel} from "../../../core/interfaces/vote-status.model";
 import {VotingStatusModel} from "../../../core/enums/voting-status.model";
 import {selectTripMarkers} from "../../../core/store/trips";
 import {Subscription} from "rxjs";
+import {GooglePlacesTypesModel} from "../../../core/interfaces/google-places-types.model";
+import {GoogleMap} from "@angular/google-maps";
 
 @Component({
   selector: 'app-google-map-info-window',
@@ -18,12 +20,15 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
   @Input() tripData;
   @Input() currentMarkerId;
   @Input() currentMarkerVoteStatus;
+  @Input() options;
+  @Input() googleMap;
   @Output() onAddMarkerToTrip = new EventEmitter<any>();
 
   allUserListSubscription: Subscription;
   markerSubscription: Subscription;
 
   markerAddress: string;
+  marker: any;
   allUserList: any[];
   updatedUserList: any[];
   userVoteStatus: VoteStatusModel;
@@ -33,23 +38,16 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
   totalVotesCount: number;
   hadUserVoted: boolean = false;
   hadMarkedVoteCompleteSuccessful: boolean = false;
+  googlePlaceTypes = new GooglePlacesTypesModel();
+  placeId: string;
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.markerData = changes['markerData']?.currentValue?.results;
-    if (this.markerData?.length) {
-      this.markerData.filter(data => {
-        if (data.types.includes('route')) {
-          this.markerAddress = data.formatted_address;
-        }
-      })
-    }
-
+    this.setGooglePlaceData(changes['markerData']?.currentValue?.results)
     this.setUserList();
     this.handleUserVoting();
     this.checkIfUserVoted();
@@ -82,6 +80,7 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
     this.markerSubscription = this.store.select(selectTripMarkers).subscribe((markers: any) => {
       markers.forEach(marker => {
         marker.markers.forEach(data => {
+          this.marker = marker;
           if (data.label.id === this.currentMarkerId) {
             this.onAddMarkerToTrip.emit({lng: data.position.lng, lat: data.position.lat})
           }
@@ -155,5 +154,40 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
     if (this.currentVotesCount/this.totalVotesCount === 1) {
       this.hadMarkedVoteCompleteSuccessful = true;
     }
+  }
+
+  private setGooglePlaceData(data: any) {
+    this.markerData = data;
+    if (this.markerData?.length) {
+      this.markerData.filter(data => {
+        data.types.map(type => {
+          if ([this.googlePlaceTypes.street_address].includes(type)) {
+            this.markerAddress = data.formatted_address;
+          }
+          if (
+            [this.googlePlaceTypes.premise, this.googlePlaceTypes.subpremise, this.googlePlaceTypes.point_of_interest]
+              .includes(type)
+          ) {
+            this.placeId = data.place_id;
+          }
+        })
+      })
+    }
+
+    this.setGooglePlaceDetails();
+  }
+
+  private setGooglePlaceDetails() {
+    if (!this.placeId) return;
+
+    const map = new google.maps.Map(this.googleMap as HTMLElement)
+    const request = {
+      placeId: this.placeId,
+      fields: ['name', 'address_component', 'type', 'formatted_address','icon', 'photos']
+    };
+    const service = new google.maps.places.PlacesService(map);
+    service.getDetails(request, (place, status) => {
+
+    });
   }
 }

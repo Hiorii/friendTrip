@@ -1,0 +1,28 @@
+<div
+  class="container"
+  [class.container-right]="!isHidden"
+  [class.container-left]="isHidden"
+>
+  <app-waypoint
+    [waypointsData]="waypointsData"
+    [tripId]="tripId"
+    [currentUser]="currentUser"
+  ></app-waypoint>
+  <div
+    class="arrow"
+    [class.arrow-right]="!isHidden"
+    [class.arrow-left]="isHidden"
+    (click)="toggleIsHidden()"
+  >
+    <div *ngIf="!isHidden">
+      <p>Waypoints</p>
+      <i
+        class="fa fa-caret-right"
+        aria-hidden="true"></i>
+    </div>
+    <i
+      *ngIf="isHidden"
+      class="fa fa-caret-left"
+      aria-hidden="true"></i>
+  </div>
+</div>

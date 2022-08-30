@@ -14,6 +14,15 @@
     (markersList)="onMarkerListUpdate($event)"
   ></app-google-map>
 
+  <ng-container *ngIf="waypointList$ | async">
+    <app-waypoints
+      class="waypoints-list"
+     [tripId]="currentTrip.id"
+     [currentUser]="currentUser"
+     [waypointList]="waypointList$ | async"
+    ></app-waypoints>
+  </ng-container>
+
   <ng-container *ngIf="!isMarkerAdded">
     <app-button
       [title]="'Add custom travel point to visit'"

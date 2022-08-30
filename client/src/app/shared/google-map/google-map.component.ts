@@ -59,6 +59,9 @@ export class GoogleMapComponent implements OnInit, OnChanges {
 
   directionsResults$: Observable<google.maps.DirectionsResult | undefined>;
   waypoints: any[] = [];
+  mapDirectionOptions = {
+    suppressInfoWindows: true,
+  };
 
   addMarker(event: google.maps.MapMouseEvent) {
     let voteArr = [];
@@ -128,10 +131,14 @@ export class GoogleMapComponent implements OnInit, OnChanges {
       destination: {lat: +this.tripPointsToTravel?.destinationPoint?.latitude, lng: +this.tripPointsToTravel?.destinationPoint?.longitude},
       origin: {lat: +this.tripPointsToTravel?.startPoint?.latitude, lng: +this.tripPointsToTravel?.startPoint?.longitude},
       travelMode: google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: true,
       waypoints: this.waypoints
     };
 
-    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => response.result));
+    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => {
+      return response.result
+    }));
+
 
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
@@ -139,27 +146,15 @@ export class GoogleMapComponent implements OnInit, OnChanges {
         lat: +this.tripPointsToTravel?.destinationPoint?.latitude
       }
     })
-
-    // REMOVE //
-    // google.maps.event.addListener(this.markerOptions, "dblclick", (event: any)=> {
-    //   console.log(this.markerPositions)
-    //   console.log(event)
-    // });
   }
 
-  // zoomIn() {
-  //   if (this.zoom < this.options.maxZoom) this.zoom++
-  // }
-  //
-  // zoomOut() {
-  //   if (this.zoom > this.options.minZoom) this.zoom--
-  // }
   markerClick(marker: MapMarker) {
     this.showMarkerDetails(marker)
   }
 
   onAddMarkerToTrip(markersData: any) {
     const newWayPoints = {
+      id: UUID.UUID(),
       location: new google.maps.LatLng(markersData.lat,markersData.lng),
       stopover: true
     }
@@ -199,7 +194,11 @@ export class GoogleMapComponent implements OnInit, OnChanges {
 
     this.store.select(selectTripWaypoints).subscribe((waypoints: any) => {
       waypoints.forEach(waypoint => {
-        newWaypointsArr.push(waypoint.waypoints);
+        const data = {
+          location: waypoint.waypoints.location,
+          stopover: waypoint.waypoints.stopover
+        }
+        newWaypointsArr.push(data);
 
         this.waypoints = newWaypointsArr;
       })

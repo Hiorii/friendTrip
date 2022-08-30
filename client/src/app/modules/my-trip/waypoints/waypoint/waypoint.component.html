@@ -1,0 +1,16 @@
+<div
+  *ngFor="let waypoint of waypointsData"
+  class="container"
+>
+  <p class="letter">{{ waypoint.order }}</p>
+  <p class="address">{{ waypoint.address }}</p>
+  <div class="remove-btn-container">
+    <i class="fa fa-trash"></i>
+    <p
+      class="remove"
+      (click)="onRemoveWaypoint(waypoint.id)"
+    >
+      Remove waypoint
+    </p>
+  </div>
+</div>

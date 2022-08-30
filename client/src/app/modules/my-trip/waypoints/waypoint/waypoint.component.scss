@@ -1,0 +1,38 @@
+@import "../../../../../assets/sass/settings";
+
+.container {
+  @include flex(center, center);
+  flex-direction: column;
+  border-bottom: 1px solid $second-font;
+  margin-bottom: 1rem;
+
+  &:first-child {
+    margin-top: 4rem;
+  }
+
+  .letter {
+    text-align: center;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background: $primary-lighter;
+  }
+
+  .remove-btn-container {
+    @include flex(flex-start, center);
+    margin-bottom: 10px;
+
+    i {
+      margin: 0 5px 0 0;
+      padding: 0;
+      color: $color-danger;
+    }
+
+    .remove {
+      cursor: pointer;
+      color: $color-danger;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

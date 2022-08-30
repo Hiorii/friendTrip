@@ -1,6 +1,8 @@
 <google-map
+  #map
   height="300px"
   width="100vw"
+  class="google-map"
   [zoom]="zoom"
   [center]="center"
   [options]="options"
@@ -17,6 +19,7 @@
   <map-directions-renderer
     *ngIf="(directionsResults$ | async) as directionsResults"
     [directions]="directionsResults"
+    [options]="mapDirectionOptions"
   ></map-directions-renderer>
   <map-info-window>
     <app-google-map-info-window
@@ -25,6 +28,8 @@
       [currentMarkerVoteStatus]="currentMarkerVoteStatus"
       [markerData]="$markerData | async"
       [tripData]="tripData"
+      [options]="options"
+      [googleMap]="map"
       (onAddMarkerToTrip)="onAddMarkerToTrip($event)"
     ></app-google-map-info-window>
   </map-info-window>

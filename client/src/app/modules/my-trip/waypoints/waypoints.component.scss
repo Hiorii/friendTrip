@@ -1,0 +1,58 @@
+@import "../../../../assets/sass/settings";
+
+.container {
+  position: absolute;
+  background-color: $primary-white;
+
+  &.container-right {
+    top: 110px;
+    height: 350px;
+    width: 200px;
+    -webkit-clip-path: polygon(15% 46%, 15% 55%, 0 66%, 0 37%);
+    clip-path: polygon(15% 46%, 15% 55%, 0 66%, 0 37%);
+  }
+
+  &.container-left {
+    top: 56px;
+    left: 0;
+    width: 70%;
+    height: 100%;
+  }
+
+  .arrow {
+    position: absolute;
+    transform: translate(-50%, -70px);
+    font-size: 1.3rem;
+
+    i {
+      font-size: 2.3rem;
+    }
+
+    &.arrow-right {
+      top: 66%;
+      left: 9px;
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: -8px;
+
+        p {
+          transform: rotate(-90deg);
+          font-size: 11px;
+          margin: 0;
+        }
+
+        i {
+          margin-left: -19px;
+        }
+      }
+    }
+
+    &.arrow-left {
+      top: 47%;
+      left: 235px;
+    }
+  }
+}

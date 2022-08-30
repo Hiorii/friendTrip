@@ -1,6 +1,6 @@
 import {Component, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {Store} from "@ngrx/store";
-import {selectCurrentTrip, selectTripMarkers} from "../../../core/store/trips";
+import {selectCurrentTrip, selectTripMarkers, selectTripWaypoints} from "../../../core/store/trips";
 import {TripModel} from "../../../core/interfaces/trip.model";
 import {getTripDataAction, saveTripMarkersAction} from "../../../core/store/trips/trips.actions";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
@@ -21,6 +21,7 @@ export class TripComponent implements OnInit, OnChanges {
   currentUser: any;
   markersList: MarkerModel[];
   markersData$ = this.store.select(selectTripMarkers);
+  waypointList$ = this.store.select(selectTripWaypoints)
 
   constructor(
     private store: Store,

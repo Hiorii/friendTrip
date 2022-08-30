@@ -27,3 +27,4 @@ export const voteOnMarkerAction = createAction('[Trips] Vote Trips Markers', pro
 
 //Waypoints
 export const saveTripWaypointsAction = createAction('[Trips] Save Trips Waypoints', props<{ id: string, currentUser: string, waypoints: WaypointsModel}>())
+export const removeTripWaypointAction = createAction('[Trips] Remove Trips Waypoint', props<{ id: string, currentUser: string, waypointId: string}>())

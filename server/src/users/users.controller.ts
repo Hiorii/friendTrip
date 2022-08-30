@@ -89,4 +89,12 @@ export class UsersController {
   ) {
     return this.userService.addNewWaypoints(id, currentUser, waypoints);
   }
+
+  @Delete('trip/:id/waypoints')
+  async removeWaypointsFromTrip(
+      @Param('id') id: string,
+      @Query() query
+  ) {
+    return this.userService.removeWaypointsFromTrip(id, query);
+  }
 }

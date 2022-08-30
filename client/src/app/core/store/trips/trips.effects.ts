@@ -8,7 +8,12 @@ import {Store} from "@ngrx/store";
 import {selectCurrentUser} from "../users";
 import {DialogService} from "../../../shared/dialog/dialog.service";
 import {ToastService} from "../../../shared/toast/toast.service";
-import {removeTripMarkersAction,  updateTripMarkersAction, voteOnMarkerAction} from "./trips.actions";
+import {
+  removeTripMarkersAction,
+  removeTripWaypointAction,
+  updateTripMarkersAction,
+  voteOnMarkerAction
+} from "./trips.actions";
 import { Router} from "@angular/router";
 
 @Injectable()
@@ -160,6 +165,36 @@ export class TripsEffects {
               }),
             )
           : EMPTY
+          ))
+        )
+      )
+    )
+  )
+
+  removeTripWaypointsAction$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(removeTripWaypointAction),
+      exhaustMap(({ id, currentUser, waypointId }) => this.dialog
+        .openConfirmationDialog({
+          title: 'Waypoint remove',
+          desc: 'Are you sure you want to remove waypoint?'
+        })
+        .afterClosed()
+        .pipe(
+          switchMap(confirmed => (confirmed
+              ? this.tripApiService.removeWaypoint(id, currentUser, waypointId)
+                .pipe(
+                  catchError(error => {
+                    this.toast.danger(error)
+                    return EMPTY
+                  }),
+                  map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
+                  tap(_ => {
+                    this.toast.success('Your waypoint has been removed')
+                    window.location.reload()
+                  }),
+                )
+              : EMPTY
           ))
         )
       )

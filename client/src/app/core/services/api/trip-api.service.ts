@@ -49,6 +49,12 @@ export class TripApiService {
     return this.http.delete(this.url + `trip/${id}/markers`, {params})
   }
 
+  removeWaypoint(id: string, currentUser: string, waypointId: string) {
+    const params = new HttpParams().set('id', id).append('waypointId', waypointId);
+
+    return this.http.delete(this.url + `trip/${id}/waypoints`, {params})
+  }
+
   voteOnMarker(id: string, currentUser: UsersModel, votingStatus: VotingStatusModel) {
     return this.http.put(this.url + `trip/${id}/markers/vote`, {currentUser, votingStatus})
   }
