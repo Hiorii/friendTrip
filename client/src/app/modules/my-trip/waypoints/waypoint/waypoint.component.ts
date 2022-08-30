@@ -17,7 +17,7 @@ export class WaypointComponent implements OnInit, OnChanges {
   ngOnInit(): void { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.waypointsData = changes['waypointsData'].currentValue;
+    this.waypointsData = changes['waypointsData']?.currentValue;
 
     if (this.waypointsData?.length) {
       this.setArrayWithoutDuplicates();

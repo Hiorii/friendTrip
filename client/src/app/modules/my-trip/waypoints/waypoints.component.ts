@@ -80,6 +80,15 @@ export class WaypointsComponent implements OnInit, OnChanges {
                 address: d.formatted_address
               })
               this.upperAlphabetCounter++;
+              return;
+            } else if ([this.googlePlaceTypes.plus_code].includes(type)) {
+              waypointsDataArr.push({
+                id: data.id,
+                order: this.upperAlphabet[this.upperAlphabetCounter],
+                address: d.formatted_address
+              })
+              this.upperAlphabetCounter++;
+              return;
             }
           })
         })

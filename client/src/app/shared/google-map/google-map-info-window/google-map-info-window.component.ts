@@ -82,7 +82,7 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
         marker.markers.forEach(data => {
           this.marker = marker;
           if (data.label.id === this.currentMarkerId) {
-            this.onAddMarkerToTrip.emit({lng: data.position.lng, lat: data.position.lat})
+            this.onAddMarkerToTrip.emit({markerId: data.label.id ,lng: data.position.lng, lat: data.position.lat})
           }
         })
       })

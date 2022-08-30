@@ -92,7 +92,7 @@ export class TripsEffects {
   saveWaypointsTrip$ = createEffect(() => this.actions$
     .pipe(
       ofType(actions.saveTripWaypointsAction),
-      exhaustMap(({ id, currentUser, waypoints }) => this.dialog
+      exhaustMap(({ id, currentUser, waypoints, markerId }) => this.dialog
         .openConfirmationDialog({
           title: 'Waypoint save',
           desc: 'Are you sure you want to add waypoints to your trip?'
@@ -106,10 +106,9 @@ export class TripsEffects {
                   this.toast.danger(err)
                   return EMPTY;
                 }),
-                map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
+                map((tripData: any) => actions.removeTripMarkersAction( { id: id, currentUser: currentUser, markerId: markerId, isWaypointAdded: true })),
                 tap(_ => {
                   this.toast.success('Your waypoints has been added')
-                  window.location.reload()
                 }),
               )
           : EMPTY
@@ -144,10 +143,10 @@ export class TripsEffects {
     .pipe(
       ofType(removeTripMarkersAction),
       withLatestFrom(this.store.select(selectCurrentUser)),
-      exhaustMap(([{ id, currentUser, markerId }, currentUserData]) => this.dialog
+      exhaustMap(([{ id, currentUser, markerId, isWaypointAdded }, currentUserData]) => this.dialog
         .openConfirmationDialog({
           title: 'Travel points remove',
-          desc: 'Are you sure you want to remove travel point?'
+          desc: isWaypointAdded ? 'Marker will be replace by waypoint. Are you sure?' : 'Are you sure you want to remove Marker?'
         })
         .afterClosed()
         .pipe(

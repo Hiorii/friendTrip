@@ -19,7 +19,7 @@ import {TripModel} from "../../core/interfaces/trip.model";
 import {selectCurrentUser} from "../../core/store/users";
 import {VotingStatusModel} from "../../core/enums/voting-status.model";
 import {VoteStatusModel} from "../../core/interfaces/vote-status.model";
-import {saveTripWaypointsAction} from "../../core/store/trips/trips.actions";
+import {removeTripMarkersAction, saveTripWaypointsAction} from "../../core/store/trips/trips.actions";
 
 @Component({
   selector: 'app-google-map',
@@ -159,7 +159,7 @@ export class GoogleMapComponent implements OnInit, OnChanges {
       stopover: true
     }
 
-    this.store.dispatch(saveTripWaypointsAction({ id: this.tripData.id, currentUser: this.user, waypoints: newWayPoints }))
+    this.store.dispatch(saveTripWaypointsAction({ id: this.tripData.id, currentUser: this.user, waypoints: newWayPoints, markerId: markersData.markerId }))
   }
 
   private setCenterPoints() {
