@@ -1,6 +1,8 @@
 <app-trip-cost-overview
   [userCars]="userCars$ | async"
+  [tripItems]="tripItems$ | async"
   [currentUser]="currentUser"
   [totalTripDistance]="totalTripDistance"
+  [currentTrip]="currentTrip"
 ></app-trip-cost-overview>
 <app-trip-cost-users></app-trip-cost-users>

@@ -13,8 +13,9 @@ import { log } from 'util';
 import { MessageModel } from '../chat/message.model';
 import { MarkersModel } from '../trips/markers.model';
 import { TripsType } from '../trips/trips.model';
-import {VotingStatusModel} from "../trips/voting-status.enum";
-import {WaypointsModel} from "../trips/waypoints.model";
+import { VotingStatusModel } from '../trips/voting-status.enum';
+import { WaypointsModel } from '../trips/waypoints.model';
+import { TripItemModel } from '../trips/trip-items.model';
 
 @Injectable()
 export class UsersService {
@@ -127,6 +128,28 @@ export class UsersService {
     });
 
     return currentTripData;
+  }
+
+  async removeUserTrip(tripId: string, userData: any) {
+    const currentTripId = tripId;
+    const user = await this.getUser(userData.email);
+
+    const updatedTrips = user.usersTrips.filter(
+      (trip) => trip.id.toString() !== currentTripId,
+    );
+
+    const dataToUpdate = {
+      usersTrips: updatedTrips,
+    };
+
+    const newUserTrips = await this.usersModule.findOneAndUpdate(
+      user,
+      dataToUpdate,
+    );
+
+    await newUserTrips.save();
+
+    return userData;
   }
 
   async addUserCar(userCarData: any) {
@@ -335,7 +358,9 @@ export class UsersService {
 
           data.waypoints.map((waypoint) => {
             if (waypoint.waypoints.id === waypointId) {
-              currWaypoint = data.waypoints.filter(w => w.waypoints === waypoint.waypoints)
+              currWaypoint = data.waypoints.filter(
+                (w) => w.waypoints === waypoint.waypoints,
+              );
 
               index = data.waypoints.indexOf(...currWaypoint);
 
@@ -383,12 +408,12 @@ export class UsersService {
         currentTrip.forEach((data) => {
           data.markers.map((marker) =>
             marker.markers.map((m) => {
-              m.label.voteStatus.forEach(us => {
+              m.label.voteStatus.forEach((us) => {
                 if (us.user.email === currentUser.currentUser.email) {
                   us.status = votingStatus.votingStatus;
                   us.votesCount = 0;
                 }
-              })
+              });
             }),
           );
         });
@@ -450,11 +475,7 @@ export class UsersService {
     return tripToUpdate;
   }
 
-  async addTripDistance(
-    tripId: string,
-    currentUser: any,
-    distance: any,
-  ) {
+  async addTripDistance(tripId: string, currentUser: any, distance: any) {
     let tripToUpdate;
     let currentTrip;
     const userList = [];
@@ -485,17 +506,11 @@ export class UsersService {
         { $set: { usersTrips: tripToUpdate } },
         { multi: true },
       )
-      .then((res) => {
-
-      });
+      .then((res) => {});
     return tripToUpdate;
   }
 
-  async addTripDuration(
-      tripId: string,
-      currentUser: any,
-      duration: any,
-  ) {
+  async addTripDuration(tripId: string, currentUser: any, duration: any) {
     let tripToUpdate;
     let currentTrip;
     const userList = [];
@@ -526,9 +541,93 @@ export class UsersService {
         { $set: { usersTrips: tripToUpdate } },
         { multi: true },
       )
-      .then((res) => {
+      .then((res) => {});
+    return tripToUpdate;
+  }
 
+  async addNewTripItem(tripId: string, currentUser: any, item: any) {
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          data.tripItems.push(item.item);
+        });
+
+        tripToUpdate = currentTrip;
       });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
+    return tripToUpdate;
+  }
+
+  async removeTripItem(tripId, query) {
+    const { itemId } = query;
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          let index;
+
+          data.tripItems.map((item) => {
+            if (item.itemId === itemId) {
+              index = data.tripItems.indexOf(item);
+
+              if (index > -1) {
+                data.tripItems.splice(index, 1);
+              }
+            }
+          });
+        });
+
+        tripToUpdate = [...new Set(currentTrip)];
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
+
     return tripToUpdate;
   }
 }

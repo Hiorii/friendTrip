@@ -6,6 +6,7 @@ import { MarkersModel } from '../trips/markers.model';
 import { VotingStatusModel } from "../trips/voting-status.enum";
 import {WaypointsModel} from "../trips/waypoints.model";
 import {CarModel} from "./car.model";
+import {TripItemModel} from "../trips/trip-items.model";
 
 @Controller('users')
 export class UsersController {
@@ -29,6 +30,14 @@ export class UsersController {
   @Get('trip')
   async getUserTrip(@Query() query) {
     return this.userService.getUserTrip(query);
+  }
+
+  @Delete('trip/:id')
+  async removeUserTrip(
+      @Param('id') id: string,
+      @Query() query
+  ) {
+    return this.userService.removeUserTrip(id, query);
   }
 
   @Get(':id')
@@ -120,5 +129,22 @@ export class UsersController {
     @Body() duration: string,
   ) {
     return this.userService.addTripDuration(id, currentUser, duration);
+  }
+
+  @Put('trip/:id/items')
+  async addNewTripItem(
+    @Param('id') id: string,
+    @Body() currentUser: UsersType,
+    @Body() item: TripItemModel,
+  ) {
+    return this.userService.addNewTripItem(id, currentUser, item);
+  }
+
+  @Delete('trip/:id/items')
+  async removeTripItem(
+      @Param('id') id: string,
+      @Query() query
+  ) {
+    return this.userService.removeTripItem(id, query);
   }
 }

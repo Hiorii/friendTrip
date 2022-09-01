@@ -4,6 +4,7 @@ import {Store} from "@ngrx/store";
 import {getTripsDataAction} from "../../core/store/trips/trips.actions";
 import {selectAllTripsList} from "../../core/store/trips";
 import {selectCurrentUser} from "../../core/store/users";
+import {UsersModel} from "../../core/interfaces/users.model";
 
 @Component({
   selector: 'app-my-trip',
@@ -12,6 +13,7 @@ import {selectCurrentUser} from "../../core/store/users";
 })
 export class MyTripComponent implements OnInit {
   tripsList$ = this.store.select(selectAllTripsList)
+  currentUser: UsersModel;
 
   constructor(
     private fb: UntypedFormBuilder,
@@ -22,6 +24,7 @@ export class MyTripComponent implements OnInit {
     this.store.select(selectCurrentUser).subscribe(user => {
       if (user.email) {
         this.store.dispatch(getTripsDataAction({ currentUser: user }))
+        this.currentUser = user;
       }
     })
   }

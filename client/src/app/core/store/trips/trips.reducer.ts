@@ -3,6 +3,7 @@ import {createReducer, on} from "@ngrx/store";
 import * as actions from './trips.actions';
 import {MarkerModel} from "../../interfaces/marker.model";
 import {WaypointsModel} from "../../interfaces/waypoints.model";
+import {TripItemModel} from "../../interfaces/trip-item.model";
 
 export interface State {
   tripsList:
@@ -33,6 +34,7 @@ export interface State {
       waypoints?: WaypointsModel[],
       totalTripDistance?: number;
       totalTripDuration?: string;
+      tripItems?: TripItemModel[],
     }[],
   currentTrip:
     {
@@ -62,6 +64,7 @@ export interface State {
       waypoints?: WaypointsModel[],
       totalTripDistance?: number;
       totalTripDuration?: string;
+      tripItems?: TripItemModel[],
     }
 }
 
@@ -93,7 +96,8 @@ const initialState: State = {
       markers: [],
       waypoints: [],
       totalTripDistance: 0,
-      totalTripDuration: ''
+      totalTripDuration: '',
+      tripItems: [],
     }
   ],
   currentTrip:
@@ -123,7 +127,8 @@ const initialState: State = {
       markers: [],
       waypoints: [],
       totalTripDistance: 0,
-      totalTripDuration: ''
+      totalTripDuration: '',
+      tripItems: [],
     }
 }
 
@@ -195,3 +200,4 @@ export const getTripMarkers = (state: State) => state.currentTrip?.markers
 export const getTripWaypoints= (state: State) => state.currentTrip?.waypoints
 export const getTripDistance = (state: State) => state.currentTrip?.totalTripDistance
 export const getTripDuration = (state: State) => state.currentTrip?.totalTripDuration
+export const getTripItems = (state: State) => state.currentTrip?.tripItems

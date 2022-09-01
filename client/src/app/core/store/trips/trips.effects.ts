@@ -9,9 +9,10 @@ import {selectCurrentUser} from "../users";
 import {DialogService} from "../../../shared/dialog/dialog.service";
 import {ToastService} from "../../../shared/toast/toast.service";
 import {
-  getTripUsersAction,
+  getTripsDataAction,
+  getTripUsersAction, removeTripItemAction,
   removeTripMarkersAction,
-  removeTripWaypointAction, setTripDistanceAction, setTripDurationAction,
+  removeTripWaypointAction, setTripDistanceAction, setTripDurationAction, setTripItemsCostAction,
   updateTripMarkersAction,
   voteOnMarkerAction
 } from "./trips.actions";
@@ -38,6 +39,35 @@ export class TripsEffects {
           map(singleTrip => actions.setTripDataAction({ trip: singleTrip })),
         )),
     ))
+
+  removeTrip$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(actions.removeTripUsersAction),
+      exhaustMap(({ currentUser, tripId }) => this.dialog
+        .openConfirmationDialog({
+          title: 'Remove the trip',
+          desc: 'Trip will be removed for you and all participants. Are you sure you want to remove it?'
+        })
+        .afterClosed()
+        .pipe(
+          switchMap(confirmed => (confirmed
+              ? this.tripApiService.removeTrip(currentUser, tripId)
+                .pipe(
+                  catchError(err => {
+                    this.toast.danger(err)
+                    return EMPTY;
+                  }),
+                  map((user: any) => actions.getTripsDataAction({ currentUser: user })),
+                  tap(_ => {
+                    this.toast.success('Your trip has been removed')
+                  }),
+                )
+              : EMPTY
+          ))
+        )
+      )
+    )
+  )
 
   // saveMarkersTrip$ = createEffect(() => this.actions$
   //   .pipe(
@@ -259,6 +289,64 @@ export class TripsEffects {
           map((tripData: any) => actions.getTripUsersAction( { trip: tripData[0] })),
         )
       ))
+  )
+
+  setTripItemsCost$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(actions.setTripItemsCostAction),
+      exhaustMap(({ id, currentUser, item }) => this.dialog
+        .openConfirmationDialog({
+          title: 'New item add',
+          desc: 'Are you sure you want to add new item to trip?'
+        })
+        .afterClosed()
+        .pipe(
+          switchMap(confirmed => (confirmed
+              ? this.tripApiService.addNewTripItem(id, currentUser, item)
+                .pipe(
+                  catchError(err => {
+                    this.toast.danger(err)
+                    return EMPTY;
+                  }),
+                  map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
+                  tap(_ => {
+                    this.toast.success('Your item has been added')
+                  }),
+                )
+              : EMPTY
+          ))
+        )
+      )
+    )
+  )
+
+  removeTripItemAction$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(removeTripItemAction),
+      exhaustMap(({ id, currentUser, itemId }) => this.dialog
+        .openConfirmationDialog({
+          title: 'Trip item remove',
+          desc: 'Are you sure you want to remove trip item?'
+        })
+        .afterClosed()
+        .pipe(
+          switchMap(confirmed => (confirmed
+              ? this.tripApiService.removeTripItem(id, currentUser, itemId)
+                .pipe(
+                  catchError(error => {
+                    this.toast.danger(error)
+                    return EMPTY
+                  }),
+                  map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
+                  tap(_ => {
+                    this.toast.success('Your item has been removed')
+                  }),
+                )
+              : EMPTY
+          ))
+        )
+      )
+    )
   )
 
   constructor(

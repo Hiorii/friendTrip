@@ -6,6 +6,7 @@ import {MessageModel} from "../../interfaces/message.model";
 import {MarkerModel} from "../../interfaces/marker.model";
 import {VotingStatusModel} from "../../enums/voting-status.model";
 import {WaypointsModel} from "../../interfaces/waypoints.model";
+import {TripItemModel} from "../../interfaces/trip-item.model";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,12 @@ export class TripApiService {
 
   addNewTrip(currentUser: UsersModel, tripData: TripModel) {
     return this.http.put(this.url + 'trips', {currentUser, tripData})
+  }
+
+  removeTrip(currentUser: string, tripId: string) {
+    const params = new HttpParams().set('id', tripId).append('email', currentUser);
+
+    return this.http.delete(this.url + `trip/${tripId}`, {params})
   }
 
   addNewMessages(id: string, messages: MessageModel[]) {
@@ -69,5 +76,15 @@ export class TripApiService {
 
   addTripDuration(id: string, currentUser: string, duration: string) {
     return this.http.put(this.url + `trip/${id}/duration`, {currentUser, duration})
+  }
+
+  addNewTripItem(id: string, currentUser: string, item: TripItemModel) {
+    return this.http.put(this.url + `trip/${id}/items`, {currentUser, item})
+  }
+
+  removeTripItem(id: string, currentUser: string, itemId: string) {
+    const params = new HttpParams().set('id', id).append('itemId', itemId);
+
+    return this.http.delete(this.url + `trip/${id}/items`, {params})
   }
 }

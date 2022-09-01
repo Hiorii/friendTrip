@@ -2,5 +2,6 @@
   <app-trip-list
     *ngIf="tripsList$"
     [tripList] = "tripsList$ | async"
+    [currentUser]="currentUser"
   ></app-trip-list>
 </section>

@@ -1,7 +1,7 @@
 <div
-  *ngIf="!isAddCarFormVisible"
+  *ngIf="!isAddCarFormVisible && !isAddItemFormVisible"
   class="container"
->
+  xmlns="http://www.w3.org/1999/html">
   <app-button
     class="btnAddNewItem"
     [title]="'Add new cost'"
@@ -46,11 +46,15 @@
     </div>
   </div>
   <div
-    *ngFor="let costItem of costItems"
+    *ngFor="let tripItem of tripItems"
     class="items-container"
   >
-    <p class="name">Petrol cost on drive</p>
-    <p class="cost">{{ getPetrolCost() }}</p>
+    <p class="name">{{tripItem.itemName}}</p>
+    <p class="cost">{{tripItem.itemCost}} zł</p>
+    <i
+      class="fa fa-trash"
+      (click)="removeTripItem(tripItem.itemId)"
+    ></i>
   </div>
 </div>
 
@@ -71,6 +75,47 @@
             placeholder="Car fuel consumption"
             formControlName="carFuelConsumption"
           />
+        </div>
+        <app-button
+          class="addNewItemForm"
+          [title]="'Add'"
+          (handleOnClick)="handleAddNewCar()"
+        ></app-button>
+        <app-button
+          class="addNewItemForm"
+          [title]="'Cancel'"
+          (handleOnClick)="toggleAddNewCar(false)"
+        ></app-button>
+      </div>
+    </form>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="isAddItemFormVisible">
+  <div class="form-container">
+    <form [formGroup]="newItemForm">
+      <div class="inputs-container">
+        <div class="form-group col-md-6">
+          <input
+            class="form-control"
+            placeholder="Item name"
+            formControlName="itemName"
+          />
+        </div>
+        <div class="form-group col-md-6">
+          <input
+            class="form-control"
+            placeholder="Item cost"
+            formControlName="itemCost"
+          />
+        </div>
+        <div class="form-group col-md-6">
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="Item description"
+            formControlName="itemDescription"
+          ></textarea>
         </div>
         <app-button
           class="addNewItemForm"

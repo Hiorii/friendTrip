@@ -6,11 +6,13 @@ import {TripPointDataModel} from "../../interfaces/trip-point-data.model";
 import {MarkerModel} from "../../interfaces/marker.model";
 import {VotingStatusModel} from "../../enums/voting-status.model";
 import {WaypointsModel} from "../../interfaces/waypoints.model";
+import {TripItemModel} from "../../interfaces/trip-item.model";
 
 export const getTripsDataAction = createAction('[Trips] Get Trips Data', props<{ currentUser: UsersModel }>())
 export const setTripsDataAction = createAction('[Trips] Set Trips Data', props<{ trips: TripModel[] }>())
 export const getTripDataAction = createAction('[Trips] Get Trip Data', props<{ currentUser: UsersModel, id: string }>())
 export const setTripDataAction = createAction('[Trips] Set Trip Data', props<{ trip: TripModel }>())
+export const removeTripUsersAction = createAction('[Trips] Remove Trips Users', props<{ currentUser: string, tripId: string}>())
 
 //Trip
 export const getTripUsersAction = createAction('[Trips] Get Trips Users', props<{ trip: TripModel}>())
@@ -19,6 +21,8 @@ export const setTripPointsAction = createAction('[Trips] Set Trip Points', props
 export const setTripUsersAction = createAction('[Trips] Set Trip Users', props<{ tripUsers: UsersModel[] }>())
 export const setTripDistanceAction = createAction('[Trips] Set Trip Distance', props<{ id: string, currentUser: string, distance: number }>())
 export const setTripDurationAction = createAction('[Trips] Set Trip Duration', props<{ id: string, currentUser: string, duration: string }>())
+export const setTripItemsCostAction = createAction('[Trips] Set Trip Item Cost', props<{ id: string, currentUser: string, item: TripItemModel }>())
+export const removeTripItemAction = createAction('[Trips] Remove Trips Item', props<{ id: string, currentUser: string, itemId: string }>())
 
 //Marker
 export const saveTripMarkersAction = createAction('[Trips] Save Trips Markers', props<{ id: string, currentUser: string, markers: MarkerModel[]}>())

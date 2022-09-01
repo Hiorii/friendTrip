@@ -23,3 +23,4 @@ export const selectTripMarkers = createSelector(selectTripsState, fromTrips.getT
 export const selectTripWaypoints = createSelector(selectTripsState, fromTrips.getTripWaypoints)
 export const selectTripDistance = createSelector(selectTripsState, fromTrips.getTripDistance)
 export const selectTripDuration = createSelector(selectTripsState, fromTrips.getTripDuration)
+export const selectTripItems = createSelector(selectTripsState, fromTrips.getTripItems)

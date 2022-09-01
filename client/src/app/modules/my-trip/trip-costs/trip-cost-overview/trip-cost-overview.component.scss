@@ -11,7 +11,7 @@
 
   .items-container {
     width: 100%;
-    @include flex(space-between, center);
+    @include flex(space-around, center);
     color: $main-font;
     text-shadow: 1px 1px 1px rgb(0 0 0 / 80%);
     border: 3px double $main-font;
@@ -22,18 +22,23 @@
       padding: 1rem;
     }
 
+    p {
+      margin-bottom: 0;
+    }
+
+    span {
+      color: $primary-lighter;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    i {
+      color: $color-danger;
+      font-size: 1.1rem;
+    }
+
     .cost-container {
       padding: 1rem;
-
-      p {
-        margin-bottom: 0;
-      }
-
-      span {
-        color: $primary-lighter;
-        cursor: pointer;
-        text-decoration: underline;
-      }
     }
 
     .car-chosen {
