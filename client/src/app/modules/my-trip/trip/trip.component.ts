@@ -25,6 +25,7 @@ export class TripComponent implements OnInit, OnChanges {
   tripId: string;
   isMarkerAdded: boolean = false;
   currentUser: any;
+  isCostDetailVisible: boolean = false;
   markersList: MarkerModel[];
   markersData$ = this.store.select(selectTripMarkers);
   waypointList$ = this.store.select(selectTripWaypoints);
@@ -67,6 +68,10 @@ export class TripComponent implements OnInit, OnChanges {
 
   onMarkerListUpdate(markers: MarkerModel[]) {
     this.markersList = markers;
+  }
+
+  onHandleTripView(status: boolean) {
+    this.isCostDetailVisible = status;
   }
 
   private getTripDate(user: any) {

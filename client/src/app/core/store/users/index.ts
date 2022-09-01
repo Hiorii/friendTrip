@@ -12,3 +12,4 @@ const selectUsersState = createFeatureSelector<fromUsers.State>(stateKey)
 
 export const selectAllUsersList = createSelector(selectUsersState, fromUsers.getAllUsersList)
 export const selectCurrentUser = createSelector(selectUsersState, fromUsers.getCurrentUser)
+export const selectUserCars = createSelector(selectUsersState, fromUsers.getUserCars)

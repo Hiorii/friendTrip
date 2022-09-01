@@ -1,5 +1,6 @@
 import {TripModel} from "./trip.model";
 import {NotificationModel} from "./notification.model";
+import {CarModel} from "./car.model";
 
 export interface UsersModel {
   _id?: string;
@@ -14,4 +15,5 @@ export interface UsersModel {
   _token?: string;
   _tokenExpirationData?: Date;
   notifications?: NotificationModel[];
+  cars?: CarModel[]
 }

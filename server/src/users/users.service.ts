@@ -53,6 +53,7 @@ export class UsersService {
         creationDate: userData.creationDate,
         usersTrips: [],
         isActive: userData.isActive,
+        cars: [],
       });
 
       await newUser.save();
@@ -126,6 +127,23 @@ export class UsersService {
     });
 
     return currentTripData;
+  }
+
+  async addUserCar(userCarData: any) {
+    const user = await this.getUser(userCarData.user);
+
+    const dataToUpdate = {
+      cars: [...user.cars, userCarData],
+    };
+
+    const newUserTrips = await this.usersModule.findOneAndUpdate(
+      user,
+      dataToUpdate,
+    );
+
+    await newUserTrips.save();
+
+    return newUserTrips;
   }
 
   async addNewUserTrip(newTripData: any): Promise<any> {
@@ -428,6 +446,88 @@ export class UsersService {
       )
       .then((res) => {
         console.log(res);
+      });
+    return tripToUpdate;
+  }
+
+  async addTripDistance(
+    tripId: string,
+    currentUser: any,
+    distance: any,
+  ) {
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          data.totalTripDistance = distance.distance;
+        });
+
+        tripToUpdate = currentTrip;
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+
+      });
+    return tripToUpdate;
+  }
+
+  async addTripDuration(
+      tripId: string,
+      currentUser: any,
+      duration: any,
+  ) {
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          data.totalTripDuration = duration.duration;
+        });
+
+        tripToUpdate = currentTrip;
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+
       });
     return tripToUpdate;
   }

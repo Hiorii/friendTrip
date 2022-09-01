@@ -3,7 +3,10 @@
 <!--    <img src="/assets/img/trips/default_trip_image.jpg" alt="default_trip_image">-->
     <p class="travelName">{{ tripInfoData?.travelName }}</p>
   </div>
-  <app-google-map [tripPoints]="tripPointData" ></app-google-map>
+  <app-google-map
+    [isTripCreated]="true"
+    [tripPoints]="tripPointData"
+  ></app-google-map>
   <app-button
     [title]="'Create Trip'"
     (handleOnClick)="createTrip()"

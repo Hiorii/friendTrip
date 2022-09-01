@@ -60,13 +60,25 @@ export class TravelInfoComponent implements OnInit {
   }
 
   private saveTripInfoData() {
+    let travelName;
+    let travelPlannedTotalCost;
+    let travelPhoto;
+
     this.travelInfoForm.get('travelName').valueChanges
-      .subscribe(val => this.travelInfo.travelName = val),
+      .subscribe(val => travelName = val),
 
     this.travelInfoForm.get('travelPlannedTotalCost').valueChanges
-      .subscribe(val => this.travelInfo.travelPlannedTotalCost = val),
+      .subscribe(val => travelPlannedTotalCost = val),
 
     this.travelInfoForm.get('travelPhoto').valueChanges
-      .subscribe(val => this.travelInfo.travelPhoto = val)
+      .subscribe(val => travelPhoto = val)
+
+    const newTravelInfo = {
+      travelName: travelName,
+      travelPlannedTotalCost: travelPlannedTotalCost,
+      travelPhoto: travelPhoto,
+    }
+
+    this.travelInfo = newTravelInfo;
   }
 }

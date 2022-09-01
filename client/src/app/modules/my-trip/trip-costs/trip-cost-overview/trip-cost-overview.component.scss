@@ -1,0 +1,87 @@
+@import '../../../../../assets/sass/settings';
+
+.container {
+  @include flex(center, center);
+  flex-direction: column;
+
+  .btnAddNewItem {
+    margin: -1rem 0 1rem;
+    width: 100%;
+  }
+
+  .items-container {
+    width: 100%;
+    @include flex(space-between, center);
+    color: $main-font;
+    text-shadow: 1px 1px 1px rgb(0 0 0 / 80%);
+    border: 3px double $main-font;
+    border-left: none;
+    border-radius: 20px;
+
+    .name {
+      padding: 1rem;
+    }
+
+    .cost-container {
+      padding: 1rem;
+
+      p {
+        margin-bottom: 0;
+      }
+
+      span {
+        color: $primary-lighter;
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+
+    .car-chosen {
+      span {
+        font-size: 0.8rem;
+      }
+    }
+
+    .no-car {
+      font-size: 0.8rem;
+
+      p {
+        text-align: center;
+        margin: 0;
+      }
+    }
+  }
+}
+
+.form-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  form {
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    position: relative;
+
+    .inputs-container {
+      @include center();
+      width: 85%;
+
+      input {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}
+
+.form-container-select {
+  form {
+    .inputs-container {
+      select {
+        height: 30px;
+      }
+    }
+  }
+}

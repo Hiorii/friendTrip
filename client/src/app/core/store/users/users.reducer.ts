@@ -38,3 +38,4 @@ export const reducer = createReducer(
 
 export const getAllUsersList = (state: State) => state.allUsersList
 export const getCurrentUser = (state: State) => state.currentUser
+export const getUserCars = (state: State) => state.currentUser.cars

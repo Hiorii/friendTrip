@@ -32,8 +32,8 @@ export const TripsSchema = new mongoose.Schema({
   messages: [],
   markers: [],
   waypoints: [],
-  totalTripDistance: { type: Number },
-  totalTripDuration: { type: String },
+  totalTripDistance: '',
+  totalTripDuration: '',
   // pointsToVisit: [{}],
   // totalCost: {},
   // status: { modelfor active, finished }

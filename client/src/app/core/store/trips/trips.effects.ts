@@ -9,8 +9,9 @@ import {selectCurrentUser} from "../users";
 import {DialogService} from "../../../shared/dialog/dialog.service";
 import {ToastService} from "../../../shared/toast/toast.service";
 import {
+  getTripUsersAction,
   removeTripMarkersAction,
-  removeTripWaypointAction,
+  removeTripWaypointAction, setTripDistanceAction, setTripDurationAction,
   updateTripMarkersAction,
   voteOnMarkerAction
 } from "./trips.actions";
@@ -231,6 +232,34 @@ export class TripsEffects {
       )
     )
 
+  addTripDistance$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(setTripDistanceAction),
+      switchMap(({ id, currentUser, distance }) => this.tripApiService.addTripDistance(id, currentUser, distance)
+        .pipe(
+          catchError(error => {
+            this.toast.danger(error)
+            return EMPTY
+          }),
+          map((tripData: any) => actions.getTripUsersAction( { trip: tripData[0] })),
+        )
+      ))
+    )
+
+
+  addTripDuration$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(setTripDurationAction),
+      switchMap(({ id, currentUser, duration }) => this.tripApiService.addTripDuration(id, currentUser, duration)
+        .pipe(
+          catchError(error => {
+            this.toast.danger(error)
+            return EMPTY
+          }),
+          map((tripData: any) => actions.getTripUsersAction( { trip: tripData[0] })),
+        )
+      ))
+  )
 
   constructor(
     private actions$: Actions,

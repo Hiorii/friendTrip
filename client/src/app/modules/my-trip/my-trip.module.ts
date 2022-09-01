@@ -12,17 +12,22 @@ import { WaypointsComponent } from './waypoints/waypoints.component';
 import { WaypointComponent } from './waypoints/waypoint/waypoint.component';
 import {CoreModule} from "../../core/core.module";
 import { TripDurationDistanceComponent } from './trip-duration-distance/trip-duration-distance.component';
+import { TripCostsComponent } from './trip-costs/trip-costs.component';
+import { TripCostOverviewComponent } from './trip-costs/trip-cost-overview/trip-cost-overview.component';
+import { TripCostUsersComponent } from './trip-costs/trip-cost-users/trip-cost-users.component';
+import {ReactiveFormsModule} from "@angular/forms";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        MyTripRoutingModule,
-        GoogleMapModule,
-        GooglePlacesModule,
-        ChatModule,
-        SharedModule,
-        CoreModule
-    ],
-  declarations: [MyTripComponent, TripComponent, TripListComponent, WaypointsComponent, WaypointComponent, TripDurationDistanceComponent],
+  imports: [
+    CommonModule,
+    MyTripRoutingModule,
+    GoogleMapModule,
+    GooglePlacesModule,
+    ChatModule,
+    SharedModule,
+    CoreModule,
+    ReactiveFormsModule
+  ],
+  declarations: [MyTripComponent, TripComponent, TripListComponent, WaypointsComponent, WaypointComponent, TripDurationDistanceComponent, TripCostsComponent, TripCostOverviewComponent, TripCostUsersComponent],
 })
 export class MyTripModule { }

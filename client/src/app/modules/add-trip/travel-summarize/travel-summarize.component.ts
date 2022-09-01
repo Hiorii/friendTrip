@@ -14,6 +14,8 @@ import {UUID} from "angular2-uuid";
 import {DialogService} from "../../../shared/dialog/dialog.service";
 import {tap} from "rxjs";
 import {ToastService} from "../../../shared/toast/toast.service";
+import {MarkerModel} from "../../../core/interfaces/marker.model";
+import {WaypointsModel} from "../../../core/interfaces/waypoints.model";
 
 @Component({
   selector: 'app-travel-summarize',
@@ -28,6 +30,10 @@ export class TravelSummarizeComponent implements OnInit {
 
   tripData: TripModel
   tripMessages: [] = [];
+  markers: [] = [];
+  waypoints: [] = [];
+  totalTripDistance: number = 0;
+  totalTripDuration: string = '0';
 
   constructor(
     private tripApiService: TripApiService,
@@ -47,6 +53,10 @@ export class TravelSummarizeComponent implements OnInit {
       creator: this.currentUser,
       tripUsers: this.tripUsersData,
       messages: this.tripMessages,
+      markers: this.markers,
+      waypoints: this.waypoints,
+      totalTripDistance: this.totalTripDistance,
+      totalTripDuration: this.totalTripDuration,
     }
 
    this.tripData = tripData

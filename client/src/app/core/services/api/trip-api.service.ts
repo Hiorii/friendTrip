@@ -58,4 +58,16 @@ export class TripApiService {
   voteOnMarker(id: string, currentUser: UsersModel, votingStatus: VotingStatusModel) {
     return this.http.put(this.url + `trip/${id}/markers/vote`, {currentUser, votingStatus})
   }
+
+  addNewUserCar(userCarData: any) {
+    return this.http.post(this.url + 'cars', userCarData);
+  }
+
+  addTripDistance(id: string, currentUser: string, distance: number) {
+    return this.http.put(this.url + `trip/${id}/distance`, {currentUser, distance})
+  }
+
+  addTripDuration(id: string, currentUser: string, duration: string) {
+    return this.http.put(this.url + `trip/${id}/duration`, {currentUser, duration})
+  }
 }

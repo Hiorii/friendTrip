@@ -1,0 +1,88 @@
+<div
+  *ngIf="!isAddCarFormVisible"
+  class="container"
+>
+  <app-button
+    class="btnAddNewItem"
+    [title]="'Add new cost'"
+    (handleOnClick)="toggleAddNewItem(true)"
+  ></app-button>
+  <div class="items-container">
+    <p class="name">Petrol cost on drive</p>
+    <div class="cost-container">
+      <div
+        *ngIf="isCarChosen"
+        class="car-chosen"
+      >
+        <p *ngIf="chosenCarFuelConsumption">{{ totalTripFuelCost }} zł</p>
+        <span (click)="toggleIsCarChosen(false)">Select different car</span>
+      </div>
+      <div
+        *ngIf="!isCarChosen"
+        class="no-car"
+      >
+        <div class="form-container-select">
+          <form [formGroup]="selectCarForm">
+            <div class="inputs-container">
+              <select
+                class="form-select"
+                aria-label="Car name"
+                formControlName="carName"
+                (change)="onSelectCar()"
+              >
+                <option
+                  *ngFor="let car of userCars"
+                  value="{{car.carName}}"
+                >
+                  {{ car.carName }}
+                </option>
+              </select>
+            </div>
+          </form>
+        </div>
+        <p>or</p>
+        <span (click)="toggleAddNewCar(true)">Add the car and driver</span>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngFor="let costItem of costItems"
+    class="items-container"
+  >
+    <p class="name">Petrol cost on drive</p>
+    <p class="cost">{{ getPetrolCost() }}</p>
+  </div>
+</div>
+
+<ng-container *ngIf="isAddCarFormVisible">
+  <div class="form-container">
+    <form [formGroup]="newCarForm">
+      <div class="inputs-container">
+        <div class="form-group col-md-6">
+          <input
+            class="form-control"
+            placeholder="Car name"
+            formControlName="carName"
+          />
+        </div>
+        <div class="form-group col-md-6">
+          <input
+            class="form-control"
+            placeholder="Car fuel consumption"
+            formControlName="carFuelConsumption"
+          />
+        </div>
+        <app-button
+          class="addNewItemForm"
+          [title]="'Add'"
+          (handleOnClick)="handleAddNewItem()"
+        ></app-button>
+        <app-button
+          class="addNewItemForm"
+          [title]="'Cancel'"
+          (handleOnClick)="toggleAddNewItem(false)"
+        ></app-button>
+      </div>
+    </form>
+  </div>
+</ng-container>

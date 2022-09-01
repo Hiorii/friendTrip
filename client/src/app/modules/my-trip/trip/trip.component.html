@@ -5,81 +5,109 @@
   >
     {{ currentTrip?.travelInfoData?.travelName }}
   </h1>
-  <app-google-map
-    *ngIf="currentTrip?.travelPoints"
-    [tripPoints]="currentTrip?.travelPoints"
-    [isMarkerAdded]="isMarkerAdded"
-    [markersDataForCurrentTrip]="markersData$ | async"
-    [class.isMarkedAdded]="isMarkerAdded"
-    (markersList)="onMarkerListUpdate($event)"
-  ></app-google-map>
+  <div
+    *ngIf="!isCostDetailVisible"
+    class="main-trip-page"
+  >
+    <app-google-map
+      *ngIf="currentTrip?.travelPoints"
+      [tripPoints]="currentTrip?.travelPoints"
+      [isMarkerAdded]="isMarkerAdded"
+      [markersDataForCurrentTrip]="markersData$ | async"
+      [class.isMarkedAdded]="isMarkerAdded"
+      (markersList)="onMarkerListUpdate($event)"
+    ></app-google-map>
 
-  <ng-container *ngIf="waypointList$ | async">
-    <app-waypoints
-      class="waypoints-list"
-     [tripId]="currentTrip.id"
-     [currentUser]="currentUser"
-     [waypointList]="waypointList$ | async"
-    ></app-waypoints>
-  </ng-container>
-
-  <ng-container *ngIf="(totalTripDistance$ | async) && (totalTripDuration$ | async)">
-    <app-trip-duration-distance
-      [totalTripDistance]="totalTripDistance$ | async"
-      [totalTripDuration]="totalTripDuration$ | async"
-    ></app-trip-duration-distance>
-  </ng-container>
-
-  <ng-container *ngIf="!isMarkerAdded">
-    <app-button
-      class="btnAddMarker"
-      [title]="'Add custom travel point to visit'"
-      (handleOnClick)="handleAddCustomTravelPoint()"
-    ></app-button>
-  </ng-container>
-
-  <ng-container *ngIf="isMarkerAdded">
-    <app-button
-      class="btnCancelAddMarker"
-      [title]="'Cancel Adding Marker'"
-      (handleOnClick)="handleCancelAddCustomTravelPoint()"
-    ></app-button>
-    <app-button
-      class="btnSaveAddMarker"
-      [title]="'Save Markers'"
-      (handleOnClick)="handleSaveAddCustomTravelPoint()"
-    ></app-button>
-  </ng-container>
-
-  <ng-container *ngIf="currentTrip?.tripUsers.length">
-    <div
-      *ngFor="let user of currentTrip.tripUsers"
-      class="travelUserContainer"
-      [class.isDisabled]="isMarkerAdded"
-    >
-      <img *ngIf="user.photo" [src]="user.photo" class="me-1">
-      <img *ngIf="!user.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
-      <p>{{ user.name }} {{ user.surname }}</p>
-    </div>
-
-    <div
-      class="chatContainer"
-      [class.isDisabled]="isMarkerAdded"
-    >
-      <app-chat
-        *ngIf="isChatVisible"
+    <ng-container *ngIf="waypointList$ | async">
+      <app-waypoints
+        class="waypoints-list"
         [tripId]="currentTrip.id"
-        [tripMessages]="currentTrip?.messages[0]?.messages"
-        (isChatVisible)="showChat($event)"
-      ></app-chat>
-    </div>
+        [currentUser]="currentUser"
+        [waypointList]="waypointList$ | async"
+      ></app-waypoints>
+    </ng-container>
 
+    <ng-container *ngIf="(totalTripDistance$ | async) && (totalTripDuration$ | async)">
+      <app-trip-duration-distance
+        [totalTripDistance]="totalTripDistance$ | async"
+        [totalTripDuration]="totalTripDuration$ | async"
+      ></app-trip-duration-distance>
+    </ng-container>
+
+    <ng-container *ngIf="!isMarkerAdded">
+      <app-button
+        class="btnAddMarker"
+        [title]="'Add custom travel point to visit'"
+        (handleOnClick)="handleAddCustomTravelPoint()"
+      ></app-button>
+    </ng-container>
+
+    <ng-container *ngIf="(totalTripDistance$ | async) && (totalTripDuration$ | async)">
+      <app-button
+        class="btnCheckCost"
+        [title]="'Check trip cost details'"
+        (handleOnClick)="onHandleTripView(true)"
+      ></app-button>
+    </ng-container>
+
+    <ng-container *ngIf="isMarkerAdded">
+      <app-button
+        class="btnCancelAddMarker"
+        [title]="'Cancel Adding Marker'"
+        (handleOnClick)="handleCancelAddCustomTravelPoint()"
+      ></app-button>
+      <app-button
+        class="btnSaveAddMarker"
+        [title]="'Save Markers'"
+        (handleOnClick)="handleSaveAddCustomTravelPoint()"
+      ></app-button>
+    </ng-container>
+
+    <ng-container *ngIf="currentTrip?.tripUsers.length">
+      <div
+        *ngFor="let user of currentTrip.tripUsers"
+        class="travelUserContainer"
+        [class.isDisabled]="isMarkerAdded"
+      >
+        <img *ngIf="user.photo" [src]="user.photo" class="me-1">
+        <img *ngIf="!user.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
+        <p>{{ user.name }} {{ user.surname }}</p>
+      </div>
+
+      <div
+        class="chatContainer"
+        [class.isDisabled]="isMarkerAdded"
+      >
+        <app-chat
+          *ngIf="isChatVisible"
+          [tripId]="currentTrip.id"
+          [tripMessages]="currentTrip?.messages[0]?.messages"
+          (isChatVisible)="showChat($event)"
+        ></app-chat>
+      </div>
+
+      <div
+        class="chatIcon"
+        [class.isDisabled]="isMarkerAdded"
+        (click)="showChat(true)"
+      >
+        <i class="fa fa-commenting"></i>
+      </div>
+    </ng-container>
+  </div>
+  <div
+    *ngIf="isCostDetailVisible"
+    class="trip-cost-page"
+  >
+    <app-trip-costs
+      [currentUser]="currentUser"
+      [totalTripDistance]="totalTripDistance$ | async"
+    ></app-trip-costs>
     <div
-      class="chatIcon"
-      [class.isDisabled]="isMarkerAdded"
-      (click)="showChat(true)"
+      class="btnBackToTripData"
+      (click)="onHandleTripView(false)"
     >
-      <i class="fa fa-commenting"></i>
+      <i class="fa fa-arrow-left"></i>
     </div>
-  </ng-container>
+  </div>
 </div>

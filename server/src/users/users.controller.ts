@@ -5,6 +5,7 @@ import { MessageModel } from '../chat/message.model';
 import { MarkersModel } from '../trips/markers.model';
 import { VotingStatusModel } from "../trips/voting-status.enum";
 import {WaypointsModel} from "../trips/waypoints.model";
+import {CarModel} from "./car.model";
 
 @Controller('users')
 export class UsersController {
@@ -35,6 +36,11 @@ export class UsersController {
     return this.userService.getUser(id).then((data) => console.log(data));
   }
 
+  @Post('/cars')
+  async addUserCar(@Body() userCarData: any) {
+    return this.userService.addUserCar(userCarData);
+  }
+
   // @Post()
   // async addNewUser(@Body() newUserData: UsersType) {
   //   const newUser = await this.userService.addNewUser(newUserData);
@@ -43,7 +49,7 @@ export class UsersController {
   // }
 
   @Put('trips')
-  async addNewUserTrip(@Body() newTripData: any) {
+  async addNewUserTrip(@Body() newTripData: CarModel) {
     return this.userService.addNewUserTrip(newTripData);
   }
 
@@ -96,5 +102,23 @@ export class UsersController {
       @Query() query
   ) {
     return this.userService.removeWaypointsFromTrip(id, query);
+  }
+
+  @Put('trip/:id/distance')
+  async addTripDistance(
+    @Param('id') id: string,
+    @Body() currentUser: UsersType,
+    @Body() distance: number,
+  ) {
+    return this.userService.addTripDistance(id, currentUser, distance);
+  }
+
+  @Put('trip/:id/duration')
+  async addTripDuration(
+    @Param('id') id: string,
+    @Body() currentUser: UsersType,
+    @Body() duration: string,
+  ) {
+    return this.userService.addTripDuration(id, currentUser, duration);
   }
 }

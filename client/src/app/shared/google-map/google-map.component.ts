@@ -35,6 +35,7 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   @Input() tripPoints: TripPointDataModel
   @Input() isMarkerAdded: boolean
   @Input() markersDataForCurrentTrip: MarkerModel[];
+  @Input() isTripCreated: boolean = false;
   @Output() markersList = new EventEmitter<MarkerModel[]>()
 
   @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow;
@@ -130,9 +131,12 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     this.tripPointsToTravel = changes['tripPoints']?.currentValue;
     this.store.select(selectCurrentTrip).subscribe(data => this.tripData = data);
 
-    this.setCurrentTripMarkers(changes);
     this.setCenterPoints();
-    this.setWaypoints();
+
+    if (!this.isTripCreated) {
+      this.setCurrentTripMarkers(changes);
+      this.setWaypoints();
+    }
 
     const request: google.maps.DirectionsRequest = {
       destination: {lat: +this.tripPointsToTravel?.destinationPoint?.latitude, lng: +this.tripPointsToTravel?.destinationPoint?.longitude},
@@ -143,7 +147,11 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     };
 
     this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => {
-      this.setTripDistance(response);
+      if (!response.result) return;
+
+      if (!this.isTripCreated && this.tripData.id) {
+        this.setTripDistance(response);
+      }
 
       return response.result
     }));
@@ -202,15 +210,17 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     const newWaypointsArr = [];
 
     this.store.select(selectTripWaypoints).subscribe((waypoints: any) => {
-      waypoints.forEach(waypoint => {
-        const data = {
-          location: waypoint.waypoints.location,
-          stopover: waypoint.waypoints.stopover
-        }
-        newWaypointsArr.push(data);
+      if (waypoints?.length) {
+        waypoints.forEach(waypoint => {
+          const data = {
+            location: waypoint.waypoints.location,
+            stopover: waypoint.waypoints.stopover
+          }
+          newWaypointsArr.push(data);
 
-        this.waypoints = newWaypointsArr;
-      })
+          this.waypoints = newWaypointsArr;
+        })
+      }
     })
   }
 
@@ -233,7 +243,7 @@ export class GoogleMapComponent implements OnInit, OnChanges {
       }
     })
 
-    this.store.dispatch(setTripDistanceAction( {distance: this.totalTripDistance}));
-    this.store.dispatch(setTripDurationAction({duration: this.totalTripDuration}));
+    this.store.dispatch(setTripDistanceAction( { id: this.tripData.id, currentUser: this.user.email, distance: this.totalTripDistance }));
+    this.store.dispatch(setTripDurationAction({ id: this.tripData.id, currentUser: this.user.email, duration: this.totalTripDuration }));
   }
 }
