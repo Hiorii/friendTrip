@@ -30,12 +30,16 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   newCarForm: UntypedFormGroup;
   selectCarForm: UntypedFormGroup;
   newItemForm: UntypedFormGroup;
+  currentItemForm: UntypedFormGroup;
   isAddCarFormVisible: boolean = false;
   isAddItemFormVisible: boolean = false;
   isCarChosen: boolean = false;
+  isCurrentItemChosen: boolean = false;
+  isCurrentItemCostIncurred: boolean = false;
   chosenCarFuelConsumption: number;
   petrolCost = 7.75;
   totalTripFuelCost: number;
+  currentChosenItem: TripItemModel;
 
   constructor(
     private fb: FormBuilder,
@@ -122,14 +126,36 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
     this.newItemForm.reset();
   }
 
-  removeTripItem(id: string) {
+  removeTripItem() {
+    const id = this.currentChosenItem.itemId;
     this.store.dispatch(removeTripItemAction({ id: this.currentTrip.id, currentUser: this.currentUser, itemId: id }))
+  }
+
+  toggleChangeCurrentItem(value: boolean, currentItem?: TripItemModel) {
+    this.isCurrentItemChosen = value;
+
+    if (currentItem) {
+      this.currentChosenItem = currentItem;
+    }
+  }
+
+  handleChangeCurrentItem() {
+    console.log(this.currentChosenItem)
+  }
+
+  handleAllCostPaid() {
+    this.currentItemForm.patchValue({costPaid: this.currentChosenItem.itemCost})
+  }
+
+  toggleCurrentItemCostIncurred(value: boolean) {
+    this.isCurrentItemCostIncurred = value;
   }
 
   private createForms() {
     this.createNewCarForm();
     this.createSelectCarForm();
     this.createNewItemForm();
+    this.createCurrentItemForm();
   }
 
   private createNewCarForm() {
@@ -158,6 +184,12 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
       itemCost: ['', [Validators.required]],
       itemOwner: ['', [Validators.required]],
       itemDescription: ['', [Validators.required]]
+    })
+  }
+
+  private createCurrentItemForm() {
+    this.currentItemForm = this.fb.group({
+      costPaid: ['', [Validators.required]],
     })
   }
 }

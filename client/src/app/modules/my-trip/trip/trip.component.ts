@@ -23,7 +23,7 @@ export class TripComponent implements OnInit, OnChanges {
   currentTrip: TripModel;
   isChatVisible: boolean = false;
   isMarkerAdded: boolean = false;
-  isCostDetailVisible: boolean = false;
+  isCostDetailVisible: boolean = true;
   tripId: string;
   currentUser: any;
   markersList: MarkerModel[];

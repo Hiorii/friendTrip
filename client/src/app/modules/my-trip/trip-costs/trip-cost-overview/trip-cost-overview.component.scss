@@ -42,11 +42,6 @@
       text-decoration: underline;
     }
 
-    i {
-      color: $color-danger;
-      font-size: 1.1rem;
-    }
-
     .cost-container {
       width: 100%;
       padding: 1rem 0;
@@ -108,6 +103,69 @@
         margin-bottom: 1rem;
       }
     }
+  }
+}
+
+.currentItem {
+  .currentItemForm {
+    .costPaid {
+      width: 100%;
+      @include flex(center, center);
+    }
+
+    p {
+      color: $primary-white;
+      font-size: 1.1rem;
+      text-align: center;
+      margin: 0;
+      padding: .5rem;
+      background: $background-color;
+      border-radius: 10px;
+    }
+
+    p:nth-child(2) {
+      font-size: 0.7rem;
+      margin: .5rem 0;
+      background: none;
+    }
+
+    i {
+      color: $color-danger;
+      font-size: 1.1rem;
+    }
+  }
+}
+
+.item-details {
+  color: $primary-white;
+  @include flex(flex-start, center);
+  flex-direction: column;
+
+  .item-title {
+    @include flex(space-between, center);
+    padding: 1rem 2rem;
+    width: 100%;
+
+    h5 {
+      font-size: 1.3rem;
+    }
+    p {
+      font-size: 1.4rem;
+    }
+  }
+
+  .added-by {
+    margin: -1.4rem 0 2rem;
+    width: 100%;
+    text-align: center;
+    p {
+      font-size: .7rem;
+      margin: 0;
+    }
+  }
+
+  .item-content {
+
   }
 }
 

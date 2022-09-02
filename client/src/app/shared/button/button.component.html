@@ -3,7 +3,14 @@
   class="btn"
   role="button"
   [disabled]="disabled"
+  [style.background-color]="background"
+  [style.background-image]="backgroundImage"
   (click)="onClickEvent($event)"
 >
+  <i
+    *ngIf="iconName"
+    class="{{iconName}}"
+    [style.color]="iconColor"
+  ></i>
   {{ title }}
 </button>

@@ -1,6 +1,8 @@
 @import "src/assets/sass/settings";
 
 .btn {
+   @include flex(center, center);
+   position: relative;
    margin-top: 2rem;
    background-image: $background-color;
    border-radius: .5rem;
@@ -18,6 +20,10 @@
    -webkit-user-select: none;
    touch-action: manipulation;
    box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 1);
+
+  i {
+    margin-right: .6rem;
+  }
 }
 
 .btn:hover {

@@ -1,5 +1,5 @@
 <div
-  *ngIf="!isAddCarFormVisible && !isAddItemFormVisible"
+  *ngIf="!isAddCarFormVisible && !isAddItemFormVisible && !isCurrentItemChosen"
   class="container"
 >
   <app-button
@@ -48,14 +48,11 @@
   <div
     *ngFor="let tripItem of tripItems"
     class="items-container"
+    (click)="toggleChangeCurrentItem(true, tripItem)"
   >
     <p class="name">{{tripItem.itemName}}</p>
     <div>
       <p class="cost">{{tripItem.itemCost}} zł</p>
-      <i
-        class="fa fa-trash"
-        (click)="removeTripItem(tripItem.itemId)"
-      ></i>
     </div>
   </div>
 </div>
@@ -131,5 +128,72 @@
         ></app-button>
       </div>
     </form>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="isCurrentItemChosen && !isCurrentItemCostIncurred">
+  <div class="item-details">
+    <div class="item-title">
+      <p></p>
+      <h5>{{currentChosenItem?.itemName}}</h5>
+      <p>{{currentChosenItem?.itemCost}} zł</p>
+    </div>
+    <div class="added-by">
+      <p>by {{currentChosenItem?.itemOwner}}</p>
+    </div>
+    <div class="item-content">
+      <p>{{currentChosenItem?.itemDescription}}</p>
+    </div>
+  </div>
+  <div class="btn-container">
+    <app-button
+      class="costsIncurred"
+      [title]="'Add incurred cost'"
+      (handleOnClick)="toggleCurrentItemCostIncurred(true)"
+    ></app-button>
+    <app-button
+      class="removeItem"
+      [title]="'Remove item'"
+      [background]="'#e06854'"
+      [iconName]="'fa fa-trash'"
+      (handleOnClick)="removeTripItem()"
+    ></app-button>
+    <app-button
+      class="cancel"
+      [title]="'Cancel'"
+      (handleOnClick)="toggleChangeCurrentItem(false)"
+    ></app-button>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="isCurrentItemCostIncurred">
+  <div class="currentItem">
+    <div class="form-container currentItemForm">
+      <form [formGroup]="currentItemForm">
+        <div class="inputs-container">
+          <div class="costPaid">
+            <p (click)="handleAllCostPaid()">All costs paid</p>
+          </div>
+          <p>or</p>
+          <div class="form-group col-md-6">
+            <input
+              class="form-control"
+              placeholder="Amount already paid"
+              formControlName="costPaid"
+            />
+          </div>
+          <app-button
+            class="currentItemForm"
+            [title]="'Confirm'"
+            (handleOnClick)="handleChangeCurrentItem()"
+          ></app-button>
+          <app-button
+            class="addNewItemForm"
+            [title]="'Cancel'"
+            (handleOnClick)="toggleCurrentItemCostIncurred(false)"
+          ></app-button>
+        </div>
+      </form>
+    </div>
   </div>
 </ng-container>
