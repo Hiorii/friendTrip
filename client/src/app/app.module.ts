@@ -9,6 +9,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MaterialModule} from "./shared/material.module";
 import {NgxSpinnerModule} from "ngx-spinner";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {HttpSpinnerInterceptorService} from "./core/interceptors/http-spinner-interceptor.service";
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import {NgxSpinnerModule} from "ngx-spinner";
     MaterialModule,
     NgxSpinnerModule.forRoot({ type: 'ball-beat' })
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: HttpSpinnerInterceptorService, multi: true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

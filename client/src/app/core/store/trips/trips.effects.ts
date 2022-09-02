@@ -248,7 +248,6 @@ export class TripsEffects {
                       this.toast.danger(error)
                       return EMPTY
                     }),
-                    tap(data => console.log(data)),
                     map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
                     tap(_ => {
                       window.location.reload()

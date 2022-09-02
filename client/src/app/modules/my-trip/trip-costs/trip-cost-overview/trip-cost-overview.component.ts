@@ -39,7 +39,6 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.userCars = changes['userCars']?.currentValue;
     this.tripItems = changes['tripItems']?.currentValue;
-    this.store.select(selectTripItems).subscribe(data => console.log(data))
   }
 
   ngOnInit(): void {
