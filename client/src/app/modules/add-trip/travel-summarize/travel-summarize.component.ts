@@ -17,6 +17,7 @@ import {ToastService} from "../../../shared/toast/toast.service";
 import {MarkerModel} from "../../../core/interfaces/marker.model";
 import {WaypointsModel} from "../../../core/interfaces/waypoints.model";
 import {TripItemModel} from "../../../core/interfaces/trip-item.model";
+import {CarModel} from "../../../core/interfaces/car.model";
 
 @Component({
   selector: 'app-travel-summarize',
@@ -36,6 +37,7 @@ export class TravelSummarizeComponent implements OnInit {
   totalTripDistance: number = 0;
   totalTripDuration: string = '0';
   tripItems: [] = [];
+  tripCar: CarModel
 
   constructor(
     private tripApiService: TripApiService,
@@ -60,6 +62,7 @@ export class TravelSummarizeComponent implements OnInit {
       totalTripDistance: this.totalTripDistance,
       totalTripDuration: this.totalTripDuration,
       tripItems: this.tripItems,
+      tripCar: this.tripCar
     }
 
    this.tripData = tripData

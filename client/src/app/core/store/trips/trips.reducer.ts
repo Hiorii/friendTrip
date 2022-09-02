@@ -4,6 +4,7 @@ import * as actions from './trips.actions';
 import {MarkerModel} from "../../interfaces/marker.model";
 import {WaypointsModel} from "../../interfaces/waypoints.model";
 import {TripItemModel} from "../../interfaces/trip-item.model";
+import {CarModel} from "../../interfaces/car.model";
 
 export interface State {
   tripsList:
@@ -35,6 +36,7 @@ export interface State {
       totalTripDistance?: number;
       totalTripDuration?: string;
       tripItems?: TripItemModel[],
+      tripCar?: CarModel
     }[],
   currentTrip:
     {
@@ -65,6 +67,7 @@ export interface State {
       totalTripDistance?: number;
       totalTripDuration?: string;
       tripItems?: TripItemModel[],
+      tripCar?: CarModel
     }
 }
 
@@ -98,6 +101,7 @@ const initialState: State = {
       totalTripDistance: 0,
       totalTripDuration: '',
       tripItems: [],
+      tripCar: null
     }
   ],
   currentTrip:
@@ -129,6 +133,7 @@ const initialState: State = {
       totalTripDistance: 0,
       totalTripDuration: '',
       tripItems: [],
+      tripCar: null
     }
 }
 
@@ -201,3 +206,4 @@ export const getTripWaypoints= (state: State) => state.currentTrip?.waypoints
 export const getTripDistance = (state: State) => state.currentTrip?.totalTripDistance
 export const getTripDuration = (state: State) => state.currentTrip?.totalTripDuration
 export const getTripItems = (state: State) => state.currentTrip?.tripItems
+export const getTripCar = (state: State) => state.currentTrip?.tripCar

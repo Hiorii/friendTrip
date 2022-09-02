@@ -3,5 +3,6 @@ export interface TripItemModel {
   itemName: string,
   itemCost: number,
   itemOwner: string,
-  itemDescription: string
+  itemDescription: string,
+  alreadyPaid: {user: string, amount: number}[],
 }

@@ -1,12 +1,21 @@
-import {Body, Controller, Delete, Get, Param, Post, Put, Query} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersType } from './users.model';
 import { MessageModel } from '../chat/message.model';
 import { MarkersModel } from '../trips/markers.model';
-import { VotingStatusModel } from "../trips/voting-status.enum";
-import {WaypointsModel} from "../trips/waypoints.model";
-import {CarModel} from "./car.model";
-import {TripItemModel} from "../trips/trip-items.model";
+import { VotingStatusModel } from '../trips/voting-status.enum';
+import { WaypointsModel } from '../trips/waypoints.model';
+import { CarModel } from './car.model';
+import { TripItemModel } from '../trips/trip-items.model';
 
 @Controller('users')
 export class UsersController {
@@ -33,10 +42,7 @@ export class UsersController {
   }
 
   @Delete('trip/:id')
-  async removeUserTrip(
-      @Param('id') id: string,
-      @Query() query
-  ) {
+  async removeUserTrip(@Param('id') id: string, @Query() query) {
     return this.userService.removeUserTrip(id, query);
   }
 
@@ -80,10 +86,7 @@ export class UsersController {
   }
 
   @Delete('trip/:id/markers')
-  async removeMarkersFromTrip(
-    @Param('id') id: string,
-    @Query() query
-  ) {
+  async removeMarkersFromTrip(@Param('id') id: string, @Query() query) {
     return this.userService.removeMarkerFromTrip(id, query);
   }
 
@@ -106,10 +109,7 @@ export class UsersController {
   }
 
   @Delete('trip/:id/waypoints')
-  async removeWaypointsFromTrip(
-      @Param('id') id: string,
-      @Query() query
-  ) {
+  async removeWaypointsFromTrip(@Param('id') id: string, @Query() query) {
     return this.userService.removeWaypointsFromTrip(id, query);
   }
 
@@ -141,10 +141,16 @@ export class UsersController {
   }
 
   @Delete('trip/:id/items')
-  async removeTripItem(
-      @Param('id') id: string,
-      @Query() query
-  ) {
+  async removeTripItem(@Param('id') id: string, @Query() query) {
     return this.userService.removeTripItem(id, query);
+  }
+
+  @Put('trip/:id/car')
+  async addTripCar(
+    @Param('id') id: string,
+    @Body() currentUser: UsersType,
+    @Body() car: CarModel,
+  ) {
+    return this.userService.addTripCar(id, currentUser, car);
   }
 }

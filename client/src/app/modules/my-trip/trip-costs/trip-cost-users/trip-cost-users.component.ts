@@ -15,6 +15,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
   @Input() fuelCost: number;
   tripUsers: UsersModel[];
   tripTotalPrice: number;
+  isAnyCostAdded: boolean = false;
 
   constructor() { }
 
@@ -32,7 +33,9 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
       this.setTotalTripPrice();
     }
 
-    this.fuelCost = changes['fuelCost']?.currentValue;
+    if (changes['fuelCost']?.currentValue) {
+      this.fuelCost = changes['fuelCost']?.currentValue;
+    }
   }
 
   private setTotalTripPrice() {
@@ -50,7 +53,17 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
 
       totalArrPrice = convertedArr.reduce((a,b) => a + b);
 
+      this.isAnyCostAdded = true;
       this.tripTotalPrice = this.fuelCost ? totalArrPrice + this.fuelCost : totalArrPrice;
+    }
+
+    if (!costArr.length && this.fuelCost) {
+      this.isAnyCostAdded = true;
+      this.tripTotalPrice = this.fuelCost;
+    }
+
+    if (!costArr.length && !this.fuelCost) {
+      this.isAnyCostAdded = false;
     }
   }
 

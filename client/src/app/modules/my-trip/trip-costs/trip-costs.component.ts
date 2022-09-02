@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {selectCurrentUser, selectUserCars} from "../../../core/store/users";
-import {selectTripItems} from "../../../core/store/trips";
+import {selectTripCar, selectTripItems} from "../../../core/store/trips";
 
 @Component({
   selector: 'app-trip-costs',
@@ -15,7 +15,8 @@ export class TripCostsComponent implements OnInit, OnChanges {
   userCars$ = this.store.select(selectUserCars);
   tripItems$ = this.store.select(selectTripItems);
   user$ = this.store.select(selectCurrentUser);
-  isUserCostVisible: boolean = true;
+  tripCar$ = this.store.select(selectTripCar);
+  isUserCostVisible: boolean = false;
   fuelCost: number;
 
   constructor(private store: Store) { }

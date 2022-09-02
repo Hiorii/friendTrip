@@ -1,4 +1,7 @@
-<div class="container">
+<div
+  *ngIf="isAnyCostAdded"
+  class="container"
+>
   <div class="total-cost">
     <p>Total trip cost: <span>{{tripTotalPrice}} zł</span></p>
   </div>
@@ -20,3 +23,9 @@
     <p>{{ getPriceValueForUser(user) }} zł</p>
   </div>
 </div>
+
+<ng-container *ngIf="!isAnyCostAdded">
+  <div class="container-no-cost">
+    <h2>Any cost added yet</h2>
+  </div>
+</ng-container>

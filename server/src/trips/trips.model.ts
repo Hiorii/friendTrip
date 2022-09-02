@@ -6,6 +6,7 @@ import {MessageModel} from "../chat/message.model";
 import {MarkersModel} from "./markers.model";
 import {WaypointsModel} from "./waypoints.model";
 import {TripItemModel} from "./trip-items.model";
+import {CarModel} from "../users/car.model";
 
 export const TripsSchema = new mongoose.Schema({
   id: { type: String, required: true },
@@ -36,6 +37,7 @@ export const TripsSchema = new mongoose.Schema({
   totalTripDistance: '',
   totalTripDuration: '',
   tripItems: [],
+  tripCar: '',
   // pointsToVisit: [{}],
   // totalCost: {},
   // status: { modelfor active, finished }
@@ -58,6 +60,7 @@ export interface TripsType {
   totalTripDuration?: string;
   tripItems?: TripItemModel[];
   _id?: string;
+  tripCar?: CarModel;
 }
 
 const Trip = mongoose.model('Trip', TripsSchema);

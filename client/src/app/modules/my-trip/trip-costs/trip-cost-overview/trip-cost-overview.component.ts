@@ -3,10 +3,15 @@ import {FormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {setUserNewCar} from "../../../../core/store/users/users.actions";
 import {CarModel} from "../../../../core/interfaces/car.model";
-import {removeTripItemAction, setTripItemsCostAction} from "../../../../core/store/trips/trips.actions";
+import {
+  removeTripItemAction,
+  setTripCarAction,
+  setTripItemsCostAction
+} from "../../../../core/store/trips/trips.actions";
 import {TripItemModel} from "../../../../core/interfaces/trip-item.model";
 import {UUID} from "angular2-uuid";
 import {selectTripItems} from "../../../../core/store/trips";
+import {selectUserCars} from "../../../../core/store/users";
 
 @Component({
   selector: 'app-trip-cost-overview',
@@ -19,6 +24,7 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   @Input() totalTripDistance;
   @Input() currentTrip;
   @Input() tripItems: TripItemModel[];
+  @Input() tripCar: CarModel;
   @Output() tripFuelCost = new EventEmitter<number>();
 
   newCarForm: UntypedFormGroup;
@@ -40,6 +46,15 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.userCars = changes['userCars']?.currentValue;
     this.tripItems = changes['tripItems']?.currentValue;
+    if (changes['tripCar']?.currentValue) {
+      this.userCars.map(car => {
+        if (car.carName === changes['tripCar']?.currentValue.car) {
+          this.chosenCarFuelConsumption = car.carFuelConsumption;
+          this.calculateFuelTripCost();
+        }
+      });
+      this.isCarChosen = true;
+    }
   }
 
   ngOnInit(): void {
@@ -68,6 +83,7 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
 
     this.store.dispatch(setUserNewCar({ userCarData: carData }))
     this.isAddCarFormVisible = false;
+    this.newCarForm.reset();
   }
 
   onSelectCar() {
@@ -78,25 +94,32 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
         this.calculateFuelTripCost();
       }
     });
-
+    this.store.dispatch(setTripCarAction({ id: this.currentTrip.id, currentUser: this.currentUser, car: chosenCar }))
     this.isCarChosen = true;
+    this.selectCarForm.reset();
   }
 
   toggleIsCarChosen(value: boolean) {
     this.isCarChosen = value;
+    this.store.select(selectUserCars).subscribe(cars => this.userCars = cars)
   }
 
   handleAddNewItem() {
+    let alreadyPaidArr = [];
+    alreadyPaidArr.push({user: this.currentUser, amount: 0});
+
     const itemData = {
       itemId: UUID.UUID(),
       itemName: this.newItemForm.get('itemName')?.value,
       itemCost: this.newItemForm.get('itemCost')?.value,
       itemOwner: this.currentUser,
       itemDescription: this.newItemForm.get('itemDescription')?.value,
+      alreadyPaid: alreadyPaidArr,
     }
 
     this.store.dispatch(setTripItemsCostAction({ id: this.currentTrip.id, currentUser: this.currentUser, item: itemData }))
     this.isAddItemFormVisible = false;
+    this.newItemForm.reset();
   }
 
   removeTripItem(id: string) {

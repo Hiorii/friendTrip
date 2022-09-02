@@ -22,10 +22,10 @@ import {MarkerModel} from "../../../core/interfaces/marker.model";
 export class TripComponent implements OnInit, OnChanges {
   currentTrip: TripModel;
   isChatVisible: boolean = false;
-  tripId: string;
   isMarkerAdded: boolean = false;
+  isCostDetailVisible: boolean = false;
+  tripId: string;
   currentUser: any;
-  isCostDetailVisible: boolean = true;
   markersList: MarkerModel[];
   markersData$ = this.store.select(selectTripMarkers);
   waypointList$ = this.store.select(selectTripWaypoints);

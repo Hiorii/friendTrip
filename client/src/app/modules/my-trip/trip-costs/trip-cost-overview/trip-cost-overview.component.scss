@@ -17,6 +17,7 @@
     border: 3px double $main-font;
     border-left: none;
     border-radius: 20px;
+    margin: .5rem 0;
 
     div {
       @include flex(space-between, center);
@@ -65,6 +66,11 @@
     }
 
     .car-chosen {
+      p, span {
+        width: 100%;
+        text-align: right;
+      }
+
       span {
         font-size: 0.8rem;
       }

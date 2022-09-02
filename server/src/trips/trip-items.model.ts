@@ -4,4 +4,5 @@ export interface TripItemModel {
   itemCost: number;
   itemOwner: string;
   itemDescription: string;
+  alreadyPaid: { user: string; amount: number }[];
 }

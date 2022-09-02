@@ -348,6 +348,35 @@ export class TripsEffects {
     )
   )
 
+  setTripCar$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(actions.setTripCarAction),
+      exhaustMap(({ id, currentUser, car }) => this.dialog
+        .openConfirmationDialog({
+          title: 'Select trip car',
+          desc: 'Are you sure you want to select this car?'
+        })
+        .afterClosed()
+        .pipe(
+          switchMap(confirmed => (confirmed
+              ? this.tripApiService.addTripCar(id, currentUser, car)
+                .pipe(
+                  catchError(err => {
+                    this.toast.danger(err)
+                    return EMPTY;
+                  }),
+                  map((tripData: any) => actions.setTripDataAction( { trip: tripData[0] })),
+                  tap(_ => {
+                    this.toast.success('Car has been chosen')
+                  }),
+                )
+              : EMPTY
+          ))
+        )
+      )
+    )
+  )
+
   constructor(
     private actions$: Actions,
     private tripApiService: TripApiService,

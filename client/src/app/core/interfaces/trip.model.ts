@@ -4,6 +4,7 @@ import {TripPointDataModel} from "./trip-point-data.model";
 import {MarkerModel} from "./marker.model";
 import {WaypointsModel} from "./waypoints.model";
 import {TripItemModel} from "./trip-item.model";
+import {CarModel} from "./car.model";
 
 export interface TripModel {
   _id?: string;
@@ -18,4 +19,5 @@ export interface TripModel {
   totalTripDistance?: number;
   totalTripDuration?: string;
   tripItems?: TripItemModel[];
+  tripCar?: CarModel
 }
