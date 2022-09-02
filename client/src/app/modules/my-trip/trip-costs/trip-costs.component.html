@@ -1,8 +1,23 @@
-<app-trip-cost-overview
-  [userCars]="userCars$ | async"
-  [tripItems]="tripItems$ | async"
-  [currentUser]="currentUser"
-  [totalTripDistance]="totalTripDistance"
-  [currentTrip]="currentTrip"
-></app-trip-cost-overview>
-<app-trip-cost-users></app-trip-cost-users>
+<div class="container">
+  <app-trip-cost-overview
+    *ngIf="!isUserCostVisible"
+    [userCars]="userCars$ | async"
+    [tripItems]="tripItems$ | async"
+    [currentUser]="currentUser"
+    [totalTripDistance]="totalTripDistance"
+    [currentTrip]="currentTrip"
+    (tripFuelCost)="tripFuelCost($event)"
+  ></app-trip-cost-overview>
+  <app-trip-cost-users
+    *ngIf="isUserCostVisible"
+    [currentUser]="user$ | async"
+    [tripItems]="tripItems$ | async"
+    [currentTrip]="currentTrip"
+    [fuelCost]="fuelCost"
+  ></app-trip-cost-users>
+  <app-button
+    class="costUser"
+    [title]="!isUserCostVisible ? 'Check users costs' : 'Check costs overview'"
+    (handleOnClick)="toggleUserCosts()"
+  ></app-button>
+</div>

@@ -7,7 +7,7 @@
     [title]="'Add new cost'"
     (handleOnClick)="toggleAddNewItem(true)"
   ></app-button>
-  <div class="items-container">
+  <div class="items-container-car">
     <p class="name">Petrol cost on drive</p>
     <div class="cost-container">
       <div
@@ -50,11 +50,13 @@
     class="items-container"
   >
     <p class="name">{{tripItem.itemName}}</p>
-    <p class="cost">{{tripItem.itemCost}} zł</p>
-    <i
-      class="fa fa-trash"
-      (click)="removeTripItem(tripItem.itemId)"
-    ></i>
+    <div>
+      <p class="cost">{{tripItem.itemCost}} zł</p>
+      <i
+        class="fa fa-trash"
+        (click)="removeTripItem(tripItem.itemId)"
+      ></i>
+    </div>
   </div>
 </div>
 

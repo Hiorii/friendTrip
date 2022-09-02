@@ -25,7 +25,7 @@ export class TripComponent implements OnInit, OnChanges {
   tripId: string;
   isMarkerAdded: boolean = false;
   currentUser: any;
-  isCostDetailVisible: boolean = false;
+  isCostDetailVisible: boolean = true;
   markersList: MarkerModel[];
   markersData$ = this.store.select(selectTripMarkers);
   waypointList$ = this.store.select(selectTripWaypoints);

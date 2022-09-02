@@ -1,1 +1,22 @@
-<p>trip-cost-users works!</p>
+<div class="container">
+  <div class="total-cost">
+    <p>Total trip cost: <span>{{tripTotalPrice}} zł</span></p>
+  </div>
+  <div class="user-container">
+    <div class="user">
+      <img src="{{ currentUser?.photo }}" alt="{{ currentUser?.name }} photo">
+      <p>{{currentUser?.name}}</p>
+    </div>
+    <p>{{ getPriceValueForUser(currentUser) }} zł</p>
+  </div>
+  <div
+    *ngFor="let user of tripUsers"
+    class="user-container"
+  >
+    <div class="user">
+      <img src="{{ user.photo }}" alt="{{ user.name }} photo">
+      <p>{{user?.name}}</p>
+    </div>
+    <p>{{ getPriceValueForUser(user) }} zł</p>
+  </div>
+</div>

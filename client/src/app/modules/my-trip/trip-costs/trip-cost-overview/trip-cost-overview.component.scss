@@ -9,14 +9,23 @@
     width: 100%;
   }
 
-  .items-container {
+  .items-container, .items-container-car{
     width: 100%;
-    @include flex(space-around, center);
+    @include flex(space-between, center);
     color: $main-font;
     text-shadow: 1px 1px 1px rgb(0 0 0 / 80%);
     border: 3px double $main-font;
     border-left: none;
     border-radius: 20px;
+
+    div {
+      @include flex(space-between, center);
+      margin: 0 1rem;
+
+      p {
+        margin-right: 1rem;
+      }
+    }
 
     .name {
       padding: 1rem;
@@ -38,7 +47,21 @@
     }
 
     .cost-container {
-      padding: 1rem;
+      width: 100%;
+      padding: 1rem 0;
+
+      div {
+        width: 100%;
+        flex-direction: column;
+
+        form {
+          width: 100%;
+
+          .inputs-container {
+            margin: 0;
+          }
+        }
+      }
     }
 
     .car-chosen {
@@ -49,6 +72,7 @@
 
     .no-car {
       font-size: 0.8rem;
+      margin-right: 0;
 
       p {
         text-align: center;

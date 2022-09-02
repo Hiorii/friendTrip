@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {setUserNewCar} from "../../../../core/store/users/users.actions";
@@ -19,6 +19,7 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   @Input() totalTripDistance;
   @Input() currentTrip;
   @Input() tripItems: TripItemModel[];
+  @Output() tripFuelCost = new EventEmitter<number>();
 
   newCarForm: UntypedFormGroup;
   selectCarForm: UntypedFormGroup;
@@ -123,7 +124,9 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   }
 
   private calculateFuelTripCost() {
-    this.totalTripFuelCost = ((this.totalTripDistance/100) * this.chosenCarFuelConsumption) * this.petrolCost;
+    this.totalTripFuelCost = Math.round((((this.totalTripDistance/100) * this.chosenCarFuelConsumption) * this.petrolCost) * 100) / 100;
+
+    this.tripFuelCost.emit(this.totalTripFuelCost);
   }
 
   private createNewItemForm() {
