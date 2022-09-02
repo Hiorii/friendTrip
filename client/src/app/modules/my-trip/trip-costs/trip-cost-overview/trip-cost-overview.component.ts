@@ -1,5 +1,5 @@
-import {Component, DoCheck, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
-import {FormBuilder, UntypedFormGroup, Validator, Validators} from "@angular/forms";
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {FormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {Store} from "@ngrx/store";
 import {setUserNewCar} from "../../../../core/store/users/users.actions";
 import {CarModel} from "../../../../core/interfaces/car.model";
@@ -11,9 +11,9 @@ import {selectTripItems} from "../../../../core/store/trips";
 @Component({
   selector: 'app-trip-cost-overview',
   templateUrl: './trip-cost-overview.component.html',
-  styleUrls: ['./trip-cost-overview.component.scss']
+  styleUrls: ['./trip-cost-overview.component.scss'],
 })
-export class TripCostOverviewComponent implements OnInit, OnChanges, DoCheck {
+export class TripCostOverviewComponent implements OnInit, OnChanges {
   @Input() currentUser: any;
   @Input() userCars: CarModel[];
   @Input() totalTripDistance;
@@ -36,16 +36,10 @@ export class TripCostOverviewComponent implements OnInit, OnChanges, DoCheck {
   ) {
   }
 
-  ngDoCheck(): void {
-    this.store.select(selectTripItems).subscribe(data => console.log(data));
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     this.userCars = changes['userCars']?.currentValue;
-    if (changes['tripItems']?.currentValue) {
-      this.store.select(selectTripItems).subscribe(data => console.log(data));
-    }
-
+    this.tripItems = changes['tripItems']?.currentValue;
+    this.store.select(selectTripItems).subscribe(data => console.log(data))
   }
 
   ngOnInit(): void {

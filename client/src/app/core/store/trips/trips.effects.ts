@@ -308,7 +308,7 @@ export class TripsEffects {
                     this.toast.danger(err)
                     return EMPTY;
                   }),
-                  map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
+                  map((tripData: any) => actions.setTripDataAction( { trip: tripData[0] })),
                   tap(_ => {
                     this.toast.success('Your item has been added')
                   }),
@@ -337,7 +337,7 @@ export class TripsEffects {
                     this.toast.danger(error)
                     return EMPTY
                   }),
-                  map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
+                  map((tripData: any) => actions.setTripDataAction( { trip: tripData[0] })),
                   tap(_ => {
                     this.toast.success('Your item has been removed')
                   }),
