@@ -7,14 +7,14 @@
     [currentUser]="currentUser"
     [totalTripDistance]="totalTripDistance"
     [currentTrip]="currentTrip"
-    (tripFuelCost)="tripFuelCost($event)"
+    [fuelCost]="fuelCost$ | async"
   ></app-trip-cost-overview>
   <app-trip-cost-users
     *ngIf="isUserCostVisible"
     [currentUser]="user$ | async"
     [tripItems]="tripItems$ | async"
     [currentTrip]="currentTrip"
-    [fuelCost]="fuelCost"
+    [fuelCost]="fuelCost$ | async"
   ></app-trip-cost-users>
   <app-button
     class="costUser"

@@ -411,6 +411,22 @@ export class TripsEffects {
     )
   )
 
+  setTripFuelCost$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(actions.setTripFuelCostAction),
+      switchMap(({ id, currentUser, fuelCost }) => (
+       this.tripApiService.addTripFuelCost(id, currentUser, fuelCost)
+        .pipe(
+          catchError(err => {
+            this.toast.danger(err)
+            return EMPTY;
+          }),
+          map((tripData: any) => actions.setTripDataAction( { trip: tripData[0] }))
+        )
+      ))
+    )
+  )
+
   constructor(
     private actions$: Actions,
     private tripApiService: TripApiService,

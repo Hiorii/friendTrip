@@ -144,9 +144,13 @@ export class UsersController {
   async addNewTripItemAlreadyPaid(
     @Param('id') id: string,
     @Body() currentUser: UsersType,
-    @Body() alreadyPaid: { tripId: string, user: string, amount: number },
+    @Body() alreadyPaid: { tripId: string; user: string; amount: number },
   ) {
-    return this.userService.addNewTripItemAlreadyPaid(id, currentUser, alreadyPaid);
+    return this.userService.addNewTripItemAlreadyPaid(
+      id,
+      currentUser,
+      alreadyPaid,
+    );
   }
 
   @Delete('trip/:id/items')
@@ -161,5 +165,14 @@ export class UsersController {
     @Body() car: CarModel,
   ) {
     return this.userService.addTripCar(id, currentUser, car);
+  }
+
+  @Put('trip/:id/fuelCost')
+  async addTripFuelCost(
+    @Param('id') id: string,
+    @Body() currentUser: UsersType,
+    @Body() fuelCost: number,
+  ) {
+    return this.userService.addTripFuelCost(id, currentUser, fuelCost);
   }
 }

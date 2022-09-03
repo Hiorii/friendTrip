@@ -25,3 +25,4 @@ export const selectTripDistance = createSelector(selectTripsState, fromTrips.get
 export const selectTripDuration = createSelector(selectTripsState, fromTrips.getTripDuration)
 export const selectTripItems = createSelector(selectTripsState, fromTrips.getTripItems)
 export const selectTripCar = createSelector(selectTripsState, fromTrips.getTripCar)
+export const selectTripFuelCost = createSelector(selectTripsState, fromTrips.getTripFuelCost)

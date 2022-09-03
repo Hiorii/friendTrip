@@ -26,6 +26,7 @@ export const setTripItemsCostAction = createAction('[Trips] Set Trip Item Cost',
 export const removeTripItemAction = createAction('[Trips] Remove Trips Item', props<{ id: string, currentUser: string, itemId: string }>())
 export const setTripItemAlreadyPaidAction = createAction('[Trips] Set Trip Item Already Paid', props<{ id: string, currentUser: string, alreadyPaid: {tripId: string, user: string, amount: number} }>())
 export const setTripCarAction = createAction('[Trips] Set Trip Car', props<{ id: string, currentUser: string, car: CarModel }>())
+export const setTripFuelCostAction = createAction('[Trips] Set Trip Fuel Cost', props<{ id: string, currentUser: string, fuelCost: number }>())
 
 //Marker
 export const saveTripMarkersAction = createAction('[Trips] Save Trips Markers', props<{ id: string, currentUser: string, markers: MarkerModel[]}>())

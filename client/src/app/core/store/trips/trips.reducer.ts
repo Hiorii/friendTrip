@@ -36,7 +36,8 @@ export interface State {
       totalTripDistance?: number;
       totalTripDuration?: string;
       tripItems?: TripItemModel[],
-      tripCar?: CarModel
+      tripCar?: CarModel,
+      tripFuelCost?: number,
     }[],
   currentTrip:
     {
@@ -67,7 +68,8 @@ export interface State {
       totalTripDistance?: number;
       totalTripDuration?: string;
       tripItems?: TripItemModel[],
-      tripCar?: CarModel
+      tripCar?: CarModel,
+      tripFuelCost?: number,
     }
 }
 
@@ -101,7 +103,8 @@ const initialState: State = {
       totalTripDistance: 0,
       totalTripDuration: '',
       tripItems: [],
-      tripCar: null
+      tripCar: null,
+      tripFuelCost: 0
     }
   ],
   currentTrip:
@@ -133,7 +136,8 @@ const initialState: State = {
       totalTripDistance: 0,
       totalTripDuration: '',
       tripItems: [],
-      tripCar: null
+      tripCar: null,
+      tripFuelCost: 0
     }
 }
 
@@ -207,3 +211,4 @@ export const getTripDistance = (state: State) => state.currentTrip?.totalTripDis
 export const getTripDuration = (state: State) => state.currentTrip?.totalTripDuration
 export const getTripItems = (state: State) => state.currentTrip?.tripItems
 export const getTripCar = (state: State) => state.currentTrip?.tripCar
+export const getTripFuelCost = (state: State) => state.currentTrip?.tripFuelCost

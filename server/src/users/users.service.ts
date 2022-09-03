@@ -592,11 +592,11 @@ export class UsersService {
         //currentTrip.map((data) => (data.messages = messages));
 
         currentTrip.forEach((data) => {
-          data.tripItems.forEach(item => {
+          data.tripItems.forEach((item) => {
             if (item.itemId === alreadyPaid.alreadyPaid.tripId) {
               item.alreadyPaid.push(alreadyPaid.alreadyPaid);
             }
-          })
+          });
         });
 
         tripToUpdate = currentTrip;
@@ -683,6 +683,43 @@ export class UsersService {
 
         currentTrip.forEach((data) => {
           data.tripCar = car;
+        });
+
+        tripToUpdate = currentTrip;
+      });
+    });
+
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
+    return tripToUpdate;
+  }
+
+  async addTripFuelCost(tripId: string, currentUser: any, fuelCost: any) {
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
+
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id === tripId);
+
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
+
+        //currentTrip.map((data) => (data.messages = messages));
+
+        currentTrip.forEach((data) => {
+          data.tripFuelCost = fuelCost.fuelCost;
         });
 
         tripToUpdate = currentTrip;

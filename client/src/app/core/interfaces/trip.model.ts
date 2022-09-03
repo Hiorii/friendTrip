@@ -20,4 +20,5 @@ export interface TripModel {
   totalTripDuration?: string;
   tripItems?: TripItemModel[];
   tripCar?: CarModel
+  tripFuelCost?: number;
 }

@@ -38,10 +38,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     if (changes['fuelCost']?.currentValue) {
       this.fuelCost = changes['fuelCost']?.currentValue;
     }
-    console.log(this.fuelCost)
   }
-
-
 
   getPriceValueLeftToPayForUser(user: UsersModel) {
     const totalUserAmount = this.tripUsers.length + 1;

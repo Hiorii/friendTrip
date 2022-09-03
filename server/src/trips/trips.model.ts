@@ -38,6 +38,7 @@ export const TripsSchema = new mongoose.Schema({
   totalTripDuration: '',
   tripItems: [],
   tripCar: '',
+  tripFuelCost: { type: Number },
   // pointsToVisit: [{}],
   // totalCost: {},
   // status: { modelfor active, finished }
@@ -61,6 +62,7 @@ export interface TripsType {
   tripItems?: TripItemModel[];
   _id?: string;
   tripCar?: CarModel;
+  tripFuelCost?: number;
 }
 
 const Trip = mongoose.model('Trip', TripsSchema);

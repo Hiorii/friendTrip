@@ -96,4 +96,8 @@ export class TripApiService {
   addTripCar(id: string, currentUser: string, car: CarModel) {
     return this.http.put(this.url + `trip/${id}/car`, {currentUser, car})
   }
+
+  addTripFuelCost(id: string, currentUser: string, fuelCost: number) {
+    return this.http.put(this.url + `trip/${id}/fuelCost`, {currentUser, fuelCost})
+  }
 }
