@@ -10,9 +10,14 @@ import {DialogService} from "../../../shared/dialog/dialog.service";
 import {ToastService} from "../../../shared/toast/toast.service";
 import {
   getTripsDataAction,
-  getTripUsersAction, removeTripItemAction,
+  getTripUsersAction,
+  removeTripItemAction,
   removeTripMarkersAction,
-  removeTripWaypointAction, setTripDistanceAction, setTripDurationAction, setTripItemsCostAction,
+  removeTripWaypointAction,
+  setTripDistanceAction,
+  setTripDurationAction,
+  setTripItemAlreadyPaidAction,
+  setTripItemsCostAction,
   updateTripMarkersAction,
   voteOnMarkerAction
 } from "./trips.actions";
@@ -310,6 +315,35 @@ export class TripsEffects {
                   map((tripData: any) => actions.setTripDataAction( { trip: tripData[0] })),
                   tap(_ => {
                     this.toast.success('Your item has been added')
+                  }),
+                )
+              : EMPTY
+          ))
+        )
+      )
+    )
+  )
+
+  setTripItemAlreadyPaidAction$ = createEffect(() => this.actions$
+    .pipe(
+      ofType(actions.setTripItemAlreadyPaidAction),
+      exhaustMap(({ id, currentUser, alreadyPaid }) => this.dialog
+        .openConfirmationDialog({
+          title: 'Paid cost',
+          desc: `Do you confirm that you already paid ${alreadyPaid.amount}?`
+        })
+        .afterClosed()
+        .pipe(
+          switchMap(confirmed => (confirmed
+              ? this.tripApiService.addNewTripItemAlreadyPaid(id, currentUser, alreadyPaid)
+                .pipe(
+                  catchError(err => {
+                    this.toast.danger(err)
+                    return EMPTY;
+                  }),
+                  map((tripData: any) => actions.setTripDataAction( { trip: tripData[0] })),
+                  tap(_ => {
+                    this.toast.success('Your changes has been added')
                   }),
                 )
               : EMPTY

@@ -83,6 +83,10 @@ export class TripApiService {
     return this.http.put(this.url + `trip/${id}/items`, {currentUser, item})
   }
 
+  addNewTripItemAlreadyPaid(id: string, currentUser: string, alreadyPaid: {tripId: string, user: string, amount: number}) {
+    return this.http.put(this.url + `trip/${id}/itemsAlreadyPaid`, {currentUser, alreadyPaid})
+  }
+
   removeTripItem(id: string, currentUser: string, itemId: string) {
     const params = new HttpParams().set('id', id).append('itemId', itemId);
 

@@ -24,6 +24,7 @@ export const setTripDistanceAction = createAction('[Trips] Set Trip Distance', p
 export const setTripDurationAction = createAction('[Trips] Set Trip Duration', props<{ id: string, currentUser: string, duration: string }>())
 export const setTripItemsCostAction = createAction('[Trips] Set Trip Item Cost', props<{ id: string, currentUser: string, item: TripItemModel }>())
 export const removeTripItemAction = createAction('[Trips] Remove Trips Item', props<{ id: string, currentUser: string, itemId: string }>())
+export const setTripItemAlreadyPaidAction = createAction('[Trips] Set Trip Item Already Paid', props<{ id: string, currentUser: string, alreadyPaid: {tripId: string, user: string, amount: number} }>())
 export const setTripCarAction = createAction('[Trips] Set Trip Car', props<{ id: string, currentUser: string, car: CarModel }>())
 
 //Marker

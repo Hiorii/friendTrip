@@ -5,7 +5,7 @@ import {setUserNewCar} from "../../../../core/store/users/users.actions";
 import {CarModel} from "../../../../core/interfaces/car.model";
 import {
   removeTripItemAction,
-  setTripCarAction,
+  setTripCarAction, setTripItemAlreadyPaidAction,
   setTripItemsCostAction
 } from "../../../../core/store/trips/trips.actions";
 import {TripItemModel} from "../../../../core/interfaces/trip-item.model";
@@ -110,7 +110,6 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
 
   handleAddNewItem() {
     let alreadyPaidArr = [];
-    alreadyPaidArr.push({user: this.currentUser, amount: 0});
 
     const itemData = {
       itemId: UUID.UUID(),
@@ -129,6 +128,7 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   removeTripItem() {
     const id = this.currentChosenItem.itemId;
     this.store.dispatch(removeTripItemAction({ id: this.currentTrip.id, currentUser: this.currentUser, itemId: id }))
+    this.isCurrentItemChosen = false;
   }
 
   toggleChangeCurrentItem(value: boolean, currentItem?: TripItemModel) {
@@ -140,7 +140,10 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   }
 
   handleChangeCurrentItem() {
-    console.log(this.currentChosenItem)
+    const alreadyPaid = this.currentItemForm.get('costPaid')?.value;
+
+    this.store.dispatch(setTripItemAlreadyPaidAction({ id: this.currentTrip.id, currentUser: this.currentUser, alreadyPaid: {  tripId: this.currentChosenItem.itemId, user: this.currentUser, amount: alreadyPaid} }));
+    this.isCurrentItemCostIncurred = false;
   }
 
   handleAllCostPaid() {

@@ -11,6 +11,7 @@ export class ButtonComponent implements OnInit {
   @Input() background: string;
   @Input() iconName: string;
   @Input() iconColor: string;
+  @Input() marginTop: string = '2rem'
 
   @Output() handleOnClick = new EventEmitter<Event>();
   backgroundImage: string;

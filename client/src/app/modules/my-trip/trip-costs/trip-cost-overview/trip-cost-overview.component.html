@@ -134,7 +134,6 @@
 <ng-container *ngIf="isCurrentItemChosen && !isCurrentItemCostIncurred">
   <div class="item-details">
     <div class="item-title">
-      <p></p>
       <h5>{{currentChosenItem?.itemName}}</h5>
       <p>{{currentChosenItem?.itemCost}} zł</p>
     </div>
@@ -156,11 +155,13 @@
       [title]="'Remove item'"
       [background]="'#e06854'"
       [iconName]="'fa fa-trash'"
+      [marginTop]="'5px'"
       (handleOnClick)="removeTripItem()"
     ></app-button>
     <app-button
       class="cancel"
       [title]="'Cancel'"
+      [marginTop]="'5px'"
       (handleOnClick)="toggleChangeCurrentItem(false)"
     ></app-button>
   </div>
@@ -171,16 +172,18 @@
     <div class="form-container currentItemForm">
       <form [formGroup]="currentItemForm">
         <div class="inputs-container">
-          <div class="costPaid">
-            <p (click)="handleAllCostPaid()">All costs paid</p>
-          </div>
-          <p>or</p>
-          <div class="form-group col-md-6">
-            <input
-              class="form-control"
-              placeholder="Amount already paid"
-              formControlName="costPaid"
-            />
+          <div class="paid-container">
+            <div class="costPaid">
+              <p (click)="handleAllCostPaid()">All costs paid</p>
+            </div>
+            <p>or</p>
+            <div class="form-group col-md-6">
+              <input
+                class="form-control"
+                placeholder="Amount already paid"
+                formControlName="costPaid"
+              />
+            </div>
           </div>
           <app-button
             class="currentItemForm"
@@ -190,6 +193,7 @@
           <app-button
             class="addNewItemForm"
             [title]="'Cancel'"
+            [marginTop]="'5px'"
             (handleOnClick)="toggleCurrentItemCostIncurred(false)"
           ></app-button>
         </div>

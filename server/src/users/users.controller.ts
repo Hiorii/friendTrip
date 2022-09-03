@@ -140,6 +140,15 @@ export class UsersController {
     return this.userService.addNewTripItem(id, currentUser, item);
   }
 
+  @Put('trip/:id/itemsAlreadyPaid')
+  async addNewTripItemAlreadyPaid(
+    @Param('id') id: string,
+    @Body() currentUser: UsersType,
+    @Body() alreadyPaid: { tripId: string, user: string, amount: number },
+  ) {
+    return this.userService.addNewTripItemAlreadyPaid(id, currentUser, alreadyPaid);
+  }
+
   @Delete('trip/:id/items')
   async removeTripItem(@Param('id') id: string, @Query() query) {
     return this.userService.removeTripItem(id, query);

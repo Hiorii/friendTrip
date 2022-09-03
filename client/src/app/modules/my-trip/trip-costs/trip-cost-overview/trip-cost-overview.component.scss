@@ -83,6 +83,22 @@
   }
 }
 
+.paid-container {
+  @include flex(space-between, center);
+
+  .costPaid {
+    @include flex(flex-start, center);
+  }
+
+  .form-group {
+    width: 30rem;
+
+    input {
+      margin-bottom: 0!important;
+    }
+  }
+}
+
 .form-container {
   position: fixed;
   top: 0;
@@ -143,7 +159,7 @@
 
   .item-title {
     @include flex(space-between, center);
-    padding: 1rem 2rem;
+    padding: 1rem 0;
     width: 100%;
 
     h5 {
@@ -154,18 +170,18 @@
     }
   }
 
+  .item-content {
+    width: 100%;
+    text-align: left;
+  }
+
   .added-by {
     margin: -1.4rem 0 2rem;
     width: 100%;
-    text-align: center;
     p {
       font-size: .7rem;
       margin: 0;
     }
-  }
-
-  .item-content {
-
   }
 }
 
