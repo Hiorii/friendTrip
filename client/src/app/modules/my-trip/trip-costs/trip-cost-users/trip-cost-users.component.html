@@ -4,23 +4,42 @@
 >
   <div class="total-cost">
     <p>Total trip cost: <span>{{tripTotalPrice}} zł</span></p>
+    <p *ngIf="tripTotalPrice !== tripTotalPriceMuted">Current trip cost: <span>{{tripTotalPriceMuted}} zł </span></p>
+  </div>
+  <div class="header">
+    <p>Users:</p>
+    <div class="payColumn">
+      <div
+        class="exchange"
+        (click)="togglePayMethod()"
+      >
+        <i class="fa fa-exchange"></i>
+      </div>
+      <p *ngIf="leftToPay">Left to pay:</p>
+      <p *ngIf="!leftToPay">Already paid:</p>
+    </div>
   </div>
   <div class="user-container">
     <div class="user">
-      <img src="{{ currentUser?.photo }}" alt="{{ currentUser?.name }} photo">
+      <img
+        *ngIf="currentUser?.photo"
+        src="{{ currentUser?.photo }}"
+      >
       <p>{{currentUser?.name}}</p>
     </div>
-    <p>{{ getPriceValueForUser(currentUser) }} zł</p>
+    <p *ngIf="leftToPay">{{ getPriceValueLeftToPayForUser(currentUser) }} zł</p>
+    <p *ngIf="!leftToPay">{{ getPriceValueAlreadyPaidForUser(currentUser) }} zł</p>
   </div>
   <div
     *ngFor="let user of tripUsers"
     class="user-container"
   >
     <div class="user">
-      <img src="{{ user.photo }}" alt="{{ user.name }} photo">
+      <img src="{{ user.photo }}">
       <p>{{user?.name}}</p>
     </div>
-    <p>{{ getPriceValueForUser(user) }} zł</p>
+    <p *ngIf="leftToPay">{{ getPriceValueLeftToPayForUser(user) }} zł</p>
+    <p *ngIf="!leftToPay">{{ getPriceValueAlreadyPaidForUser(user) }} zł</p>
   </div>
 </div>
 

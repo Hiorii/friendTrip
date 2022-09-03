@@ -2,9 +2,35 @@
 
 .container {
   color: $primary-white;
+
+  .header {
+    @include flex(space-between, center);
+
+    p {
+      font-weight: 500;
+    }
+
+    .payColumn {
+      @include flex(flex-start, center);
+
+      p {
+        margin: 0 0 0 10px;
+      }
+
+      .exchange {
+        @include flex(center, center);
+        width: 2rem;
+        height: 2rem;
+        padding: .5rem;
+        background-color: #687864;
+        border-radius: 50%;
+        box-shadow: 2px 2px 5px 0px rgb(0 0 0);
+      }
+    }
+  }
   .total-cost {
     width: 100%;
-    text-align: center;
+    text-align: left;
     font-size: 1.2rem;
     margin-bottom: 2.5rem;
 
@@ -12,6 +38,14 @@
       font-size: 1.4rem;
       font-weight: 600;
       letter-spacing: 2px;
+    }
+
+    p:first-child {
+      font-size: 0.8rem;
+
+      span {
+        font-size: .9rem;
+      }
     }
   }
   .user-container {
