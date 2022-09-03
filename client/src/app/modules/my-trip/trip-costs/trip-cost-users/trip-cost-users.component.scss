@@ -75,3 +75,21 @@
   color: $primary-white;
   text-align: center;
 }
+
+.whoToPay {
+  @include flex(flex-start, center);
+  height: 65vh;
+  .currentUser {
+    .user {
+      @include flex(flex-start, center);
+      cursor: pointer;
+
+      img {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        margin-right: .7rem;
+      }
+    }
+  }
+}

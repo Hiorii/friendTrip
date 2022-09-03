@@ -131,25 +131,35 @@ export class UsersService {
   }
 
   async removeUserTrip(tripId: string, userData: any) {
-    const currentTripId = tripId;
-    const user = await this.getUser(userData.email);
+    let tripToUpdate;
+    let currentTrip;
+    const userList = [];
 
-    const updatedTrips = user.usersTrips.filter(
-      (trip) => trip.id.toString() !== currentTripId,
-    );
+    await this.getAllUsers().then((data) => {
+      data.forEach((trip) => {
+        currentTrip = trip.usersTrips.filter((tr) => tr.id !== tripId);
 
-    const dataToUpdate = {
-      usersTrips: updatedTrips,
-    };
+        trip.usersTrips.forEach((a) => {
+          if (a.id === tripId) {
+            data.map((b) => userList.push(b.email));
+          }
+        });
 
-    const newUserTrips = await this.usersModule.findOneAndUpdate(
-      user,
-      dataToUpdate,
-    );
+        tripToUpdate = currentTrip;
+      });
+    });
 
-    await newUserTrips.save();
+    this.usersModule
+      .updateMany(
+        { email: { $in: userList } },
+        { $set: { usersTrips: tripToUpdate } },
+        { multi: true },
+      )
+      .then((res) => {
+        console.log(res);
+      });
 
-    return userData;
+    return tripToUpdate;
   }
 
   async addUserCar(userCarData: any) {

@@ -8,6 +8,7 @@ import {debounceTime, map} from 'rxjs/operators';
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {Store} from "@ngrx/store";
 import {setTripUsersAction} from "../../../core/store/trips/trips.actions";
+import {selectCurrentUser} from "../../../core/store/users";
 
 @Component({
   selector: 'app-add-friends',
@@ -33,11 +34,13 @@ export class AddFriendsComponent implements OnInit {
     private authService: AuthService,
     private store: Store,
     private localStorageService: LocalStorageService
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.setAllUserList()
     this.setTripUsersList()
+    // this.addCurrentUserToList()
   }
 
   handleNextPage() {
@@ -85,4 +88,11 @@ export class AddFriendsComponent implements OnInit {
       this.tripUsers = []
     }
   }
+
+  // private addCurrentUserToList() {
+  //   this.store.select(selectCurrentUser).subscribe(user => {
+  //     this.store.dispatch(setTripUsersAction({ tripUsers: [user] }))
+  //     this.addUserToTrip(user);
+  //   })
+  // }
 }

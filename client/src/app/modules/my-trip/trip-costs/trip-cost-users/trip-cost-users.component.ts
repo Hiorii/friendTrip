@@ -17,12 +17,15 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
   tripTotalPrice: number;
   tripTotalPriceMuted: number;
   isAnyCostAdded: boolean = false;
-  leftToPay: boolean = true;
+  leftToPay: boolean = false;
+  isWhoToPay: boolean = false;
+  currentTripCreator: UsersModel;
+  currentUsersArr: UsersModel[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
-
+    this.setCurrentTripUsers();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -33,11 +36,14 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     if (changes['currentTrip']?.currentValue) {
       this.tripItems = changes['tripItems']?.currentValue;
       this.setTotalTripPrice();
+      this.calculateUsersCostDependency();
     }
 
     if (changes['fuelCost']?.currentValue) {
       this.fuelCost = changes['fuelCost']?.currentValue;
     }
+
+    this.setCurrentTripUsers();
   }
 
   getPriceValueLeftToPayForUser(user: UsersModel) {
@@ -136,5 +142,41 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
       const reducedCost = parseInt(alreadyPaidArr.reduce((a,b) => a + b), 10);
       this.tripTotalPriceMuted = this.tripTotalPriceMuted - reducedCost;
     }
+  }
+
+  private calculateUsersCostDependency() {
+    const totalUserAmount = this.tripUsers.length + 1;
+
+    if (this.tripItems.length) {
+
+      this.tripItems.map(item => {
+        if (item.alreadyPaid.length) {
+          // item.alreadyPaid.forEach(paidItem => {
+          //   if (paidItem.user === user.email) {
+          //     userFinalCostArr.push(paidItem.amount);
+          //   } else {
+          //     userFinalCost = 0;
+          //   }
+          // })
+        }
+      })
+    }
+  }
+
+  private setCurrentTripUsers() {
+    let currentTripArr = [];
+
+    this.currentTripCreator = this.currentTrip.creator;
+    if (this.currentTrip.tripUsers.length) {
+      this.currentTrip.tripUsers.map(user => {
+        currentTripArr.push(user);
+      })
+
+      if (!this.currentTrip.tripUsers.includes(this.currentTripCreator)) {
+        currentTripArr.push(this.currentTripCreator)
+      }
+    }
+
+    this.currentUsersArr = currentTripArr;
   }
 }

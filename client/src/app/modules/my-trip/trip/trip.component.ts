@@ -12,6 +12,7 @@ import {getTripDataAction, saveTripMarkersAction} from "../../../core/store/trip
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {ActivatedRoute} from "@angular/router";
 import {MarkerModel} from "../../../core/interfaces/marker.model";
+import {UsersModel} from "../../../core/interfaces/users.model";
 
 @Component({
   selector: 'app-trip',
@@ -21,6 +22,7 @@ import {MarkerModel} from "../../../core/interfaces/marker.model";
 })
 export class TripComponent implements OnInit, OnChanges {
   currentTrip: TripModel;
+  currentTripUpdatedArr: UsersModel[];
   isChatVisible: boolean = false;
   isMarkerAdded: boolean = false;
   isCostDetailVisible: boolean = true;
@@ -31,6 +33,7 @@ export class TripComponent implements OnInit, OnChanges {
   waypointList$ = this.store.select(selectTripWaypoints);
   totalTripDistance$ = this.store.select(selectTripDistance);
   totalTripDuration$ = this.store.select(selectTripDuration);
+  currentTripCreator: UsersModel;
 
   constructor(
     private store: Store,
@@ -42,6 +45,7 @@ export class TripComponent implements OnInit, OnChanges {
     this.currentUser = this.localStorageService.getItem('user').email
     this.tripId = this.route.snapshot.paramMap.get('id');
     this.getTripDate(this.currentUser);
+    this.setCurrentTripUsers();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -81,5 +85,23 @@ export class TripComponent implements OnInit, OnChanges {
         this.currentTrip = trip
       }
     })
+  }
+
+  private setCurrentTripUsers() {
+    let currentTripArr = [];
+
+    this.currentTripCreator = this.currentTrip.creator;
+    if (this.currentTrip.tripUsers.length) {
+      this.currentTrip.tripUsers.map(user => {
+        currentTripArr.push(user);
+        currentTripArr = currentTripArr.filter(user => user.email !== this.currentUser);
+      })
+
+      if (!this.currentTrip.tripUsers.includes(this.currentTripCreator)) {
+        currentTripArr.push(this.currentTripCreator)
+      }
+    }
+
+    this.currentTripUpdatedArr = currentTripArr;
   }
 }

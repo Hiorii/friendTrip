@@ -63,9 +63,9 @@
       ></app-button>
     </ng-container>
 
-    <ng-container *ngIf="currentTrip?.tripUsers.length">
+    <ng-container *ngIf="currentTripUpdatedArr.length">
       <div
-        *ngFor="let user of currentTrip.tripUsers"
+        *ngFor="let user of currentTripUpdatedArr"
         class="travelUserContainer"
         [class.isDisabled]="isMarkerAdded"
       >

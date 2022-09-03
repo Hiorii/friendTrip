@@ -2,45 +2,60 @@
   *ngIf="isAnyCostAdded"
   class="container"
 >
-  <div class="total-cost">
-    <p>Total trip cost: <span>{{tripTotalPrice}} zł</span></p>
-    <p *ngIf="tripTotalPrice !== tripTotalPriceMuted">Current trip cost: <span>{{tripTotalPriceMuted}} zł </span></p>
-  </div>
-  <div class="header">
-    <p>Users:</p>
-    <div class="payColumn">
-      <div
-        class="exchange"
-        (click)="togglePayMethod()"
-      >
-        <i class="fa fa-exchange"></i>
+  <div *ngIf="!isWhoToPay">
+    <div class="total-cost">
+      <p>Total trip cost: <span>{{tripTotalPrice}} zł</span></p>
+      <p *ngIf="tripTotalPrice !== tripTotalPriceMuted">Current trip cost: <span>{{tripTotalPriceMuted}} zł </span></p>
+    </div>
+    <div class="header">
+      <p>Users:</p>
+      <div class="payColumn">
+        <div
+          class="exchange"
+          (click)="togglePayMethod()"
+        >
+          <i class="fa fa-exchange"></i>
+        </div>
+        <p *ngIf="leftToPay">Left to pay:</p>
+        <p *ngIf="!leftToPay">Already paid:</p>
       </div>
-      <p *ngIf="leftToPay">Left to pay:</p>
-      <p *ngIf="!leftToPay">Already paid:</p>
+    </div>
+    <div
+      *ngFor="let user of currentUsersArr"
+      class="user-container"
+    >
+      <div class="user">
+        <img src="{{ user.photo }}">
+        <p>{{user?.name}}</p>
+      </div>
+      <p *ngIf="leftToPay">{{ getPriceValueLeftToPayForUser(user) }} zł</p>
+      <p *ngIf="!leftToPay">{{ getPriceValueAlreadyPaidForUser(user) }} zł</p>
     </div>
   </div>
-  <div class="user-container">
-    <div class="user">
-      <img
-        *ngIf="currentUser?.photo"
-        src="{{ currentUser?.photo }}"
-      >
-      <p>{{currentUser?.name}}</p>
+
+  <ng-container *ngIf="isWhoToPay">
+    <div class="whoToPay">
+      <div class="currentUser">
+        <div class="user">
+          <img
+            *ngIf="currentUser?.photo"
+            src="{{ currentUser?.photo }}"
+          >
+          <p>{{currentUser?.name}}</p>
+        </div>
+      </div>
+      <div class="arrows">
+        <div class="arrow">
+          <i class="fa fa-long-arrow-right"></i>
+          <i class="fa fa-long-arrow-left"></i>
+          <i class="fa fa-arrows-h"></i>
+        </div>
+      </div>
+      <div class="otherUsers">
+
+      </div>
     </div>
-    <p *ngIf="leftToPay">{{ getPriceValueLeftToPayForUser(currentUser) }} zł</p>
-    <p *ngIf="!leftToPay">{{ getPriceValueAlreadyPaidForUser(currentUser) }} zł</p>
-  </div>
-  <div
-    *ngFor="let user of tripUsers"
-    class="user-container"
-  >
-    <div class="user">
-      <img src="{{ user.photo }}">
-      <p>{{user?.name}}</p>
-    </div>
-    <p *ngIf="leftToPay">{{ getPriceValueLeftToPayForUser(user) }} zł</p>
-    <p *ngIf="!leftToPay">{{ getPriceValueAlreadyPaidForUser(user) }} zł</p>
-  </div>
+  </ng-container>
 </div>
 
 <ng-container *ngIf="!isAnyCostAdded">

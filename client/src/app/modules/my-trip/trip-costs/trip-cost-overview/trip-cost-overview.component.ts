@@ -11,6 +11,7 @@ import {
 import {TripItemModel} from "../../../../core/interfaces/trip-item.model";
 import {UUID} from "angular2-uuid";
 import {selectUserCars} from "../../../../core/store/users";
+import {UsersModel} from "../../../../core/interfaces/users.model";
 
 @Component({
   selector: 'app-trip-cost-overview',

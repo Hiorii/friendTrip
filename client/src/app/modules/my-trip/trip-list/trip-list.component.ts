@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {TripModel} from "../../../core/interfaces/trip.model";
 import {getTripDataAction, removeTripUsersAction} from "../../../core/store/trips/trips.actions";
@@ -11,7 +11,7 @@ import {UsersModel} from "../../../core/interfaces/users.model";
   templateUrl: './trip-list.component.html',
   styleUrls: ['./trip-list.component.scss']
 })
-export class TripListComponent implements OnInit {
+export class TripListComponent implements OnInit, OnChanges {
   @Input() tripList: TripModel[]
   @Input() currentUser: UsersModel;
 
@@ -21,8 +21,10 @@ export class TripListComponent implements OnInit {
     private router: Router
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
 
+  ngOnChanges(changes: SimpleChanges): void {
+    this.tripList = changes['tripList'].currentValue;
   }
 
   openSingleTrip(trip: any) {
