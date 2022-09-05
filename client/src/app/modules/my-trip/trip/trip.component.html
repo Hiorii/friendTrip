@@ -69,8 +69,8 @@
         class="travelUserContainer"
         [class.isDisabled]="isMarkerAdded"
       >
-        <img *ngIf="user.photo" [src]="user.photo" class="me-1">
-        <img *ngIf="!user.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
+        <img *ngIf="user?.photo" [src]="user?.photo" class="me-1">
+        <img *ngIf="!user?.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
         <p>{{ user.name }} {{ user.surname }}</p>
       </div>
 

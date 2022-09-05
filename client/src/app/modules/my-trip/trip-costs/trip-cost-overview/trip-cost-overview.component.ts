@@ -50,6 +50,7 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     this.userCars = changes['userCars']?.currentValue;
     this.tripItems = changes['tripItems']?.currentValue;
+    this.totalTripDistance = changes['totalTripDistance']?.currentValue;
     if (changes['tripCar']?.currentValue && this.userCars) {
       this.userCars.map(car => {
         if (car.carName === changes['tripCar']?.currentValue.car) {

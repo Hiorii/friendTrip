@@ -21,6 +21,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
   isWhoToPay: boolean = false;
   currentTripCreator: UsersModel;
   currentUsersArr: UsersModel[] = [];
+  userWithAmountToGiveBack = [];
 
   constructor() { }
 
@@ -44,25 +45,117 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     }
 
     this.setCurrentTripUsers();
+    //this.getPriceValueLeftToPayForUser();
   }
+
+  // getPriceValueLeftToPayForUser() {
+  //   const totalUserAmount = this.tripUsers.length + 1;
+  //   let equalCost = this.tripTotalPriceMuted / totalUserAmount;
+  //   let userFinalCost;
+  //   let userFinalCostArr: {user: string, amount: number}[] = [];
+  //
+  //   if (this.tripItems?.length) {
+  //     this.tripItems.map(item => {
+  //       if (item.alreadyPaid.length) {
+  //         item.alreadyPaid.forEach(paidItem => {
+  //           if (paidItem.user === user.email) {
+  //             // userFinalCost = equalCost - paidItem.amount;
+  //             userFinalCostArr.push({ user: paidItem.user, amount: equalCost - paidItem.amount})
+  //           } else {
+  //             //userFinalCost = equalCost + (paidItem.amount/(totalUserAmount - 1));
+  //             userFinalCostArr.push({ user: paidItem.user, amount: equalCost + (paidItem.amount/(totalUserAmount - 1))})
+  //           }
+  //         })
+  //       }
+  //     })
+  //   }
+  //
+  //   if (!this.tripItems?.length) {
+  //     userFinalCost = equalCost;
+  //   }
+  //
+  //   return userFinalCost?.toFixed(2);
+  // }
 
   getPriceValueLeftToPayForUser(user: UsersModel) {
     const totalUserAmount = this.tripUsers.length + 1;
     let equalCost = this.tripTotalPriceMuted / totalUserAmount;
     let userFinalCost;
+    let userCostArr: {user: string, amount: number}[] = [];
+    let userCostArrConverted: {user: string, amount: number}[] = [];
+    let finalOutput = [];
 
-    if (this.tripItems.length) {
+
+    if (this.tripItems?.length) {
       this.tripItems.map(item => {
         if (item.alreadyPaid.length) {
           item.alreadyPaid.forEach(paidItem => {
-            if (paidItem.user === user.email) {
-              userFinalCost = equalCost - paidItem.amount;
-            } else {
-              userFinalCost = equalCost;
-            }
+            userCostArr.push({ user: paidItem.user, amount: paidItem.amount })
           })
         }
       })
+    }
+
+    if (userCostArr.length) {
+      let userAmountArr = [];
+
+      userCostArr.sort((a,b) => (a.user > b.user ? 1 : -1))
+      userCostArr.forEach((el, index) => {
+        if (userCostArr[index].user === userCostArr[index + 1]?.user) {
+          userAmountArr.push(userCostArr[index], userCostArr[index + 1])
+        }
+      })
+
+      userCostArrConverted = userCostArr.map(({amount, user}) => ({user, amount: +amount}));
+
+      if (userCostArrConverted.length) {
+        userCostArrConverted.forEach(function(item) {
+          let existing = finalOutput.filter(function(v, i) {
+            return v.user == item.user;
+          });
+          if (existing.length) {
+            let existingIndex = finalOutput.indexOf(existing[0]);
+            finalOutput[existingIndex].amount += item.amount;
+          } else {
+            if (typeof item.user == 'string')
+              item.amount = item.amount;
+            finalOutput.push(item);
+          }
+        });
+      }
+    }
+
+    if (finalOutput.length) {
+      const currentUser = finalOutput.filter(data => data.user === user.email)[0]
+      let spentArr = [];
+      let valueArr = [];
+      let finalValue = 0;
+
+      let localArr = finalOutput.filter(data => data.user !== user.email)
+      localArr.forEach(data => {
+        valueArr.push(data.amount / (finalOutput.length - 1))
+        finalValue = (valueArr.reduce((a,b) => a + b))
+      })
+
+      spentArr.push({
+        user: currentUser.user,
+        amount: currentUser.amount,
+        mountToPlus: (this.tripTotalPriceMuted/finalOutput.length) + (-currentUser.amount + finalValue)
+      })
+
+      this.userWithAmountToGiveBack.push(...spentArr);
+    }
+
+    if (this.userWithAmountToGiveBack.length) {
+      this.userWithAmountToGiveBack.map(data => {
+        if (data.user === user.email) {
+          userFinalCost = data.mountToPlus;
+        }
+      })
+    }
+
+    if (!this.tripItems?.length) {
+      userFinalCost = equalCost;
     }
 
     return userFinalCost?.toFixed(2);
@@ -77,7 +170,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
         if (item.alreadyPaid.length) {
           item.alreadyPaid.forEach(paidItem => {
             if (paidItem.user === user.email) {
-              userFinalCostArr.push(paidItem.amount);
+              userFinalCostArr.push(+paidItem.amount);
             } else {
               userFinalCost = 0;
             }
@@ -88,6 +181,10 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
 
     if (userFinalCostArr.length > 0) {
       userFinalCost = parseInt(userFinalCostArr.reduce((a,b) => a + b), 10);
+    }
+
+    if (!userFinalCost || userFinalCost === 0) {
+      userFinalCost = 0;
     }
 
     return userFinalCost?.toFixed(2);
@@ -139,7 +236,10 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     }
 
     if (alreadyPaidArr.length > 0) {
-      const reducedCost = parseInt(alreadyPaidArr.reduce((a,b) => a + b), 10);
+      const newArr = [];
+
+      alreadyPaidArr.map(i=> newArr.push(+i))
+      const reducedCost = newArr.reduce((a,b) => a + b);
       this.tripTotalPriceMuted = this.tripTotalPriceMuted - reducedCost;
     }
   }
