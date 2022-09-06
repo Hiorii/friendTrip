@@ -40,6 +40,10 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
   petrolCost = 7.75;
   totalTripFuelCost: number;
   currentChosenItem: TripItemModel;
+  currentChosenItemAlreadyPaid: number;
+  tripItemsMuted: any[];
+  currentItemTotalPaid: any;
+  isValueExceedsCost: boolean = false;
 
   constructor(
     private fb: FormBuilder,
@@ -63,6 +67,10 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
 
     if (changes['fuelCost']?.currentValue) {
       this.totalTripFuelCost = changes['fuelCost']?.currentValue;
+    }
+
+    if (this.tripItems.length) {
+      this.setTripItemsAlreadyPaid();
     }
   }
 
@@ -136,27 +144,54 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
     this.isCurrentItemChosen = false;
   }
 
-  toggleChangeCurrentItem(value: boolean, currentItem?: TripItemModel) {
+  toggleChangeCurrentItem(value: boolean, currentItem?: TripItemModel | any) {
     this.isCurrentItemChosen = value;
+    let totalAlreadyPaidArr = [];
 
     if (currentItem) {
       this.currentChosenItem = currentItem;
+    }
+
+    this.currentChosenItem.alreadyPaid.forEach(item => {
+      totalAlreadyPaidArr.push(+item.amount)
+      this.currentChosenItemAlreadyPaid = totalAlreadyPaidArr.reduce((a,b) => a + b);
+    })
+
+    if (currentItem?.totalPaid) {
+      this.currentItemTotalPaid = currentItem?.totalPaid;
     }
   }
 
   handleChangeCurrentItem() {
     const alreadyPaid = this.currentItemForm.get('costPaid')?.value;
+    let maxToPay;
 
-    this.store.dispatch(setTripItemAlreadyPaidAction({ id: this.currentTrip.id, currentUser: this.currentUser, alreadyPaid: {  tripId: this.currentChosenItem.itemId, user: this.currentUser, amount: alreadyPaid} }));
-    this.isCurrentItemCostIncurred = false;
+    if (this.currentItemTotalPaid) {
+      maxToPay = this.currentChosenItem.itemCost - this.currentItemTotalPaid
+    } else {
+      maxToPay = this.currentChosenItem.itemCost
+    }
+
+    if (alreadyPaid > maxToPay) {
+      this.isValueExceedsCost = true;
+    } else {
+      this.isValueExceedsCost = false;
+      this.store.dispatch(setTripItemAlreadyPaidAction({ id: this.currentTrip.id, currentUser: this.currentUser, alreadyPaid: {  tripId: this.currentChosenItem.itemId, user: this.currentUser, amount: alreadyPaid} }));
+      this.isCurrentItemCostIncurred = false;
+    }
   }
 
   handleAllCostPaid() {
-    this.currentItemForm.patchValue({costPaid: this.currentChosenItem.itemCost})
+    if (this.currentItemTotalPaid) {
+      this.currentItemForm.patchValue({costPaid: this.currentChosenItem.itemCost - this.currentItemTotalPaid})
+    } else {
+      this.currentItemForm.patchValue({costPaid: this.currentChosenItem.itemCost})
+    }
   }
 
   toggleCurrentItemCostIncurred(value: boolean) {
     this.isCurrentItemCostIncurred = value;
+    this.isValueExceedsCost = false;
   }
 
   private createForms() {
@@ -201,5 +236,55 @@ export class TripCostOverviewComponent implements OnInit, OnChanges {
     this.currentItemForm = this.fb.group({
       costPaid: ['', [Validators.required]],
     })
+  }
+
+  private setTripItemsAlreadyPaid() {
+    let tripItemsMuted = Array.from(this.tripItems);
+    let tripItemMutedCostArr = [];
+    let finalArr = [];
+    let output = [];
+
+    if (tripItemsMuted.length) {
+      tripItemsMuted.map(item => {
+        item.alreadyPaid.forEach((paid:any) => {
+          tripItemMutedCostArr.push({itemId: item.itemId, amount: +paid.amount});
+        })
+      })
+
+      if (tripItemMutedCostArr.length) {
+        tripItemMutedCostArr.forEach(function(item) {
+          let existing = output.filter(function(v, i) {
+            return v.itemId == item.itemId;
+          });
+          if (existing.length) {
+            let existingIndex = output.indexOf(existing[0]);
+            output[existingIndex].amount += +item.amount;
+          } else {
+            if (typeof item.value == 'string')
+              item.value = item.value;
+            output.push(item);
+          }
+        });
+      }
+
+      tripItemsMuted.map((trip: any) => {
+        if (output.length) {
+          output.map(data => {
+            if (trip.itemId === data.itemId) {
+              const newObj = Object.assign({totalPaid: data.amount}, trip);
+              finalArr.push(newObj)
+            } else {
+              finalArr.push(trip)
+            }
+          })
+        }
+      })
+
+      if (finalArr.length) {
+        this.tripItemsMuted = finalArr;
+      } else {
+        this.tripItemsMuted = this.tripItems;
+      }
+    }
   }
 }

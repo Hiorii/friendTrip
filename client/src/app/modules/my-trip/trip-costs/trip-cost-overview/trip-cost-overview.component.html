@@ -46,13 +46,13 @@
     </div>
   </div>
   <div
-    *ngFor="let tripItem of tripItems"
+    *ngFor="let tripItem of tripItemsMuted"
     class="items-container"
     (click)="toggleChangeCurrentItem(true, tripItem)"
   >
-    <p class="name">{{tripItem.itemName}}</p>
+    <p class="name">{{tripItem?.itemName}}</p>
     <div>
-      <p class="cost">{{tripItem.itemCost}} zł</p>
+      <p class="cost">{{tripItem?.itemCost}} zł <span *ngIf="tripItem?.totalPaid">({{tripItem?.totalPaid }} zł paid)</span></p>
     </div>
   </div>
 </div>
@@ -135,10 +135,11 @@
   <div class="item-details">
     <div class="item-title">
       <h5>{{currentChosenItem?.itemName}}</h5>
-      <p>{{currentChosenItem?.itemCost}} zł</p>
+      <p>Total: {{currentChosenItem?.itemCost}} zł</p>
     </div>
     <div class="added-by">
       <p>by {{currentChosenItem?.itemOwner}}</p>
+      <p>Paid: {{currentChosenItemAlreadyPaid}} zł</p>
     </div>
     <div class="item-content">
       <p>{{currentChosenItem?.itemDescription}}</p>
@@ -174,19 +175,21 @@
         <div class="inputs-container">
           <div class="paid-container">
             <div class="costPaid">
-              <p (click)="handleAllCostPaid()">All costs paid</p>
+              <p (click)="handleAllCostPaid()">Pay rest cost</p>
             </div>
             <p>or</p>
-            <div class="form-group col-md-6">
+            <div class="input-trip-rest-cost form-group col-md-6">
               <input
                 class="form-control"
                 placeholder="Amount already paid"
                 formControlName="costPaid"
               />
+              <span *ngIf="isValueExceedsCost">The value you enter exceeds the remaining cost of the trip</span>
             </div>
           </div>
           <app-button
             class="currentItemForm"
+            [marginTop]="'4rem'"
             [title]="'Confirm'"
             (handleOnClick)="handleChangeCurrentItem()"
           ></app-button>

@@ -45,37 +45,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     }
 
     this.setCurrentTripUsers();
-    //this.getPriceValueLeftToPayForUser();
   }
-
-  // getPriceValueLeftToPayForUser() {
-  //   const totalUserAmount = this.tripUsers.length + 1;
-  //   let equalCost = this.tripTotalPriceMuted / totalUserAmount;
-  //   let userFinalCost;
-  //   let userFinalCostArr: {user: string, amount: number}[] = [];
-  //
-  //   if (this.tripItems?.length) {
-  //     this.tripItems.map(item => {
-  //       if (item.alreadyPaid.length) {
-  //         item.alreadyPaid.forEach(paidItem => {
-  //           if (paidItem.user === user.email) {
-  //             // userFinalCost = equalCost - paidItem.amount;
-  //             userFinalCostArr.push({ user: paidItem.user, amount: equalCost - paidItem.amount})
-  //           } else {
-  //             //userFinalCost = equalCost + (paidItem.amount/(totalUserAmount - 1));
-  //             userFinalCostArr.push({ user: paidItem.user, amount: equalCost + (paidItem.amount/(totalUserAmount - 1))})
-  //           }
-  //         })
-  //       }
-  //     })
-  //   }
-  //
-  //   if (!this.tripItems?.length) {
-  //     userFinalCost = equalCost;
-  //   }
-  //
-  //   return userFinalCost?.toFixed(2);
-  // }
 
   getPriceValueLeftToPayForUser(user: UsersModel) {
     const totalUserAmount = this.tripUsers.length + 1;
@@ -212,13 +182,13 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
 
       this.isAnyCostAdded = true;
       this.tripTotalPrice = this.fuelCost ? totalArrPrice + this.fuelCost : totalArrPrice;
-      this.tripTotalPriceMuted = this.tripTotalPrice;
+      this.tripTotalPriceMuted = +this.tripTotalPrice.toFixed(2);
     }
 
     if (!costArr.length && this.fuelCost) {
       this.isAnyCostAdded = true;
       this.tripTotalPrice = this.fuelCost;
-      this.tripTotalPriceMuted = this.tripTotalPrice;
+      this.tripTotalPriceMuted = +this.tripTotalPrice.toFixed(2);
     }
 
     if (!costArr.length && !this.fuelCost) {
@@ -240,7 +210,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
 
       alreadyPaidArr.map(i=> newArr.push(+i))
       const reducedCost = newArr.reduce((a,b) => a + b);
-      this.tripTotalPriceMuted = this.tripTotalPriceMuted - reducedCost;
+      this.tripTotalPriceMuted = +(this.tripTotalPriceMuted - reducedCost).toFixed(2);
     }
   }
 

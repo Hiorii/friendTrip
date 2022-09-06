@@ -36,6 +36,12 @@
       margin-bottom: 0;
     }
 
+    .cost {
+      span {
+        color: $color-success;
+      }
+    }
+
     span {
       color: $primary-lighter;
       cursor: pointer;
@@ -95,6 +101,15 @@
 
     input {
       margin-bottom: 0!important;
+    }
+  }
+
+  .input-trip-rest-cost {
+    position: relative;
+    span {
+      position: absolute;
+      font-size: .7rem;
+      color: $color-danger;
     }
   }
 }
@@ -163,10 +178,10 @@
     width: 100%;
 
     h5 {
-      font-size: 1.3rem;
+      font-size: 1.1rem;
     }
     p {
-      font-size: 1.4rem;
+      font-size: 1.2rem;
     }
   }
 
@@ -176,11 +191,15 @@
   }
 
   .added-by {
+    @include flex(space-between, center);
     margin: -1.4rem 0 2rem;
     width: 100%;
     p {
       font-size: .7rem;
       margin: 0;
+    }
+    p:nth-child(2) {
+      font-size: 1.3rem;
     }
   }
 }
