@@ -68,6 +68,15 @@
         margin-right: .7rem;
       }
     }
+
+    .user-cost {
+      @include flex(center, center);
+
+      i {
+        margin-left: 10px;
+        font-size: 1.3rem;
+      }
+    }
   }
 }
 
@@ -91,5 +100,24 @@
         margin-right: .7rem;
       }
     }
+  }
+}
+
+.leftToPayDetailsContainer {
+  @include center();
+  padding: 1rem;
+  background-color: $primary-white;
+  min-width: 70%;
+  box-shadow: 2px 2px 5px 0 rgb(0 0 0);
+  border-radius: 10px;
+
+  i {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+  }
+
+  span {
+    font-weight: 600;
   }
 }

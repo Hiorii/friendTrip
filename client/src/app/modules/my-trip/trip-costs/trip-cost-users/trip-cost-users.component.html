@@ -28,8 +28,26 @@
         <img src="{{ user.photo }}">
         <p>{{user?.name}}</p>
       </div>
-      <p *ngIf="leftToPay">{{ getPriceValueLeftToPayForUser(user) }} zł</p>
-      <p *ngIf="!leftToPay">{{ getPriceValueAlreadyPaidForUser(user) }} zł</p>
+      <div
+        *ngIf="leftToPay"
+        class="user-cost"
+      >
+        <p>{{ getPriceValueLeftToPayForUser(user) }} zł</p>
+<!--        <i-->
+<!--          class="fa fa-question-circle"-->
+<!--          (click)="handleLeftToPayDetails(true, user)"-->
+<!--        ></i>-->
+      </div>
+      <div
+        *ngIf="!leftToPay"
+        class="user-cost"
+      >
+        <p>{{ getPriceValueAlreadyPaidForUser(user) }} zł</p>
+        <i
+          class="fa fa-question-circle"
+          (click)="handleAlreadyPayDetails(true, user)"
+        ></i>
+      </div>
     </div>
   </div>
 
@@ -61,5 +79,21 @@
 <ng-container *ngIf="!isAnyCostAdded">
   <div class="container-no-cost">
     <h2>Any cost added yet</h2>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="isAlreadyPaidDetailsVisible && alreadyPaidDetails?.length">
+  <div class="leftToPayDetailsContainer">
+    <h3>Payments details: </h3>
+    <div
+      *ngFor="let user of alreadyPaidDetails; let i=index;"
+      class="items"
+    >
+      <p>{{i+1}}. {{user?.itemName}} - <span>{{user?.amount}} zł</span></p>
+    </div>
+    <i
+      (click)="handleAlreadyPayDetails(false)"
+      class="fa fa-remove"
+    ></i>
   </div>
 </ng-container>

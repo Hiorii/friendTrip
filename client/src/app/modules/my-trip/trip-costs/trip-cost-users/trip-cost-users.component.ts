@@ -19,9 +19,13 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
   isAnyCostAdded: boolean = false;
   leftToPay: boolean = false;
   isWhoToPay: boolean = false;
+  isLeftToPayDetailsVisible: boolean = false;
+  isAlreadyPaidDetailsVisible: boolean = false;
   currentTripCreator: UsersModel;
   currentUsersArr: UsersModel[] = [];
   userWithAmountToGiveBack = [];
+  leftToPayDetails: UsersModel[];
+  alreadyPaidDetails: any[];
 
   constructor() { }
 
@@ -164,6 +168,43 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     this.leftToPay = !this.leftToPay;
   }
 
+  handleLeftToPayDetails(isVisible: boolean, user: UsersModel) {
+    const currentUser = this.currentUsersArr.filter(data => data === user);
+  }
+
+  handleAlreadyPayDetails(isVisible: boolean, user?: UsersModel) {
+    this.isAlreadyPaidDetailsVisible = isVisible;
+    let currentUserItemsArr = [];
+    let currentUserItemsArrFinal = [];
+
+    this.tripItems.map(items => {
+      if (items?.alreadyPaid?.length) {
+        const userItems = items.alreadyPaid.filter(item => item.user === user.email);
+        userItems.forEach(user => {
+          currentUserItemsArr.push({tripId: user.tripId, itemName: items.itemName, user: user.user, amount: +user.amount});
+        })
+      }
+    })
+
+    if (currentUserItemsArr.length) {
+      currentUserItemsArr.forEach(function(item) {
+        let existing = currentUserItemsArrFinal.filter(function(v, i) {
+          return v.tripId == item.tripId;
+        });
+        if (existing.length) {
+          let existingIndex = currentUserItemsArrFinal.indexOf(existing[0]);
+          currentUserItemsArrFinal[existingIndex].amount += +item.amount;
+        } else {
+          if (typeof item.value == 'string')
+            item.value = item.value;
+          currentUserItemsArrFinal.push(item);
+        }
+      });
+    }
+
+    this.alreadyPaidDetails = currentUserItemsArrFinal;
+  }
+
   private setTotalTripPrice() {
     let costArr = [];
     let alreadyPaidArr = [];
@@ -248,5 +289,6 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     }
 
     this.currentUsersArr = currentTripArr;
+    console.log(this.currentUsersArr)
   }
 }
