@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {TripModel} from "../../../../core/interfaces/trip.model";
 import {UsersModel} from "../../../../core/interfaces/users.model";
 import {TripItemModel} from "../../../../core/interfaces/trip-item.model";
@@ -13,6 +13,12 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
   @Input() currentUser: UsersModel
   @Input() tripItems: TripItemModel[];
   @Input() fuelCost: number;
+  @ViewChild('leftToPayDetailsContainer') leftToPayDetailsContainer;
+  @HostListener('document:keydown.escape', ['$event']) onKeydownHandler() {
+    if (this.isAlreadyPaidDetailsVisible) {
+      this.isAlreadyPaidDetailsVisible = false;
+    }
+  }
   tripUsers: UsersModel[];
   tripTotalPrice: number;
   tripTotalPriceMuted: number;
@@ -26,6 +32,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
   userWithAmountToGiveBack = [];
   leftToPayDetails: UsersModel[];
   alreadyPaidDetails: any[];
+  allUsersExpectCurrentOne: any[];
 
   constructor() { }
 
@@ -41,7 +48,6 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     if (changes['currentTrip']?.currentValue) {
       this.tripItems = changes['tripItems']?.currentValue;
       this.setTotalTripPrice();
-      this.calculateUsersCostDependency();
     }
 
     if (changes['fuelCost']?.currentValue) {
@@ -179,7 +185,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
 
     this.tripItems.map(items => {
       if (items?.alreadyPaid?.length) {
-        const userItems = items.alreadyPaid.filter(item => item.user === user.email);
+        const userItems = items?.alreadyPaid.filter(item => item?.user === user?.email);
         userItems.forEach(user => {
           currentUserItemsArr.push({tripId: user.tripId, itemName: items.itemName, user: user.user, amount: +user.amount});
         })
@@ -203,6 +209,10 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     }
 
     this.alreadyPaidDetails = currentUserItemsArrFinal;
+  }
+
+  toggleIsWhoToPay(value: boolean) {
+    this.isWhoToPay = value;
   }
 
   private setTotalTripPrice() {
@@ -255,25 +265,6 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     }
   }
 
-  private calculateUsersCostDependency() {
-    const totalUserAmount = this.tripUsers.length + 1;
-
-    if (this.tripItems.length) {
-
-      this.tripItems.map(item => {
-        if (item.alreadyPaid.length) {
-          // item.alreadyPaid.forEach(paidItem => {
-          //   if (paidItem.user === user.email) {
-          //     userFinalCostArr.push(paidItem.amount);
-          //   } else {
-          //     userFinalCost = 0;
-          //   }
-          // })
-        }
-      })
-    }
-  }
-
   private setCurrentTripUsers() {
     let currentTripArr = [];
 
@@ -289,6 +280,73 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     }
 
     this.currentUsersArr = currentTripArr;
-    console.log(this.currentUsersArr)
+
+    this.setAllUserExpectCurrent()
+  }
+
+  private setAllUserExpectCurrent() {
+    this.allUsersExpectCurrentOne = this.currentUsersArr.filter(user => user._id !== this.currentUser._id);
+    this.setUsersCostDependency();
+  }
+
+  private setUsersCostDependency() {
+    let userArr = [];
+    let userArrNoDuplicate = [];
+    let finalUsArr = [];
+    let currentUserAmount;
+
+    if (this.tripItems.length) {
+      this.tripItems.map(item => {
+        if (item.alreadyPaid.length) {
+          item.alreadyPaid.forEach(paidItem => {
+            userArr.push({tripId: paidItem.tripId, user: paidItem.user, amount: +paidItem.amount});
+          })
+        }
+      })
+    }
+
+    if (userArr.length) {
+      userArr.forEach(function(item) {
+        let existing = userArrNoDuplicate.filter(function(v, i) {
+          return v.user == item.user;
+        });
+        if (existing.length) {
+          let existingIndex = userArrNoDuplicate.indexOf(existing[0]);
+          userArrNoDuplicate[existingIndex].amount += +item.amount;
+        } else {
+          if (typeof item.value == 'string')
+            item.value = item.value;
+          userArrNoDuplicate.push(item);
+        }
+      });
+    }
+
+    this.allUsersExpectCurrentOne.map(user => {
+      userArrNoDuplicate.forEach(us => {
+        if (us.user !== user.email) {
+          currentUserAmount = us.amount;
+        }
+        if (us.user === user.email) {
+          finalUsArr.push({
+            currentUserEmail: this.currentUser.email,
+            currentUserAmount: currentUserAmount,
+            userEmail: us.user,
+            userAmount: us.amount,
+            userName: user.name,
+            amountDifference: 0,
+            photo: user.photo,
+          })
+        }
+      })
+
+      if (finalUsArr.length) {
+        finalUsArr.forEach(data => {
+          data.amountDifference = data.currentUserAmount - data.userAmount;
+        })
+      }
+
+      console.log(finalUsArr)
+      this.allUsersExpectCurrentOne = finalUsArr;
+    })
   }
 }

@@ -17,7 +17,7 @@ export class TripCostsComponent implements OnInit, OnChanges {
   user$ = this.store.select(selectCurrentUser);
   tripCar$ = this.store.select(selectTripCar);
   fuelCost$ = this.store.select(selectTripFuelCost);
-  isUserCostVisible: boolean = true;
+  isUserCostVisible: boolean = false;
 
   constructor(private store: Store) { }
 

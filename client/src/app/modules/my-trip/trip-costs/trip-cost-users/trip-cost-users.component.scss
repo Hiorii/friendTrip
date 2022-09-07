@@ -86,20 +86,49 @@
 }
 
 .whoToPay {
-  @include flex(flex-start, center);
+  @include flex(space-between, center);
+  flex-wrap: wrap;
   height: 65vh;
-  .currentUser {
+  width: 100%;
+
+  .currentUser, .otherUsers {
     .user {
-      @include flex(flex-start, center);
+      @include flex(center, center);
+      flex-direction: column;
       cursor: pointer;
 
       img {
         width: 2.5rem;
         height: 2.5rem;
         border-radius: 50%;
-        margin-right: .7rem;
       }
     }
+  }
+  .otherUsers {
+    @include flex(center, center);
+    position: relative;
+
+    .arrow {
+      position: absolute;
+      right: 115px;
+      bottom: 26px;
+
+      i {
+        transform: scale(10,1);
+      }
+
+      .left {
+        color: $color-success;
+      }
+
+      .right {
+        color: $color-danger;
+      }
+    }
+  }
+
+  .back {
+    width: 100%;
   }
 }
 

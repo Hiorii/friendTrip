@@ -49,6 +49,11 @@
         ></i>
       </div>
     </div>
+    <app-button
+      class="dependency"
+      [title]="'Check costs split'"
+      (handleOnClick)="toggleIsWhoToPay(true)"
+    ></app-button>
   </div>
 
   <ng-container *ngIf="isWhoToPay">
@@ -62,16 +67,50 @@
           <p>{{currentUser?.name}}</p>
         </div>
       </div>
-      <div class="arrows">
-        <div class="arrow">
-          <i class="fa fa-long-arrow-right"></i>
-          <i class="fa fa-long-arrow-left"></i>
-          <i class="fa fa-arrows-h"></i>
+      <div class="otherUsersContainer">
+        <div
+          *ngFor="let user of allUsersExpectCurrentOne"
+          class="otherUsers"
+        >
+          <div class="arrow">
+            <span
+              *ngIf="user?.amountDifference > 0"
+              class="left"
+            >
+              <span>+</span>
+              <span>{{user?.amountDifference}}</span>
+              <span>zł</span>
+            </span>
+            <i
+              *ngIf="user?.amountDifference > 0"
+              class="fa fa-long-arrow-left left"
+            ></i>
+            <span
+              *ngIf="user?.amountDifference < 0"
+              class="right"
+            >
+              <span>{{user?.amountDifference}}</span>
+              <span>zł</span>
+            </span>
+            <i
+              *ngIf="user?.amountDifference < 0"
+              class="fa fa-long-arrow-right right"
+            ></i>
+          </div>
+          <div class="user">
+            <img
+              *ngIf="user?.photo"
+              src="{{ user?.photo }}"
+            >
+            <p>{{user?.userName}}</p>
+          </div>
         </div>
       </div>
-      <div class="otherUsers">
-
-      </div>
+      <app-button
+        class="back"
+        [title]="'Back'"
+        (handleOnClick)="toggleIsWhoToPay(false)"
+      ></app-button>
     </div>
   </ng-container>
 </div>
@@ -83,7 +122,10 @@
 </ng-container>
 
 <ng-container *ngIf="isAlreadyPaidDetailsVisible && alreadyPaidDetails?.length">
-  <div class="leftToPayDetailsContainer">
+  <div
+    #leftToPayDetailsContainer
+    class="leftToPayDetailsContainer"
+  >
     <h3>Payments details: </h3>
     <div
       *ngFor="let user of alreadyPaidDetails; let i=index;"
