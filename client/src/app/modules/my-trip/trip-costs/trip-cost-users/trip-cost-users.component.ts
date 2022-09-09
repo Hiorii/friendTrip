@@ -24,7 +24,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
   tripTotalPriceMuted: number;
   isAnyCostAdded: boolean = false;
   leftToPay: boolean = false;
-  isWhoToPay: boolean = false;
+  isWhoToPay: boolean = true;
   isLeftToPayDetailsVisible: boolean = false;
   isAlreadyPaidDetailsVisible: boolean = false;
   currentTripCreator: UsersModel;
@@ -33,6 +33,7 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
   leftToPayDetails: UsersModel[];
   alreadyPaidDetails: any[];
   allUsersExpectCurrentOne: any[];
+  allUsersExpectCurrentOneFinal: any[];
 
   constructor() { }
 
@@ -302,6 +303,20 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
             userArr.push({tripId: paidItem.tripId, user: paidItem.user, amount: +paidItem.amount});
           })
         }
+
+        if (userArr.length) {
+          userArr.map(user => {
+            this.allUsersExpectCurrentOne.forEach(otherUser => {
+              if (user.user !== otherUser.email) {
+                if (item.alreadyPaid.length) {
+                  item.alreadyPaid.forEach(paidItem => {
+                    userArr.push({tripId: paidItem.tripId, user: otherUser.email, amount: 0});
+                  })
+                }
+              }
+            })
+          })
+        }
       })
     }
 
@@ -322,10 +337,11 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
     }
 
     this.allUsersExpectCurrentOne.map(user => {
-      userArrNoDuplicate.forEach(us => {
-        if (us.user !== user.email) {
+      userArrNoDuplicate.map(us => {
+        if (us.user !== user.email && us.amount !== 0) {
           currentUserAmount = us.amount;
         }
+
         if (us.user === user.email) {
           finalUsArr.push({
             currentUserEmail: this.currentUser.email,
@@ -341,12 +357,11 @@ export class TripCostUsersComponent implements OnInit, OnChanges {
 
       if (finalUsArr.length) {
         finalUsArr.forEach(data => {
-          data.amountDifference = data.currentUserAmount - data.userAmount;
+          data.amountDifference = ((data.currentUserAmount - data.userAmount)/this.allUsersExpectCurrentOne.length).toFixed(2);
         })
       }
 
-      console.log(finalUsArr)
-      this.allUsersExpectCurrentOne = finalUsArr;
+      this.allUsersExpectCurrentOneFinal = finalUsArr;
     })
   }
 }

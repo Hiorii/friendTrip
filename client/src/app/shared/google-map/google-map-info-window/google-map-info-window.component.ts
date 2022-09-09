@@ -8,6 +8,7 @@ import {selectTripMarkers} from "../../../core/store/trips";
 import {Subscription} from "rxjs";
 import {GooglePlacesTypesModel} from "../../../core/interfaces/google-places-types.model";
 import {GoogleMap} from "@angular/google-maps";
+import {MarkerModel} from "../../../core/interfaces/marker.model";
 
 @Component({
   selector: 'app-google-map-info-window',
@@ -22,6 +23,7 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
   @Input() currentMarkerVoteStatus;
   @Input() options;
   @Input() googleMap;
+  @Input() markersDataForCurrentTrip;
   @Output() onAddMarkerToTrip = new EventEmitter<any>();
 
   allUserListSubscription: Subscription;
@@ -40,13 +42,18 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
   hadMarkedVoteCompleteSuccessful: boolean = false;
   googlePlaceTypes = new GooglePlacesTypesModel();
   placeId: string;
+  markers: MarkerModel[] = [];
 
   constructor(private store: Store) { }
 
   ngOnInit(): void {
+    this.markers = this.markersDataForCurrentTrip;
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes['markersDataForCurrentTrip']?.currentValue) {
+      this.markers = this.markersDataForCurrentTrip;
+    }
     this.setGooglePlaceData(changes['markerData']?.currentValue?.results)
     this.setUserList();
     this.handleUserVoting();

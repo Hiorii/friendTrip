@@ -3,6 +3,7 @@
 .container {
   position: absolute;
   background-color: $primary-white;
+  z-index: 99;
 
   &.container-right {
     top: 110px;

@@ -26,7 +26,7 @@ export class TripComponent implements OnInit, OnChanges {
   currentTripUpdatedArr: UsersModel[];
   isChatVisible: boolean = false;
   isMarkerAdded: boolean = false;
-  isCostDetailVisible: boolean = false;
+  isCostDetailVisible: boolean = true;
   tripId: string;
   currentUser: any;
   markersList: MarkerModel[];
@@ -78,18 +78,26 @@ export class TripComponent implements OnInit, OnChanges {
   }
 
   private getTripDate(user: any) {
-    this.store.select(selectAllTripsList).subscribe(trips => {
-      if (trips.length) {
-        trips.map(trip => {
-          if (trip._id === this.tripId) {
-            if (trip?.travelPoints?.destinationPoint) {
-              this.currentTrip = trip
-              this.store.dispatch(setTripDataAction({ trip: trip}))
-            }
+    this.store.select(selectCurrentTrip).subscribe(currentTrip => {
+      if (currentTrip._id) {
+        this.currentTrip = currentTrip
+        this.store.dispatch(setTripDataAction({ trip: currentTrip}))
+      } else {
+        this.store.select(selectAllTripsList).subscribe(trips => {
+          if (trips.length) {
+            trips.map(trip => {
+              if (trip._id === this.tripId) {
+                if (trip?.travelPoints?.destinationPoint) {
+                  this.currentTrip = trip
+                  this.store.dispatch(setTripDataAction({ trip: trip}))
+                }
+              }
+            })
           }
         })
       }
     })
+
   }
 
   private setCurrentTripUsers() {

@@ -20,7 +20,6 @@ import {selectCurrentUser} from "../../core/store/users";
 import {VotingStatusModel} from "../../core/enums/voting-status.model";
 import {VoteStatusModel} from "../../core/interfaces/vote-status.model";
 import {
-  removeTripMarkersAction,
   saveTripWaypointsAction,
   setTripDistanceAction, setTripDurationAction
 } from "../../core/store/trips/trips.actions";
@@ -205,14 +204,13 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     if (changes['markersDataForCurrentTrip']?.currentValue) {
       this.markersDataForCurrentTrip = changes['markersDataForCurrentTrip'].currentValue;
     }
-
     if (this.markersDataForCurrentTrip) {
       this.markersDataForCurrentTrip.map((markersData: any) => {
         if (markersData.markers) {
           this.markers = markersData.markers
           this.markersList.emit(this.markers);
         } else {
-          this.markers = [...markersData]
+          this.markers.push(markersData);
           this.markersList.emit(this.markers);
         }
       })

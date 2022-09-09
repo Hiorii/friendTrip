@@ -165,8 +165,8 @@ export class TripsEffects {
 
             return EMPTY;
           }),
-          tap((trips: any) => console.log(trips)),
-          map((trips: any) => actions.setTripsDataAction({ trips: trips.usersTrips })),
+          tap(data => console.log(data)),
+          map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
           tap(_ => {
             this.toast.success('Your markers has been saved')
           }),
