@@ -71,6 +71,60 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     suppressInfoWindows: true,
   };
 
+  constructor(
+    private mapDirectionsService: MapDirectionsService,
+    private localStorageService: LocalStorageService,
+    private geocoder: MapGeocoder,
+    private tripApiService: TripApiService,
+    private store: Store,
+    ) { }
+
+  ngOnInit(): void {
+    this.currentUser = this.localStorageService.getItem('user');
+    this.store.select(selectCurrentUser).subscribe(user => this.user = user);
+    this.tripPointsToTravel = this.tripPoints;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['tripPoints']?.currentValue) {
+      this.tripPointsToTravel = changes['tripPoints'].currentValue;
+    }
+    this.store.select(selectCurrentTrip).subscribe(data => this.tripData = data);
+
+    this.setCenterPoints();
+
+    if (!this.isTripCreated) {
+      this.setCurrentTripMarkers(changes);
+      this.setWaypoints();
+    }
+
+    const request: google.maps.DirectionsRequest = {
+      destination: {lat: +this.tripPointsToTravel?.destinationPoint?.latitude, lng: +this.tripPointsToTravel?.destinationPoint?.longitude},
+      origin: {lat: +this.tripPointsToTravel?.startPoint?.latitude, lng: +this.tripPointsToTravel?.startPoint?.longitude},
+      travelMode: google.maps.TravelMode.DRIVING,
+      optimizeWaypoints: true,
+      waypoints: this.waypoints
+    };
+
+    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => {
+      if (!response.result) return;
+
+      if (!this.isTripCreated && this.tripData.id) {
+        this.setTripDistance(response);
+      }
+
+      return response.result
+    }));
+
+
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.center = {
+        lng: +this.tripPointsToTravel?.destinationPoint?.longitude,
+        lat: +this.tripPointsToTravel?.destinationPoint?.latitude
+      }
+    })
+  }
+
   addMarker(event: google.maps.MapMouseEvent) {
     let voteArr = [];
 
@@ -114,57 +168,6 @@ export class GoogleMapComponent implements OnInit, OnChanges {
     this.markersList.emit(this.markers);
   }
 
-  constructor(
-    private mapDirectionsService: MapDirectionsService,
-    private localStorageService: LocalStorageService,
-    private geocoder: MapGeocoder,
-    private tripApiService: TripApiService,
-    private store: Store,
-    ) { }
-
-  ngOnInit(): void {
-    this.currentUser = this.localStorageService.getItem('user');
-    this.store.select(selectCurrentUser).subscribe(user => this.user = user);
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    this.tripPointsToTravel = changes['tripPoints']?.currentValue;
-    this.store.select(selectCurrentTrip).subscribe(data => this.tripData = data);
-
-    this.setCenterPoints();
-
-    if (!this.isTripCreated) {
-      this.setCurrentTripMarkers(changes);
-      this.setWaypoints();
-    }
-
-    const request: google.maps.DirectionsRequest = {
-      destination: {lat: +this.tripPointsToTravel?.destinationPoint?.latitude, lng: +this.tripPointsToTravel?.destinationPoint?.longitude},
-      origin: {lat: +this.tripPointsToTravel?.startPoint?.latitude, lng: +this.tripPointsToTravel?.startPoint?.longitude},
-      travelMode: google.maps.TravelMode.DRIVING,
-      optimizeWaypoints: true,
-      waypoints: this.waypoints
-    };
-
-    this.directionsResults$ = this.mapDirectionsService.route(request).pipe(map(response => {
-      if (!response.result) return;
-
-      if (!this.isTripCreated && this.tripData.id) {
-        this.setTripDistance(response);
-      }
-
-      return response.result
-    }));
-
-
-    navigator.geolocation.getCurrentPosition((position) => {
-      this.center = {
-        lng: +this.tripPointsToTravel?.destinationPoint?.longitude,
-        lat: +this.tripPointsToTravel?.destinationPoint?.latitude
-      }
-    })
-  }
-
   markerClick(marker: MapMarker) {
     this.showMarkerDetails(marker)
   }
@@ -199,11 +202,22 @@ export class GoogleMapComponent implements OnInit, OnChanges {
   }
 
   private setCurrentTripMarkers(changes: SimpleChanges) {
-    this.markersDataForCurrentTrip = changes['markersDataForCurrentTrip']?.currentValue;
+    if (changes['markersDataForCurrentTrip']?.currentValue) {
+      this.markersDataForCurrentTrip = changes['markersDataForCurrentTrip'].currentValue;
+    }
 
     if (this.markersDataForCurrentTrip) {
-      this.markersDataForCurrentTrip.map((markersData: any) => this.markers = markersData.markers)
+      this.markersDataForCurrentTrip.map((markersData: any) => {
+        if (markersData.markers) {
+          this.markers = markersData.markers
+          this.markersList.emit(this.markers);
+        } else {
+          this.markers = [...markersData]
+          this.markersList.emit(this.markers);
+        }
+      })
     }
+
   }
 
   private setWaypoints() {

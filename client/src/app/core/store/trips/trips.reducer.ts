@@ -152,7 +152,7 @@ export const reducer = createReducer(
   })),
   on(actions.setTripsDataAction, (state: State, { trips }) => ({
     ...state,
-    tripsList: [...trips],
+    tripsList: trips,
   })),
   on(actions.setTripInfoAction, (state: State, { tripInfo }) => ({
     ...state,

@@ -117,7 +117,7 @@ export class GoogleMapInfoWindowComponent implements OnInit, OnChanges, OnDestro
           marker.markers.forEach(userMarker => {
             userMarker.label.voteStatus.forEach(vote => {
               this.updatedUserList.forEach(us => {
-                if (us.email === vote.user.email) {
+                if (us.email === vote.user?.email) {
                   us.markerVoteStatus = vote.status;
                   us.voteCount = vote.votesCount
                 }

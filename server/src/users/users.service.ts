@@ -240,10 +240,16 @@ export class UsersService {
       });
   }
 
-  async addMarkersToTrip(tripId: string, currentUser: any, markers: MarkersModel[]) {
+  async addMarkersToTrip(
+    tripId: string,
+    currentUser: any,
+    markers: MarkersModel[],
+  ) {
     let tripToUpdate;
     let currentTrip;
     const userList = [];
+    let allTripsUpdated;
+    let dataToResponse;
 
     await this.getAllUsers().then((data) => {
       data.forEach((trip) => {
@@ -265,15 +271,21 @@ export class UsersService {
       });
     });
 
-    this.usersModule
+    await this.usersModule
       .updateMany(
         { email: { $in: userList } },
         { $set: { usersTrips: tripToUpdate } },
         { multi: true },
       )
       .then((res) => {
-        console.log(res);
+        allTripsUpdated = { userEmail: currentUser.currentUser };
+        this.getUserTrips(allTripsUpdated).then((data) => {
+          dataToResponse = data;
+        });
       });
+    await dataToResponse;
+
+    return dataToResponse;
   }
 
   async removeMarkerFromTrip(tripId, query) {
@@ -440,7 +452,11 @@ export class UsersService {
     return tripToUpdate;
   }
 
-  async addNewWaypoints(tripId: string, currentUser: any, waypoints: WaypointsModel) {
+  async addNewWaypoints(
+    tripId: string,
+    currentUser: any,
+    waypoints: WaypointsModel,
+  ) {
     let tripToUpdate;
     let currentTrip;
     const userList = [];
@@ -584,7 +600,11 @@ export class UsersService {
     return tripToUpdate;
   }
 
-  async addNewTripItemAlreadyPaid(tripId: string, currentUser: any, alreadyPaid: any) {
+  async addNewTripItemAlreadyPaid(
+    tripId: string,
+    currentUser: any,
+    alreadyPaid: any,
+  ) {
     let tripToUpdate;
     let currentTrip;
     const userList = [];

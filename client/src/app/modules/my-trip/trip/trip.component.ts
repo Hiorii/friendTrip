@@ -1,6 +1,7 @@
 import {Component, OnChanges, OnInit, SimpleChanges, ViewEncapsulation} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {
+  selectAllTripsList,
   selectCurrentTrip,
   selectTripDistance,
   selectTripDuration,
@@ -8,7 +9,7 @@ import {
   selectTripWaypoints
 } from "../../../core/store/trips";
 import {TripModel} from "../../../core/interfaces/trip.model";
-import {getTripDataAction, saveTripMarkersAction} from "../../../core/store/trips/trips.actions";
+import {getTripDataAction, saveTripMarkersAction, setTripDataAction} from "../../../core/store/trips/trips.actions";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {ActivatedRoute} from "@angular/router";
 import {MarkerModel} from "../../../core/interfaces/marker.model";
@@ -48,9 +49,7 @@ export class TripComponent implements OnInit, OnChanges {
     this.setCurrentTripUsers();
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-
-  }
+  ngOnChanges(changes: SimpleChanges) { }
 
   showChat(isVisible: boolean): void {
     this.isChatVisible = isVisible;
@@ -79,10 +78,16 @@ export class TripComponent implements OnInit, OnChanges {
   }
 
   private getTripDate(user: any) {
-    this.store.dispatch(getTripDataAction({currentUser: user, id: this.tripId}))
-    this.store.select(selectCurrentTrip).subscribe(trip => {
-      if (trip?.travelPoints?.destinationPoint) {
-        this.currentTrip = trip
+    this.store.select(selectAllTripsList).subscribe(trips => {
+      if (trips.length) {
+        trips.map(trip => {
+          if (trip._id === this.tripId) {
+            if (trip?.travelPoints?.destinationPoint) {
+              this.currentTrip = trip
+              this.store.dispatch(setTripDataAction({ trip: trip}))
+            }
+          }
+        })
       }
     })
   }
@@ -90,8 +95,8 @@ export class TripComponent implements OnInit, OnChanges {
   private setCurrentTripUsers() {
     let currentTripArr = [];
 
-    this.currentTripCreator = this.currentTrip.creator;
-    if (this.currentTrip.tripUsers.length) {
+    this.currentTripCreator = this.currentTrip?.creator;
+    if (this.currentTrip?.tripUsers?.length) {
       this.currentTrip.tripUsers.map(user => {
         currentTripArr.push(user);
         currentTripArr = currentTripArr.filter(user => user.email !== this.currentUser);

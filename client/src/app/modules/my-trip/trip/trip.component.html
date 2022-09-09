@@ -21,7 +21,7 @@
     <ng-container *ngIf="waypointList$ | async">
       <app-waypoints
         class="waypoints-list"
-        [tripId]="currentTrip.id"
+        [tripId]="currentTrip?.id"
         [currentUser]="currentUser"
         [waypointList]="waypointList$ | async"
       ></app-waypoints>
@@ -63,7 +63,7 @@
       ></app-button>
     </ng-container>
 
-    <ng-container *ngIf="currentTripUpdatedArr.length">
+    <ng-container *ngIf="currentTripUpdatedArr?.length">
       <div
         *ngFor="let user of currentTripUpdatedArr"
         class="travelUserContainer"
@@ -71,7 +71,7 @@
       >
         <img *ngIf="user?.photo" [src]="user?.photo" class="me-1">
         <img *ngIf="!user?.photo" [src]="'/assets/img/users/user_icon.png'" class="me-1">
-        <p>{{ user.name }} {{ user.surname }}</p>
+        <p>{{ user?.name }} {{ user?.surname }}</p>
       </div>
 
       <div

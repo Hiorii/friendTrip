@@ -1,7 +1,7 @@
 import {Component, Input, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {TripModel} from "../../../core/interfaces/trip.model";
-import {getTripDataAction, removeTripUsersAction} from "../../../core/store/trips/trips.actions";
+import { removeTripUsersAction} from "../../../core/store/trips/trips.actions";
 import {LocalStorageService} from "../../../core/services/local-storage.service";
 import {Router} from "@angular/router";
 import {UsersModel} from "../../../core/interfaces/users.model";
@@ -24,7 +24,7 @@ export class TripListComponent implements OnInit, OnChanges {
   ngOnInit(): void {}
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.tripList = changes['tripList'].currentValue;
+    this.tripList = changes['tripList']?.currentValue;
   }
 
   openSingleTrip(trip: any) {

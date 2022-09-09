@@ -17,7 +17,7 @@ import {
   setTripDistanceAction,
   setTripDurationAction,
   setTripItemAlreadyPaidAction,
-  setTripItemsCostAction,
+  setTripItemsCostAction, setTripsDataAction,
   updateTripMarkersAction,
   voteOnMarkerAction
 } from "./trips.actions";
@@ -31,7 +31,7 @@ export class TripsEffects {
       switchMap(({currentUser}) => this.tripApiService
         .getAllTrips(currentUser)
         .pipe(
-          map(manyTrips => actions.setTripsDataAction({ trips: manyTrips.usersTrips })),
+          map(manyTrips => actions.setTripsDataAction({ trips: manyTrips?.usersTrips })),
         )),
     ))
 
@@ -119,7 +119,7 @@ export class TripsEffects {
                 actions.updateTripMarkersAction({id, currentUser, markers} )
               ]
             }
-          })
+          }),
         )
       )
     )
@@ -154,7 +154,7 @@ export class TripsEffects {
     )
   )
 
-  updateTripMarkersAction$ = createEffect(() => this.actions$  // przekazac do strzału api cała userTrip zupgradowaną i to wtedy można użyć  wapi razem z user email
+  updateTripMarkersAction$ = createEffect(() => this.actions$
     .pipe(
       ofType(updateTripMarkersAction),
       switchMap(({ id, currentUser, markers }) => this.tripApiService
@@ -165,10 +165,10 @@ export class TripsEffects {
 
             return EMPTY;
           }),
-          map(() => actions.setTripMarkersAction({ markers: markers })),
+          tap((trips: any) => console.log(trips)),
+          map((trips: any) => actions.setTripsDataAction({ trips: trips.usersTrips })),
           tap(_ => {
             this.toast.success('Your markers has been saved')
-            window.location.reload()
           }),
         )
       )
@@ -196,7 +196,6 @@ export class TripsEffects {
               map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
               tap(_ => {
                 this.toast.success('Your markers has been removed')
-                window.location.reload()
               }),
             )
           : EMPTY
@@ -226,7 +225,6 @@ export class TripsEffects {
                   map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
                   tap(_ => {
                     this.toast.success('Your waypoint has been removed')
-                    window.location.reload()
                   }),
                 )
               : EMPTY
@@ -255,7 +253,6 @@ export class TripsEffects {
                     }),
                     map((tripData: any) => actions.setTripDataAction( { trip: tripData })),
                     tap(_ => {
-                      window.location.reload()
                       this.toast.success('Your vote has been added')
                     }),
                   )
